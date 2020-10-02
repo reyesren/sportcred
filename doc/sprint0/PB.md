@@ -1,10 +1,10 @@
-**Numerical Series**
+### Numerical Series
 
 Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estimate user stories
 
 ---
 
-**User Stories**
+### User Stories
 
 **User stories are assigned priority based on order of this document, the higher it is means the higher priority**
 
