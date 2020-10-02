@@ -8,7 +8,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 **User stories are assigned priority based on order of this document, the higher it is means the higher priority**
 
-**1. User System: Registering**
+1. **User System: Registering**
 
    As any user, I want to be able to register my own account on SPORTCRED to keep track of my personal stats. I want to register my account with basic information such as an e-mail address, a password, and name. Additionally I want to fill in a small questionaire.
 
@@ -18,7 +18,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**2. User System: Login**
+2. **User System: Login**
 
    As any user that has already registered, I should be able to use my email and password during registration to log into SPORTCRED with the same profile.
 
@@ -28,7 +28,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**3. User System: Basic Profile**
+3. **User System: Basic Profile**
 
    As a logged in user, I should be able to navigate to a “Profile” page (either mine or someone else) to see basic information about myself or someone else. From there I can view a Profile picture, view basic information about that profile, view a short status message about the user, and view the ACS score.
 
@@ -38,7 +38,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**4. User System: Editing Profile**
+4. **User System: Editing Profile**
 
    As a logged in user, I should be able to modify my own profile to suit my own preferences. I should be able to change my profile picture, change information in the “About” section, and set my status message to what is on my mind or how I’m feeling. I should also be able to see my ACS history (changes to my ACS).
 
@@ -48,7 +48,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**5. The Zone (Homepage)**
+5. **The Zone (Homepage)**
 
    As a logged in user, I should be able navigate to a page on the app, where it will allow me to navigate to all activities major activities in the app(i.e. Open Court, Trivia, Picks & Predictions, Debate)
 
@@ -58,7 +58,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**6. Open Court**
+6. **Open Court**
 
    As a logged in user, I want to navigate to a social media page in this app designed for sports, so I can make my own posts, comment on other people’s post, cross-post from other social media apps, and like/dislike other people’s posts
 
@@ -68,7 +68,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**7. ACS Activities: Trivia**
+7. **ACS Activities: Trivia**
 
    As a logged in user, I want to navigate to a game page to take part in multiple choice trivia with either myself, or a few people that I can invite.
 
@@ -78,7 +78,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**8. ACS Activities: Picks and Predictions**
+8. **ACS Activities: Picks and Predictions**
 
    As a logged in user, I want to navigate to a page where I can predict winners of daily matches during the season, and predict what the playoff brackets will look like.
 
@@ -88,7 +88,7 @@ Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estim
 
 ---
 
-**9. ACS Activities: Debate**
+9. **ACS Activities: Debate**
 
    As a logged in user, I want to navigate to a page where I can debate about opinions going around in sports. Preferably I would like to debate with someone that knows about as much as I do ACS-wise.
 
