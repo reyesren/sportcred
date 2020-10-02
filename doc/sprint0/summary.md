@@ -51,7 +51,7 @@ Use Case 5: Keep track of live scores
 
 ### Key usage scenarios:
 
-Greg just finished watching Game 5 of the Western Conference Finals with the Lakers advancing to the finals. Excited for LeBron’s achievements, he now wishes to test his knowledge on LeBron’s feats. He wishes to try out some trivia on him.
+Greg just finished watching Game 5 of the Western Conference Finals with the Lakers advancing to the finals. Excited for LeBron’s achievements, he now wishes to test his knowledge on LeBron’s feats along with other related questions about the playoffs. He wishes to try out some trivia on the NBA.
 
 Joey, after talking about the Raptor’s performance in the playoffs on TSN, wants to post his strong opinions on the current state of the team to other sports enthusiasts directly and start up a conversation.
 
