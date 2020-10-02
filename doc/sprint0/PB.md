@@ -2,7 +2,10 @@
 
 Our team will be using the fibonacci series (i.e. 1, 2, 3, 5, 8, 13…) to estimate user stories
 
----
+
+
+
+
 
 ### User Stories
 
