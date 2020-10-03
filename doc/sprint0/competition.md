@@ -1,4 +1,4 @@
-## Competition.md
+# Competition.md
 
 
 ## **What is SPORTCRED**
