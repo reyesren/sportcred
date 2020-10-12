@@ -23,6 +23,10 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {
+  CMTextfield,
+  CMButton
+} from './components/index.js';
 
 const App: () => React$Node = () => {
   return (
@@ -38,6 +42,7 @@ const App: () => React$Node = () => {
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
           )}
+          <CMButton label="Email" />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>

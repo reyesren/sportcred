@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { TextInput } from 'react-native-paper';
 
-const CMTextInput = () => {
+const CMTextfield = ({ label }) => {
   const [text, setText] = React.useState('');
 
+  const textHandler = (text) => {
+    setText(text);
+    console.log(text);
+  };
+
   return (
-    <TextInput
-      label="Email"
-      value={text}
-      onChangeText={text => setText(text)}
-    />
+    <TextInput label={label} value={text} onChangeText={text => textHandler(text)} />
   );
 };
 
-export default CMTextInput;
+export default CMTextfield;
