@@ -42,7 +42,6 @@ const App: () => React$Node = () => {
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
           )}
-          <CMButton label="Email" />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
