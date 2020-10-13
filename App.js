@@ -23,6 +23,10 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {
+  CMTextfield,
+  CMButton
+} from './components/index.js';
 
 const App: () => React$Node = () => {
   return (
