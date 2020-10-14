@@ -14,3 +14,4 @@ function storage() {
     return storage();
 }
 
+export {auth, firestore, storage}
