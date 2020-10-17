@@ -1,13 +1,5 @@
-/* eslint-disable prettier/prettier */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,11 +16,10 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
 import {
   CMTextfield
 } from './src/components/index.js';
-import ProfileView from './src/view/ProfileView.js';
-
 
 const App: () => React$Node = () => {
     return (
