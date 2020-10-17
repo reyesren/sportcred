@@ -4,6 +4,8 @@ import React from 'react';
 
 class UserModel {
 
+    // TODO add user properties and mutators/accessors from firestore (not auth props)
+
     /**
      * Register a user with email/password.
      *
