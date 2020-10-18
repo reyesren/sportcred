@@ -15,7 +15,7 @@ const RegisterTextComponent = (props) => {
   );
 };
 
-const RegisterView = () => {
+const RegisterView = ({navigation}) => {
   return (
     <View
       style={{
@@ -27,7 +27,13 @@ const RegisterView = () => {
       <RegisterTextComponent label="Username" />
       <RegisterTextComponent label="Email" />
       <RegisterTextComponent label="Password" />
-      <Button mode="contained">Create Account</Button>
+      <Button
+        mode="contained"
+        onPress={() =>
+          navigation.navigate('RegisterSuccessView', {name: 'Jane'})
+        }>
+        Create Account
+      </Button>
     </View>
   );
 };
