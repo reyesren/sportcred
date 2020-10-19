@@ -2,7 +2,7 @@ import {auth} from "../firebase.js";
 import React from 'react';
 
 
-class UserModel {
+export default class UserModel{
 
     // TODO add user properties and mutators/accessors from firestore (not auth props)
 
@@ -14,7 +14,7 @@ class UserModel {
      * @param success     {function}    Success callback (should be no params)
      * @param failure     {function}    Failure callback (single param). Format should be failure(error: Object). Error object contains a "code" field of type String. e.g. error.code may return 'auth/invalid-email'
      */
-    createUserWithEmailAndPassword(email, password, success, failure) {
+    static createUserWithEmailAndPassword(email, password, success, failure) {
         auth()
             .createUserWithEmailAndPassword(email, password, success, failure)
             .then(() => {
@@ -30,7 +30,7 @@ class UserModel {
      *
      * @param {function}    success    Optional callback function (no params).
      */
-    signOut(success = null) {
+    static signOut(success = null) {
         auth()
             .signOut()
             .then(() => {
@@ -46,7 +46,7 @@ class UserModel {
      * @param success     {function}    Success callback (should be no params)
      * @param failure     {function}    Failure callback (single param). Format should be failure(error: Object). Use "error.code" and "error.message"
      */
-    signInWithEmailAndPassword(email, password, success, failure) {
+    static signInWithEmailAndPassword(email, password, success, failure) {
         auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
@@ -57,5 +57,8 @@ class UserModel {
             })
     }
 
+    static getAuthSubscriber(onAuthStateChanged) {
+        return auth().onAuthStateChanged(onAuthStateChanged);
+    }
 
 }
