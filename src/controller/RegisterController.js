@@ -3,7 +3,7 @@ import RegisterSuccessView from "../view/register/RegisterSuccessView";
 import UserModel from "../model/UserModel";
 
 export const Register = ({ route, navigation }) => {
-    const {msg} = route.params;
+    const {msg} = route.params === undefined ? {} : route.params;
 
     function onRegisterPress(userInfo) {
         const {name, username, email, password} = userInfo;
