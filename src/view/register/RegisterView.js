@@ -16,6 +16,11 @@ const RegisterTextComponent = (props) => {
 };
 
 const RegisterView = (props) => {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
   return (
     <View
       style={{
@@ -23,13 +28,15 @@ const RegisterView = (props) => {
         padding: 40,
       }}>
       <Title style={{padding: 50, alignSelf: 'center'}}>SPORTCRED</Title>
-      <RegisterTextComponent label="Name" />
-      <RegisterTextComponent label="Username" />
-      <RegisterTextComponent label="Email" />
-      <RegisterTextComponent label="Password" />
+      <TextInput onChangeText={(text) => setName(text)} label="Name" />
+      <TextInput onChangeText={(text) => setUsername(text)} label="Username" />
+      <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
+      <TextInput onChangeText={(text) => setPassword(text)} label="Password" />
       <Button
         mode="contained"
-        onPress={() => props.onUserRegistered()}>
+        onPress={() =>
+          props.onUserRegistered({username, password, name, email})
+        }>
         Create Account
       </Button>
     </View>
