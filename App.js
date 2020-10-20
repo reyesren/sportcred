@@ -4,19 +4,13 @@ import {default as Colors, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DisplayExample from "./src/controller/ExampleController";
+import AuthNavigator from "./src/navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName={"Example"}>
-                <Stack.Screen name="Example" component={DisplayExample}/>
-            </Stack.Navigator>
-        </NavigationContainer>
-        /* component should be contained in respective controller */
-        /*<Stack.Screen name="Profile" component={ProfileScreen} />*/
-        // IMPORTANT do not put comments / extra spaces inside the Stack.Navigator tab. It's super strict and will not render.
+        <AuthNavigator />
     );
 };
 
