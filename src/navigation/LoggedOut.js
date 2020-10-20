@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import DisplayExample from '../controller/LoginController';
 import {Register} from '../controller/RegisterController';
-import Profile from '../controller/ProfileController';
+import { Profile } from '../controller/ProfileController';
 
 const Stack = createStackNavigator();
 
