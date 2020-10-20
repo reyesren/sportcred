@@ -1,8 +1,13 @@
 import RegisterView from '../view/register/RegisterView';
 import RegisterSuccessView from '../view/register/RegisterSuccessView';
 import UserModel from '../model/UserModel';
+import {useContext} from "react";
+import {AuthContext} from "../navigation/AuthNavigator";
+
 
 export const Register = ({route, navigation}) => {
+  const user = useContext(AuthContext);
+
   const {msg} = route.params === undefined ? {} : route.params;
 
   function onRegisterPress(userInfo) {
@@ -12,13 +17,13 @@ export const Register = ({route, navigation}) => {
       email,
       password,
       () => {
-        navigation.navigate('RegisterSuccess', {name, username, email});
       },
       (error) => {
         navigation.navigate('Register', {msg: error.message});
         console.log(error.message);
       },
     );
+
   }
 
   return RegisterView({onUserRegistered: onRegisterPress, msg});

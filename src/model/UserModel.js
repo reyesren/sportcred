@@ -1,8 +1,101 @@
-import {auth} from '../firebase.js';
+import { auth, firestore, storage} from '../firebase.js';
 import React from 'react';
 
+
 export default class UserModel {
-  // TODO add user properties and mutators/accessors from firestore (not auth props)
+  static userDocObj = {
+    display_name: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    is_active: true,
+    last_login: null,
+    profile: {},
+    profile_completed: false,
+    questionnaire_completed: false,
+    questionnaire_responses: {}
+  };
+
+  static async updateProfilePicture(filepath: string, uid: string, success, failure) {
+    let reference = storage().ref(`profile_pictures/${uid}`);
+    await reference.putFile(filepath).catch((error) => failure(error));
+    const url = await reference.getDownloadURL().catch((error) => failure(error));
+
+    auth().currentUser.updateProfile({
+      photoURL: url
+    }).then(success()).catch(failure(error));
+  }
+
+  /**
+   *  Returns user object. Refer to firebase for schema
+   *
+   * @param uid
+   * @returns {{}} userobject
+   */
+  static getUserDoc(uid: string) {
+    this._fetchUserDoc(uid);
+    return this.userDocObj;
+  }
+
+  static _fetchUserDoc(uid: string) {
+    const reference = firestore().collection('users').doc(uid);
+    reference.get().then(
+        (doc) => {
+          this.userDocObj = doc.data();
+        }
+    );
+  }
+
+
+  /**
+   * Which first time tasks are required to be complete.
+   * 2 = questionnaire and profile biography
+   * 1 = profile biography
+   * 0 = user is ready
+   *
+   * @param uid
+   * @returns {number}
+   */
+  static async firstTimeLoginChecks(uid: string) {
+
+    firestore().collection('users').doc(uid).get().then(
+        (docSnapshot) => {
+          if (!docSnapshot.exists) {
+            UserModel.createNewUserDoc(uid);
+          }
+        }
+    );
+
+    await this._fetchUserDoc(uid);
+    console.log(this.userDocObj);
+    let stack = 0;
+    if (!this.userDocObj.profile_completed)
+      stack++;
+    if (!this.userDocObj.questionnaire_completed)
+      stack++;
+
+    return stack
+  }
+
+  static createNewUserDoc(uid, callback = () => {}) {
+    this.userDocObj.uid = uid;
+    firestore().collection('users').doc(uid).set(this.userDocObj).then(callback());
+  }
+
+  static updateDisplayName(uid, displayName, callback = () => {}) {
+    const fp = "display_name";
+    firestore().collection('users').doc(uid).update({fp: displayName}).then(callback());
+  }
+
+  static updateProfile(uid, profile, callback = () => {}) {
+    const fp = "profile";
+    firestore().collection('users').doc(uid).update({fp: profile}).then(callback());
+  }
+
+  static updateQuestionnaire(uid, questionnaire, callback = () => {}) {
+    const fp = "questionnaire_responses";
+    firestore().collection('users').doc(uid).update({fp: questionnaire}).then(callback());
+  }
 
   /**
    * Register a user with email/password.

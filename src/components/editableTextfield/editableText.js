@@ -4,6 +4,7 @@ import { HelperText, TextInput, Text } from 'react-native-paper';
 
 const EditableText = (props) => {
   const [text, setText] = React.useState('');
+  const [previousText, setPreviousText] = React.useState('');
 
   const [editing, setEditing] = React.useState(false);
 
@@ -14,7 +15,12 @@ const EditableText = (props) => {
   };
 
   const buttonHandler = () => {
+    if(!editing) setPreviousText(text);
     setEditing(!editing);
+  }
+  const cancelButtonHandler = () => {
+    setEditing(false);
+    setText(previousText);
   }
 
   const styles = StyleSheet.create({
@@ -63,6 +69,7 @@ const EditableText = (props) => {
         </View>
         <View style={styles.buttonContainer}>
           <Button title='DONE' onPress={buttonHandler}/>
+          <Button title='CANCEL' onPress={cancelButtonHandler}/>
         </View>
       </View>
     :
