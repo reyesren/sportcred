@@ -16,5 +16,5 @@ export default function LoggedInStack() {
         <Stack.Screen name="ProfileView" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  )
 }
