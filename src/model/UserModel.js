@@ -1,6 +1,6 @@
 import { auth, firestore, storage} from '../firebase.js';
 import React from 'react';
-import {call} from "react-native-reanimated";
+
 
 export default class UserModel {
   static userDocObj = {
@@ -15,6 +15,16 @@ export default class UserModel {
     questionnaire_completed: false,
     questionnaire_responses: {}
   };
+
+  static async updateProfilePicture(filepath: string, uid: string, success, failure) {
+    let reference = storage().ref(`profile_pictures/${uid}`);
+    await reference.putFile(filepath).catch((error) => failure(error));
+    const url = await reference.getDownloadURL().catch((error) => failure(error));
+
+    auth().currentUser.updateProfile({
+      photoURL: url
+    }).then(success()).catch(failure(error));
+  }
 
   /**
    *  Returns user object. Refer to firebase for schema
