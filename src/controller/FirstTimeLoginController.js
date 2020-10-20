@@ -10,12 +10,12 @@ export const StartupCheck = ({route, navigation}) => {
     const user = useContext(AuthContext);
     // UserModel.signOut();
     check = UserModel.firstTimeLoginChecks(user.uid);
-    if (check === 2)
+    // if (check === 2)
         navigation.navigate('Questionnaire');
-    else if (check === 1)
-        navigation.navigate('ProfileSetup');
-    else
-        navigation.navigate('ProfileView');
+    // else if (check === 1)
+    //     navigation.navigate('ProfileSetup');
+    // else
+    //     navigation.navigate('ProfileView');
 
     return Loading();
 };
