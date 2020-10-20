@@ -31,14 +31,14 @@ const LoginView = (props) => {
       <Button
         mode="contained"
         onPress={() =>
-          props.onUserRegistered({email, password})
+          props.onUserLogin({email, password})
         }>
         Login
       </Button>
       <Button
         mode="contained"
         onPress={() =>
-            navigation.navigate('RegisterView')
+            props.register()
         }>
         Sign Up
       </Button>

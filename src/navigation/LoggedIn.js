@@ -11,8 +11,8 @@ export default function LoggedInStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode={'none'}>
-        <Stack.Screen name="Example" component={Profile} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
+
 }
