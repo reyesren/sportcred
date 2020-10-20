@@ -12,7 +12,6 @@ const Stack = createStackNavigator();
 const App: () => React$Node = () => {
     return (
         <AuthNavigator />
-      master
     );
 };
 
