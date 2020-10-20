@@ -1,10 +1,18 @@
 // todo delete ExampleController
 
+import UserModel from '../model/UserModel';
 import LoginView from '../view/login/LoginView';
 
 // this function should return your view. make sure you pass all callbacks / props to your view constructor.
 const DisplayExample = ({navigation}) => {
-  return LoginView();
+  onSubmit = (credentials) => {
+    const {email, password} = credentials;
+    UserModel.signInWithEmailAndPassword(email, password, () => {navigation.navigate('Profile')}, console.log);
+  }
+  register = () => {
+    navigation.navigate('Register')
+  }
+  return LoginView({onUserLogin: onSubmit, register});
   //    pass the navigation param to your view, so your view can navigate to different views.
   //    e.g.
   //    navigation.navigate('Profile', { name: 'Jane' })

@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DisplayExample from './src/controller/ExampleController';
 import AuthNavigator from './src/navigation/AuthNavigator';
 
+
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {

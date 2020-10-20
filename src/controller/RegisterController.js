@@ -1,9 +1,13 @@
 import RegisterView from '../view/register/RegisterView';
 import RegisterSuccessView from '../view/register/RegisterSuccessView';
 import UserModel from '../model/UserModel';
+import {useContext} from 'react';
+import {AuthContext} from '../navigation/AuthNavigator';
 
 export const Register = ({route, navigation}) => {
-  const msg = route.params === undefined ? {} : route.params;
+  const user = useContext(AuthContext);
+
+  const {msg} = route.params === undefined ? {} : route.params;
 
   function onRegisterPress(userInfo) {
     const {name, username, email, password} = userInfo;
@@ -11,9 +15,7 @@ export const Register = ({route, navigation}) => {
     UserModel.createUserWithEmailAndPassword(
       email,
       password,
-      () => {
-        navigation.navigate('RegisterSuccess', {name, username, email});
-      },
+      () => {},
       (error) => {
         navigation.navigate('Register', {msg: error.message});
       },

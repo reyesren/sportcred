@@ -113,7 +113,7 @@ const RegisterView = (props) => {
           hasUsernameErrors()
         }
         onPress={() =>
-          props.onUserRegistered({username, password, name, email})
+          props.onUserRegistered({name, username, email, password})
         }>
         Create Account
       </Button>
