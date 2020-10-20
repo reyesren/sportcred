@@ -1,6 +1,7 @@
 // todo delete ExampleController
 
 import ProfileView from '../view/ProfileView';
+import UserModel from '../model/UserModel';
 
 // this function should return your view. make sure you pass all callbacks / props to your view constructor.
 const DisplayExample = ({navigation}) => {

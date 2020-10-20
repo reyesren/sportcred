@@ -3,7 +3,7 @@ import RegisterSuccessView from '../view/register/RegisterSuccessView';
 import UserModel from '../model/UserModel';
 
 export const Register = ({route, navigation}) => {
-  const {msg} = route.params === undefined ? {} : route.params;
+  const msg = route.params === undefined ? {} : route.params;
 
   function onRegisterPress(userInfo) {
     const {name, username, email, password} = userInfo;
@@ -16,12 +16,11 @@ export const Register = ({route, navigation}) => {
       },
       (error) => {
         navigation.navigate('Register', {msg: error.message});
-        console.log(error.message);
       },
     );
   }
 
-  return RegisterView({onUserRegistered: onRegisterPress, msg});
+  return RegisterView({onUserRegistered: onRegisterPress, msg: msg});
 };
 
 export const RegisterSuccess = ({route, navigation}) => {
