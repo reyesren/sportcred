@@ -1,8 +1,82 @@
-import {auth} from '../firebase.js';
+import { auth, firestore, storage} from '../firebase.js';
 import React from 'react';
+import {call} from "react-native-reanimated";
 
 export default class UserModel {
-  // TODO add user properties and mutators/accessors from firestore (not auth props)
+  static userDocObj = {
+    display_name: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    is_active: true,
+    last_login: null,
+    profile: {},
+    profile_completed: false,
+    questionnaire_completed: false,
+    questionnaire_responses: {}
+  };
+
+  /**
+   *  Returns user object. Refer to firebase for schema
+   *
+   * @param uid
+   * @returns {{}} userobject
+   */
+  static getUserDoc(uid: string) {
+    this._fetchUserDoc(uid);
+    return this.userDocObj;
+  }
+
+  static _fetchUserDoc(uid: string) {
+    const reference = firestore().collection('users').doc(uid);
+    reference.get().then(
+        (doc) => {
+          this.userDocObj = doc.data();
+        }
+    );
+  }
+
+
+  /**
+   * Which first time tasks are required to be complete.
+   * 2 = questionnaire and profile biography
+   * 1 = profile biography
+   * 0 = user is ready
+   *
+   * @param uid
+   * @returns {number}
+   */
+  static firstTimeLoginChecks(uid: string) {
+    this._fetchUserDoc(uid);
+    let stack = 0;
+    if (!this.userDocObj.profile_completed)
+      stack++;
+    if (!this.userDocObj.questionnaire_completed)
+      stack++;
+
+    return stack
+  }
+
+  static createNewUserDoc(uid, display_name, callback = null) {
+    this.userDocObj.display_name = display_name;
+    this.userDocObj.uid = uid;
+    firestore().collection('users').add(this.userDocObj).then(callback());
+  }
+
+  static updateDisplayName(uid, displayName, callback = null) {
+    const fp = "display_name";
+    firestore().collection('users').doc(uid).update({fp: displayName}).then(callback());
+  }
+
+  static updateProfile(uid, profile, callback = null) {
+    const fp = "profile";
+    firestore().collection('users').doc(uid).update({fp: profile}).then(callback());
+  }
+
+  static updateQuestionnaire(uid, questionnaire, callback = null) {
+    const fp = "questionnaire_responses";
+    firestore().collection('users').doc(uid).update({fp: questionnaire}).then(callback());
+  }
 
   /**
    * Register a user with email/password.
