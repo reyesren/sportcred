@@ -84,18 +84,15 @@ export default class UserModel {
   }
 
   static updateDisplayName(uid, displayName, callback = () => {}) {
-    const fp = "display_name";
-    firestore().collection('users').doc(uid).update({fp: displayName}).then(callback());
+    firestore().collection('users').doc(uid).update({display_name: displayName}).then(callback());
   }
 
   static updateProfile(uid, profile, callback = () => {}) {
-    const fp = "profile";
-    firestore().collection('users').doc(uid).update({fp: profile}).then(callback());
+    firestore().collection('users').doc(uid).update({profile: profile}).then(callback());
   }
 
   static updateQuestionnaire(uid, questionnaire, callback = () => {}) {
-    const fp = "questionnaire_responses";
-    firestore().collection('users').doc(uid).update({fp: questionnaire}).then(callback());
+    firestore().collection('users').doc(uid).update({questionnaire_responses: questionnaire}).then(callback());
   }
 
   /**
