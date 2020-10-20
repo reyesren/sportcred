@@ -56,8 +56,18 @@ export default class UserModel {
    * @param uid
    * @returns {number}
    */
-  static firstTimeLoginChecks(uid: string) {
-    this._fetchUserDoc(uid);
+  static async firstTimeLoginChecks(uid: string) {
+
+    firestore().collection('users').doc(uid).get().then(
+        (docSnapshot) => {
+          if (!docSnapshot.exists) {
+            UserModel.createNewUserDoc(uid);
+          }
+        }
+    );
+
+    await this._fetchUserDoc(uid);
+    console.log(this.userDocObj);
     let stack = 0;
     if (!this.userDocObj.profile_completed)
       stack++;
@@ -67,23 +77,22 @@ export default class UserModel {
     return stack
   }
 
-  static createNewUserDoc(uid, display_name, callback = null) {
-    this.userDocObj.display_name = display_name;
+  static createNewUserDoc(uid, callback = () => {}) {
     this.userDocObj.uid = uid;
-    firestore().collection('users').add(this.userDocObj).then(callback());
+    firestore().collection('users').doc(uid).set(this.userDocObj).then(callback());
   }
 
-  static updateDisplayName(uid, displayName, callback = null) {
+  static updateDisplayName(uid, displayName, callback = () => {}) {
     const fp = "display_name";
     firestore().collection('users').doc(uid).update({fp: displayName}).then(callback());
   }
 
-  static updateProfile(uid, profile, callback = null) {
+  static updateProfile(uid, profile, callback = () => {}) {
     const fp = "profile";
     firestore().collection('users').doc(uid).update({fp: profile}).then(callback());
   }
 
-  static updateQuestionnaire(uid, questionnaire, callback = null) {
+  static updateQuestionnaire(uid, questionnaire, callback = () => {}) {
     const fp = "questionnaire_responses";
     firestore().collection('users').doc(uid).update({fp: questionnaire}).then(callback());
   }
