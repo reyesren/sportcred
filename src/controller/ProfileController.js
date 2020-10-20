@@ -30,6 +30,12 @@ export const Profile = ({route, navigation}) => {
     });
   }
 
-  return ProfileView({profilePicChange, user});
+  function signOut() {
+    UserModel.signOut();
+  }
+
+  const userDoc = UserModel.getUserDoc(user.uid);
+
+  return ProfileView({profilePicChange, user, signOut, userDoc});
 };
 // make sure to put all your business logic in the controller. Your view may contain callback functions as props

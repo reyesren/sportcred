@@ -18,7 +18,7 @@ export default class UserModel {
 
   static async updateProfilePicture(filepath: string, uid: string, success, failure) {
     let reference = storage().ref(`profile_pictures/${uid}`);
-    const data = await RNFS.readFile(filepath, 'base64')
+    const data = await RNFS.readFile(filepath, 'base64');
     await reference.putString(data, 'base64').catch((error) => failure(error));
     const url = await reference.getDownloadURL().catch((error) => failure(error));
 

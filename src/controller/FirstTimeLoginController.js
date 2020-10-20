@@ -32,8 +32,10 @@ export const Questionnaire = ({route, navigation}) => {
 };
 
 export const ProfileSetup = ({route, navigation}) => {
-  function onSubmit(profileObj) {
-    UserModel.updateProfile(profileObj);
+    const user = useContext(AuthContext);
+
+    function onSubmit(profileObj) {
+    UserModel.updateProfile(user.uid, profileObj);
     navigation.navigate('ProfileView');
   }
 

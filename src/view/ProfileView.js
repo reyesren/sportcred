@@ -80,9 +80,9 @@ const ProfileView = (props) => {
       marginBottom: 32,
     },
     titleText: {
-      fontWeight: 'bold',
+      fontWeight: '300',
       textAlign: 'center',
-      fontSize: 80
+      fontSize: 40
     },
     logo: {
       width: '100%',
@@ -168,7 +168,7 @@ const ProfileView = (props) => {
             <View style={styles.profileDescription}>
               <Text style={styles.sectionDescription}>
                 <Text style={styles.highlight}>Username: </Text>
-                greg123
+                {props.userDoc.profile.displayName}
               </Text>
               <Text style={styles.sectionDescription}>
                 <Text style={styles.highlight}>ACS: </Text>
@@ -176,8 +176,8 @@ const ProfileView = (props) => {
               </Text>
             </View>
           </View>
-          <EditableText textTitle='Status' />
-          <EditableText textTitle='About Me' />
+          {/*<EditableText textTitle='Status' presetText{props.userDoc.profile.}/>*/}
+          <EditableText textTitle='About Me' presetText={props.userDoc.profile.about}/>
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>ACS History</Text>
@@ -185,6 +185,11 @@ const ProfileView = (props) => {
                 Someone should replace me with a graph at some point.
               </Text>
             </View>
+          </View>
+          <View style={styles.body}>
+              <View style={styles.sectionContainer}>
+                <Button title='LOGOUT' onPress={() => props.signOut()}/>
+              </View>
           </View>
         </ScrollView>
       </SafeAreaView>
