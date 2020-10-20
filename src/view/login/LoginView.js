@@ -15,7 +15,12 @@ const LoginTextComponent = (props) => {
   );
 };
 
-const LoginView = ({navigation}) => {
+const LoginView = (props) => {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
   return (
     <View
       style={{
@@ -23,14 +28,21 @@ const LoginView = ({navigation}) => {
         padding: 40,
       }}>
       <Title style={{padding: 50, alignSelf: 'center'}}>SPORTCRED</Title>
-      <LoginTextComponent label="Email" />
-      <LoginTextComponent label="Password" />
+      <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
+      <TextInput onChangeText={(text) => setPassword(text)} label="Password" />
       <Button
         mode="contained"
-//        onPress={() =>
-//          navigation.navigate('RegisterSuccessView', {name: 'Jane'})
-//        }>
+        onPress={() =>
+          props.onUserRegistered({email, password})
+        }>
         Login
+      </Button>
+      <Button
+        mode="contained"
+        onPress={() =>
+            navigation.navigate('RegisterView')
+        }>
+        Sign Up
       </Button>
     </View>
   );
