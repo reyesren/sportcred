@@ -1,9 +1,8 @@
 import RegisterView from '../view/register/RegisterView';
 import RegisterSuccessView from '../view/register/RegisterSuccessView';
 import UserModel from '../model/UserModel';
-import {useContext} from "react";
-import {AuthContext} from "../navigation/AuthNavigator";
-
+import {useContext} from 'react';
+import {AuthContext} from '../navigation/AuthNavigator';
 
 export const Register = ({route, navigation}) => {
   const user = useContext(AuthContext);
@@ -16,17 +15,14 @@ export const Register = ({route, navigation}) => {
     UserModel.createUserWithEmailAndPassword(
       email,
       password,
-      () => {
-      },
+      () => {},
       (error) => {
         navigation.navigate('Register', {msg: error.message});
-        console.log(error.message);
       },
     );
-
   }
 
-  return RegisterView({onUserRegistered: onRegisterPress, msg});
+  return RegisterView({onUserRegistered: onRegisterPress, msg: msg});
 };
 
 export const RegisterSuccess = ({route, navigation}) => {
