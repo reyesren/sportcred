@@ -28,17 +28,10 @@ import {
   EditableText
 } from './../components/index.js';
 
-const ProfileView = () => {
+const ProfileView = (props) => {
 
   const [promptingPictureChange, setPromptingPictureChange] = React.useState(true);
-
-  const onProfilePicClick = () => {
-    setPromptingPictureChange(false);
-  }
-
-  const cancelProfilePicChange = () => {
-    setPromptingPictureChange(true);
-  }
+  const [profilePic, setProfilePic] = React.useState({uri: props.user.photoURL});
 
   const goToACSQuestions = () => {}
     
@@ -77,6 +70,9 @@ const ProfileView = () => {
       alignItems: 'center',
     },
     profilePic: {
+      width: 200,
+      height: 200,
+      resizeMode: 'contain',
     },
     profileDescription: {
       paddingHorizontal: 24,
@@ -158,16 +154,16 @@ const ProfileView = () => {
           <View style={styles.introBody}>
           {promptingPictureChange ?          
             <View>
-              <TouchableOpacity style={styles.btn} onPress={onProfilePicClick}>
+              <TouchableOpacity style={styles.btn} onPress={() => setPromptingPictureChange(false)}>
                 <View style={styles.absoluteView}>
                 </View>
-                <Image source={require('./../../assets/defaultProfilePic.jpg')}  style={styles.profilePic}/>
+                <Image source={ profilePic }  style={styles.profilePic}/>
               </TouchableOpacity>
             </View>
             :
             <View>
-              <Button title='CHANGE PROFILE PICTURE' />
-              <Button title='CANCEL' onPress={cancelProfilePicChange}/>              
+              <Button title='CHANGE PROFILE PICTURE' onPress={() => props.profilePicChange(setProfilePic, setPromptingPictureChange)}/>
+              <Button title='CANCEL' onPress={() => setPromptingPictureChange(true)}/>
             </View>}
             <View style={styles.profileDescription}>
               <Text style={styles.sectionDescription}>
