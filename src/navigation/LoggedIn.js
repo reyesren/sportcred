@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import { Profile } from '../controller/ProfileController';
 import {ProfileSetup, Questionnaire, StartupCheck} from "../controller/FirstTimeLoginController";
-import Profile from "../controller/ProfileController";
 
 const Stack = createStackNavigator();
 

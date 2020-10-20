@@ -1,6 +1,6 @@
 import { auth, firestore, storage} from '../firebase.js';
 import React from 'react';
-
+import RNFS from 'react-native-fs';
 
 export default class UserModel {
   static userDocObj = {
@@ -18,12 +18,13 @@ export default class UserModel {
 
   static async updateProfilePicture(filepath: string, uid: string, success, failure) {
     let reference = storage().ref(`profile_pictures/${uid}`);
-    await reference.putFile(filepath).catch((error) => failure(error));
+    const data = await RNFS.readFile(filepath, 'base64')
+    await reference.putString(data, 'base64').catch((error) => failure(error));
     const url = await reference.getDownloadURL().catch((error) => failure(error));
 
     auth().currentUser.updateProfile({
       photoURL: url
-    }).then(success()).catch(failure(error));
+    }).then(success()).catch((error) => failure(error));
   }
 
   /**
