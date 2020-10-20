@@ -20,6 +20,9 @@ import {
 import {
   CMTextfield
 } from './src/components/index.js';
+import ProfileView from './src/View/ProfileView.js';
+import LoginView from './src/View/Login/LoginView.js';
+import ACSQuestionsView from './src/View/ACSQuestionsView.js';
 
 const App: () => React$Node = () => {
     return (
@@ -30,7 +33,11 @@ const App: () => React$Node = () => {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
-            <Header />
+
+            <View>
+              <ProfileView />
+            </View>
+            {/* <Header />
             {global.HermesInternal == null ? null : (
               <View style={styles.engine}>
                 <Text style={styles.footer}>Engine: Hermes</Text>
@@ -64,7 +71,7 @@ const App: () => React$Node = () => {
                 </Text>
               </View>
               <LearnMoreLinks />
-            </View>
+            </View> */}
           </ScrollView>
         </SafeAreaView>
       </>
