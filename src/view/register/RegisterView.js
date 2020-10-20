@@ -35,7 +35,7 @@ const RegisterView = (props) => {
       <Button
         mode="contained"
         onPress={() =>
-          props.onUserRegistered({username, password, name, email})
+          props.onUserRegistered({name, username, email, password})
         }>
         Create Account
       </Button>
