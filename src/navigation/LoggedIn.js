@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import DisplayExample from '../controller/ExampleController';
+import Profile from '../controller/ProfileController';
 
 const Stack = createStackNavigator();
 
@@ -11,7 +11,7 @@ export default function LoggedInStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode={'none'}>
-        <Stack.Screen name="Example" component={DisplayExample} />
+        <Stack.Screen name="Example" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
