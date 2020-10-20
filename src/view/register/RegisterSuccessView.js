@@ -2,8 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {TextInput, Title, Button} from 'react-native-paper';
 
-const RegisterSuccessView = ({route, navigation}) => {
-  const {name, otherParam} = route.params;
+const RegisterSuccessView = (props) => {
   return (
     <View
       style={{
@@ -16,7 +15,7 @@ const RegisterSuccessView = ({route, navigation}) => {
       <Button
         mode="contained"
         onPress={() =>
-          navigation.navigate('LoginQuestionnaire', {name: 'Jane'})
+          props.onWelcomePressed()
         }>
         Proceed
       </Button>
