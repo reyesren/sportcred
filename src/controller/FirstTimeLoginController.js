@@ -1,22 +1,24 @@
 import UserModel from '../model/UserModel';
 import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
-import {Loading} from '../view/firstTimeLogin/Buffer';
+import {Loading} from '../view/Buffer';
 import {QuestionnaireView} from '../view/firstTimeLogin/QuestionnaireView';
 import {ProfileSetupView} from '../view/firstTimeLogin/ProfileSetupView';
 
 export const StartupCheck = ({route, navigation}) => {
-  const user = useContext(AuthContext);
-  // UserModel.signOut();
-  check = UserModel.firstTimeLoginChecks(user.uid);
-  // if (check === 2)
-  navigation.navigate('Questionnaire');
-  // else if (check === 1)
-  //     navigation.navigate('ProfileSetup');
-  // else
-  //     navigation.navigate('ProfileView');
+    const user = useContext(AuthContext);
 
-  return Loading();
+
+    // UserModel.signOut();
+    UserModel.firstTimeLoginChecks(user.uid).then((stack) => {
+        console.log(stack);
+        UserModel.getUserDoc(user.uid).then((doc) => {
+            // console.log("DOC: --------- : ", JSON.stringify(doc));
+            navigation.navigate(stack[0], {userDoc: doc});
+        });
+    });
+    // navigation.navigate("ProfileView");
+    return Loading();
 };
 
 export const Questionnaire = ({route, navigation}) => {

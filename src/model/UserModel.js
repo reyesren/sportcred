@@ -4,17 +4,20 @@ import RNFS from 'react-native-fs';
 
 export default class UserModel {
   static userDocObj = {
-    display_name: "",
-    first_name: "",
-    middle_name: "",
-    last_name: "",
     is_active: true,
     last_login: null,
-    profile: {},
+    profile: {
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      displayName: "",
+      about: ""
+    },
     profile_completed: false,
     questionnaire_completed: false,
     questionnaire_responses: {}
   };
+  static userCollection = firestore().collection('users');
 
   static async updateProfilePicture(filepath: string, uid: string, success, failure) {
     let reference = storage().ref(`profile_pictures/${uid}`);
@@ -33,14 +36,12 @@ export default class UserModel {
    * @param uid
    * @returns {{}} userobject
    */
-  static getUserDoc(uid: string) {
-    this._fetchUserDoc(uid);
-    return this.userDocObj;
+  static async getUserDoc(uid: string) {
+    return this._fetchUserDoc(uid).then(() => this.userDocObj).catch();
   }
 
-  static _fetchUserDoc(uid: string) {
-    const reference = firestore().collection('users').doc(uid);
-    reference.get().then(
+  static async _fetchUserDoc(uid: string) {
+    await this.userCollection.doc(uid).get().then(
         (doc) => {
           this.userDocObj = doc.data();
         }
@@ -59,7 +60,7 @@ export default class UserModel {
    */
   static async firstTimeLoginChecks(uid: string) {
 
-    firestore().collection('users').doc(uid).get().then(
+    await this.userCollection.doc(uid).get().then(
         (docSnapshot) => {
           if (!docSnapshot.exists) {
             UserModel.createNewUserDoc(uid);
@@ -69,30 +70,39 @@ export default class UserModel {
 
     await this._fetchUserDoc(uid);
     console.log(this.userDocObj);
-    let stack = 0;
-    if (!this.userDocObj.profile_completed)
-      stack++;
+    let stack = [];
+
     if (!this.userDocObj.questionnaire_completed)
-      stack++;
+      stack.push("Questionnaire");
+    if (!this.userDocObj.profile_completed)
+      stack.push("ProfileSetup");
+
+    stack.push("ProfileView");
 
     return stack
   }
 
   static createNewUserDoc(uid, callback = () => {}) {
     this.userDocObj.uid = uid;
-    firestore().collection('users').doc(uid).set(this.userDocObj).then(callback());
-  }
-
-  static updateDisplayName(uid, displayName, callback = () => {}) {
-    firestore().collection('users').doc(uid).update({display_name: displayName}).then(callback());
+    this.userCollection.doc(uid).set(this.userDocObj).then(callback());
   }
 
   static updateProfile(uid, profile, callback = () => {}) {
-    firestore().collection('users').doc(uid).update({profile: profile}).then(callback());
+    this.userCollection.doc(uid).update({profile: profile}).then(() => {
+      this.userCollection.doc(uid).update({profile_completed: true}).then(async () => {
+        await this._fetchUserDoc(uid);
+        callback();
+      });
+    });
   }
 
   static updateQuestionnaire(uid, questionnaire, callback = () => {}) {
-    firestore().collection('users').doc(uid).update({questionnaire_responses: questionnaire}).then(callback());
+    this.userCollection.doc(uid).update({questionnaire_responses: questionnaire}).then(() => {
+      this.userCollection.doc(uid).update({questionnaire_completed: true}).then(async () => {
+        await this._fetchUserDoc(uid);
+        callback();
+      })
+    });
   }
 
   /**
