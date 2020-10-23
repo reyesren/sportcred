@@ -3,7 +3,7 @@ import { View, Button, StyleSheet } from 'react-native';
 import { HelperText, TextInput, Text } from 'react-native-paper';
 
 const EditableText = (props) => {
-  const [text, setText] = React.useState('');
+  const [text, setText] = React.useState(props.presetText);
   const [previousText, setPreviousText] = React.useState('');
 
   const [editing, setEditing] = React.useState(false);
