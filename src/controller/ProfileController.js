@@ -1,20 +1,26 @@
+//TODO fix react hooks bug. Can be recreated by navigating to "Profile" without adding userDoc to routing params.
+
 import ProfileView from '../view/ProfileView';
 import ImagePicker from 'react-native-image-picker';
 import {AuthContext} from '../navigation/AuthNavigator'
 import {useContext} from 'react';
 import UserModel from '../model/UserModel';
+import {Loading} from "../view/Buffer";
 
 export const Profile = ({route, navigation}) => {
+
   const user = useContext(AuthContext);
-  const options = {
-    title: 'Select Avatar',
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-  };
+  const {userDoc} = typeof route.params === "undefined" ? {} : route.params;
 
   function profilePicChange(setProfilePic, setPictureChange) {
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
     ImagePicker.showImagePicker(options, (response) => {
 
       if (response.didCancel) {
@@ -22,8 +28,10 @@ export const Profile = ({route, navigation}) => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        const source = { uri: response.uri };
-        UserModel.updateProfilePicture(response.uri, user.uid, () => {console.log("success")}, console.log);
+        const source = {uri: response.uri};
+        UserModel.updateProfilePicture(response.uri, user.uid, () => {
+          console.log("success")
+        }, console.log);
         setProfilePic(source);
         setPictureChange(true);
       }
@@ -34,7 +42,12 @@ export const Profile = ({route, navigation}) => {
     UserModel.signOut();
   }
 
-  const userDoc = UserModel.getUserDoc(user.uid);
+  if (userDoc === undefined) {
+    UserModel.getUserDoc(user.uid).then((doc) => {
+      navigation.navigate("ProfileView", {userDoc: doc});
+    });
+    return Loading();
+  }
 
   return ProfileView({profilePicChange, user, signOut, userDoc});
 };
