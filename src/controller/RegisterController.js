@@ -1,3 +1,6 @@
+//TODO fix register duplicate info bug.
+//      Steps to reproduce: logout of a user with setup complete. Then register a new user. This new user will have the same userDoc as the old user.
+
 import RegisterView from '../view/register/RegisterView';
 import RegisterSuccessView from '../view/register/RegisterSuccessView';
 import UserModel from '../model/UserModel';
@@ -11,7 +14,6 @@ export const Register = ({route, navigation}) => {
 
   function onRegisterPress(userInfo) {
     const {name, username, email, password} = userInfo;
-    console.log('name is', name);
     UserModel.createUserWithEmailAndPassword(
       email,
       password,

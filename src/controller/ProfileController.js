@@ -1,4 +1,6 @@
-//TODO fix react hooks bug. Can be recreated by navigating to "Profile" without adding userDoc to routing params.
+//TODO fix react hooks bug
+// >>>
+// Warning: React has detected a change in the order of Hooks called by Profile. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://fb.me/rules-of-hooks
 
 import ProfileView from '../view/ProfileView';
 import ImagePicker from 'react-native-image-picker';

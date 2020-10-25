@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 export default function LoggedInStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode={'none'}>
+      <Stack.Navigator headerMode={'none'} initialRouteName={"StartupCheck"}>
         <Stack.Screen name="StartupCheck" component={StartupCheck} />
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
         <Stack.Screen name="ProfileSetup" component={ProfileSetup} />

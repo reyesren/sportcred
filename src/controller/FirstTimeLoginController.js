@@ -26,8 +26,9 @@ export const Questionnaire = ({route, navigation}) => {
 
   function onSubmit(responses) {
     const {q1, q2, q3, q4, q5, q6} = responses;
-    UserModel.updateQuestionnaire(user.uid, responses);
-    navigation.navigate('ProfileSetup');
+    UserModel.updateQuestionnaire(user.uid, responses, () => {
+        navigation.navigate('ProfileSetup');
+    });
   }
 
   return QuestionnaireView({onSubmit});
@@ -37,8 +38,9 @@ export const ProfileSetup = ({route, navigation}) => {
     const user = useContext(AuthContext);
 
     function onSubmit(profileObj) {
-    UserModel.updateProfile(user.uid, profileObj);
-    navigation.navigate('ProfileView');
+    UserModel.updateProfile(user.uid, profileObj, (doc) => {
+        navigation.navigate('ProfileView', doc);
+    });
   }
 
   return ProfileSetupView({onSubmit});

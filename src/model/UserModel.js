@@ -1,4 +1,4 @@
-import { auth, firestore, storage} from '../firebase.js';
+import { auth, firestore, storage } from '../firebase.js';
 import React from 'react';
 import RNFS from 'react-native-fs';
 
@@ -69,7 +69,7 @@ export default class UserModel {
     );
 
     await this._fetchUserDoc(uid);
-    console.log(this.userDocObj);
+    console.log("User doc obj:\n" + JSON.stringify(this.userDocObj, null, 2));
     let stack = [];
 
     if (!this.userDocObj.questionnaire_completed)
@@ -82,25 +82,26 @@ export default class UserModel {
     return stack
   }
 
-  static createNewUserDoc(uid, callback = () => {}) {
-    this.userDocObj.uid = uid;
+  static createNewUserDoc(uid: string, callback = () => {}) {
     this.userCollection.doc(uid).set(this.userDocObj).then(callback());
   }
 
-  static updateProfile(uid, profile, callback = () => {}) {
+  static updateProfile(uid: string, profile, callback = (doc) => {}) {
     this.userCollection.doc(uid).update({profile: profile}).then(() => {
       this.userCollection.doc(uid).update({profile_completed: true}).then(async () => {
-        await this._fetchUserDoc(uid);
-        callback();
+        await this._fetchUserDoc(uid).then(
+            callback(this.userDocObj)
+        );
       });
     });
   }
 
-  static updateQuestionnaire(uid, questionnaire, callback = () => {}) {
+  static updateQuestionnaire(uid: string, questionnaire, callback = () => {}) {
     this.userCollection.doc(uid).update({questionnaire_responses: questionnaire}).then(() => {
       this.userCollection.doc(uid).update({questionnaire_completed: true}).then(async () => {
-        await this._fetchUserDoc(uid);
-        callback();
+        await this._fetchUserDoc(uid).then(
+            callback()
+        );
       })
     });
   }
