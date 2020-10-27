@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {KeyboardAvoidingView, Text, View} from 'react-native';
 import {TextInput, Title, Button, HelperText} from 'react-native-paper';
+import styles from '../styles/KBAVStyles';
 
 const RegisterTextComponent = (props) => {
   const [text, setText] = React.useState('');
@@ -78,46 +79,55 @@ const RegisterView = (props) => {
   };
 
   return (
-    <View
-      style={{
-        height: 100,
-        padding: 40,
-      }}>
-      <Title style={{padding: 50, alignSelf: 'center'}}>SPORTCRED</Title>
-      <TextInput onChangeText={(text) => setName(text)} label="Name" />
-      <HelperText type="error" visible={hasNameErrors()}>
-        {nameError}
-      </HelperText>
-      <TextInput onChangeText={(text) => setUsername(text)} label="Username" />
-      <HelperText type="error" visible={hasUsernameErrors()}>
-        {usernameError}
-      </HelperText>
-      <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
-      <HelperText type="error" visible={hasEmailErrors()}>
-        {emailError}
-      </HelperText>
-      <TextInput
-        secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-        label="Password"
-      />
-      <HelperText type="error" visible={hasPasswordErrors()}>
-        {passwordError}
-      </HelperText>
-      <Button
-        mode="contained"
-        disabled={
-          hasNameErrors() ||
-          hasEmailErrors() ||
-          hasPasswordErrors() ||
-          hasUsernameErrors()
-        }
-        onPress={() =>
-          props.onUserRegistered({name, username, email, password})
-        }>
-        Create Account
-      </Button>
-    </View>
+    <KeyboardAvoidingView behavior={'height'} style={styles.container}>
+      <View style={styles.inner}>
+        <Title style={{alignSelf: 'center'}}>SPORTCRED</Title>
+        <View>
+          <TextInput onChangeText={(text) => setName(text)} label="Name" />
+          <HelperText type="error" visible={hasNameErrors()}>
+            {nameError}
+          </HelperText>
+        </View>
+        <View>
+          <TextInput
+            onChangeText={(text) => setUsername(text)}
+            label="Username"
+          />
+          <HelperText type="error" visible={hasUsernameErrors()}>
+            {usernameError}
+          </HelperText>
+        </View>
+        <View>
+          <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
+          <HelperText type="error" visible={hasEmailErrors()}>
+            {emailError}
+          </HelperText>
+        </View>
+        <View>
+          <TextInput
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+            label="Password"
+          />
+          <HelperText type="error" visible={hasPasswordErrors()}>
+            {passwordError}
+          </HelperText>
+        </View>
+        <Button
+          mode="contained"
+          disabled={
+            hasNameErrors() ||
+            hasEmailErrors() ||
+            hasPasswordErrors() ||
+            hasUsernameErrors()
+          }
+          onPress={() =>
+            props.onUserRegistered({name, username, email, password})
+          }>
+          Create Account
+        </Button>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 export default RegisterView;

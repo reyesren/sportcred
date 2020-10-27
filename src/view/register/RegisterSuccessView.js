@@ -12,11 +12,7 @@ const RegisterSuccessView = (props) => {
       <Title style={{paddingTop: 100, paddingBottom: 50, textAlign: 'center'}}>
         Your account has been successfully created
       </Title>
-      <Button
-        mode="contained"
-        onPress={() =>
-          props.onWelcomePressed()
-        }>
+      <Button mode="contained" onPress={() => props.onWelcomePressed()}>
         Proceed
       </Button>
     </View>
