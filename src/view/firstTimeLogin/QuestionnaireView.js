@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Platform, KeyboardAvoidingView, StyleSheet} from 'react-native';
 import {Text, TextInput, Button} from 'react-native-paper';
+import styles from '../styles/KBAVStyles';
 
 export function QuestionnaireView(props) {
   const [q1, setQ1] = React.useState('');
@@ -63,24 +64,3 @@ export function QuestionnaireView(props) {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  inner: {
-    padding: 24,
-    flex: 1,
-    justifyContent: 'space-around',
-  },
-  header: {},
-  textInput: {
-    height: 40,
-    borderColor: '#000000',
-    borderBottomWidth: 1,
-  },
-  btnContainer: {
-    backgroundColor: 'white',
-    marginTop: 12,
-  },
-});
