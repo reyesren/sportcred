@@ -77,7 +77,7 @@ export default class UserModel {
     if (!this.userDocObj.profile_completed)
       stack.push("ProfileSetup");
 
-    stack.push("TheZoneView");
+    stack.push("ProfileView");
 
     return stack
   }

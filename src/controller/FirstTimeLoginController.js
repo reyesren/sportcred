@@ -4,7 +4,6 @@ import {AuthContext} from '../navigation/AuthNavigator';
 import {Loading} from '../view/Buffer';
 import {QuestionnaireView} from '../view/firstTimeLogin/QuestionnaireView';
 import {ProfileSetupView} from '../view/firstTimeLogin/ProfileSetupView';
-import {TheZoneView} from '../view/theZone/theZoneView.js';
 
 export const StartupCheck = ({route, navigation}) => {
     const user = useContext(AuthContext);
@@ -45,16 +44,4 @@ export const ProfileSetup = ({route, navigation}) => {
   }
 
   return ProfileSetupView({onSubmit});
-};
-
-export const TheZone = ({route, navigation}) => {
-  const user = useContext(AuthContext);
-
-  function onSubmit(profileObj) {
-  UserModel.updateProfile(user.uid, profileObj, (doc) => {
-      navigation.navigate('TheZoneView', doc);
-  });
-}
-
-return TheZoneView({onSubmit});
 };
