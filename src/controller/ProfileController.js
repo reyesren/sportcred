@@ -46,7 +46,7 @@ export const Profile = ({route, navigation}) => {
 
   if (userDoc === undefined) {
     UserModel.getUserDoc(user.uid).then((doc) => {
-      navigation.navigate("ProfileView", {userDoc: doc});
+      navigation.navigate("Profile", {userDoc: doc});
     });
     return Loading();
   }

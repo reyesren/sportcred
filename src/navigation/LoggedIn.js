@@ -4,6 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { Profile } from '../controller/ProfileController';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {ProfileSetup, Questionnaire, StartupCheck, TheZone} from "../controller/FirstTimeLoginController";
+import {Settings} from "../controller/SettingsController.js";
+import {Live} from "../controller/LiveController.js";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createStackNavigator();
@@ -27,14 +29,14 @@ function FullySignedUp() {
            ),
          }}
       />
-      <Tab.Screen name="Settings" component={TheZone} options={{
+      <Tab.Screen name="Settings" component={Settings} options={{
           tabBarLabel: "Settings",
           tabBarIcon: () => (
             <MaterialCommunityIcons name="cog" color="#900" size={30} />
           ),
         }}
       />
-      <Tab.Screen name="Live" component={TheZone} options={{
+      <Tab.Screen name="Live" component={Live} options={{
           tabBarLabel: "Live",
           tabBarIcon: () => (
             <MaterialCommunityIcons name="youtube-tv" color="#900" size={30} />
