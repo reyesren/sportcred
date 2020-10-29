@@ -1,11 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity, Button} from 'react-native';
 
 import { Colors,} from 'react-native/Libraries/NewAppScreen';
 import { EditableText, PostSummary } from './../../components/index.js';
 
-export function TheZoneView(props) {
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 
+export function TheZoneContentView({route, navigation}) {
     return (
         <>
             <StatusBar barStyle="dark-content"/>
@@ -19,9 +21,6 @@ export function TheZoneView(props) {
                         <Text style={styles.titleText}>THE ZONE</Text>
                     </View>
 
-                    <Button title='PICKS & PREDICTIONS' onPress={() => {}} />
-                    <Button title='TRIVIA' onPress={() => {}} />
-                    <Button title='PROFILE' onPress={() => {}} />
                     <PostSummary postId='1' />
                 </ScrollView>
             </SafeAreaView>
@@ -45,5 +44,15 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TheZoneView;
+const Drawer = createDrawerNavigator();
+
+export function TheZoneView() {
+    return (
+    <>
+        <Drawer.Navigator initialRouteName="The Zone">
+          <Drawer.Screen name="The Zone" component={TheZoneContentView} />
+        </Drawer.Navigator>
+    </>
+    );
+}
 
