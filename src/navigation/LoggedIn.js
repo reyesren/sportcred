@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {ProfileSetup, Questionnaire, StartupCheck, TheZone} from "../controller/FirstTimeLoginController";
 import {Settings} from "../controller/SettingsController.js";
 import {Live} from "../controller/LiveController.js";
+import {TriviaLanding} from "../controller/TriviaController.js";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createStackNavigator();
