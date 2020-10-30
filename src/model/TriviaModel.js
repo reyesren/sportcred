@@ -53,43 +53,4 @@ export default class TriviaModel {
         this.triviaUserDataDocument.collection(uid).doc('history').update({[epochTimeStamp]: historyObj}).then(console.log);
     }
 
-    /**
-     * Retrieve a user's incoming challenges
-     * Example:
-     * incoming_challenges = {
-     *     1603746692: {
-     *         opAnswers: {
-     *             0: "Michael Jordan",
-     *             99: "Lebron James",
-     *             ...
-     *         },
-     *         opDisplayName: "Greg123",
-     *         opUid: "opponentUid",
-     *         questions: [0, 14, 23, 3, 6, 99, ...]
-     *     }
-     * }
-     *
-     * @param uid   String  Use user.uid
-     * @returns {Promise<FirebaseFirestoreTypes.DocumentSnapshot<FirebaseFirestoreTypes.DocumentData>>} A user's incoming challenges.
-     */
-    static getIncomingChallenges(uid: String) {
-        return this.triviaUserDataDocument.collection(uid).doc('incoming_challenges').get().then(doc => doc);
-    }
-
-    /**
-     * Send a head-to-head challenge to a user with challengeeUid.
-     *
-     * @param challengeeUid     String      use the uid of the user being challenged.
-     * @param challengeObj      Object      The challenge object. Should contain fields "opAnswers": object, "opDisplayName": String, "opUid": String, "questions": array of ints
-     * @param timestamp         String      epoch timestamp of when the challenge was sent
-     * @param successCallback   function    callback function for when challenge is sent
-     */
-    static sendChallenge(challengeeUid: String, challengeObj: Object, timestamp: String, successCallback = () => {}) {
-        this.triviaUserDataDocument.collection(challengeeUid).doc('incoming_challenges').update({[timestamp]: challengeObj}).then(
-            successCallback
-        );
-    }
-
-
-
 }
