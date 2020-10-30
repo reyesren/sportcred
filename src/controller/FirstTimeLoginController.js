@@ -40,7 +40,7 @@ export const ProfileSetup = ({route, navigation}) => {
 
     function onSubmit(profileObj) {
     UserModel.updateProfile(user.uid, profileObj, (doc) => {
-        navigation.navigate('ProfileView', doc);
+        navigation.navigate('Profile', doc);
     });
   }
 
