@@ -14,3 +14,8 @@ export const TheZone = ({route, navigation}) => {
   
     return TheZoneView({onSubmit});
 };
+
+export const getPostIds = () => {
+  // TODO: should return a list of valid post ids
+  return ['1'];
+}
