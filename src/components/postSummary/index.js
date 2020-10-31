@@ -5,7 +5,7 @@ import { HelperText, TextInput} from 'react-native-paper';
 
 const PostSummary = (props) => {
     const getPostData = (postId) => {
-        // TODO: should get the post with matching postId
+        // TODO: should get the post with corresponding postId
         return {title:'Generic Post Title',
             posterId: 'posterId1',
             content: 'Lorem ipsum consectiture di amet lorem ipsum consectiture di amet',

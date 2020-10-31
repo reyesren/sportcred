@@ -4,10 +4,11 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, Tou
 import { Colors,} from 'react-native/Libraries/NewAppScreen';
 import { PostSummary } from './../../components/index.js';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import {CreatePostView} from './CreatePostView';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import { getPostIds } from './../../controller/TheZoneController';
+
 
 function renderButtons() {
   return getPostIds().map((id) => {
@@ -15,7 +16,7 @@ function renderButtons() {
   });
 };
 
-export function TheZoneContentView({route, navigation}) {
+export function TheZoneContentView({navigation}) {
     return (
         <>
           <StatusBar barStyle="dark-content"/>
@@ -29,7 +30,8 @@ export function TheZoneContentView({route, navigation}) {
                       <Text style={styles.titleText}>THE ZONE</Text>
                   </View>
 
-                  {/* <PostSummary postId='1' /> */}
+                  <Button title='Create Post' onPress={() => {navigation.navigate('Create Post')}} />
+
                   { renderButtons() }
               </ScrollView>
           </SafeAreaView>
@@ -55,14 +57,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-export function TheZoneView() {
+export function TheZoneView({navigation}) {
     return (
     <>
-        <Drawer.Navigator initialRouteName="The Zone">
-          <Drawer.Screen name="The Zone" component={TheZoneContentView} />
-        </Drawer.Navigator>
+      <Stack.Navigator headerMode={'none'} initialRouteName={"The Zone"}>
+        <Stack.Screen name="The Zone" component={TheZoneContentView} />
+        <Stack.Screen name="Create Post" component={CreatePostView} />
+      </Stack.Navigator>
     </>
     );
 }
