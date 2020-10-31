@@ -5,7 +5,7 @@ import RNFS from 'react-native-fs';
 export default class UserModel {
   static userDocObj = {
     is_active: true,
-    last_login: null,
+    last_login: Date.now(),
     profile: {
       first_name: "",
       middle_name: "",
@@ -18,6 +18,10 @@ export default class UserModel {
     questionnaire_responses: {}
   };
   static userCollection = firestore().collection('users');
+
+  static async updateLoginTime(uid: string) {
+    await this.userCollection.doc(uid).update({last_login: Date.now()});
+  }
 
   static async updateProfilePicture(filepath: string, uid: string, success, failure) {
     let reference = storage().ref(`profile_pictures/${uid}`);
@@ -159,5 +163,15 @@ export default class UserModel {
 
   static getAuthSubscriber(onAuthStateChanged) {
     return auth().onAuthStateChanged(onAuthStateChanged);
+  }
+
+  static async getRegisteredUsers(offset: number, limit: number) {
+    return await this.userCollection
+        .where("profile_completed", "==", true)
+        .where("questionnaire_completed", "==", true)
+        .orderBy('last_login')
+        .startAfter(offset)
+        .limit(limit)
+        .get();
   }
 }

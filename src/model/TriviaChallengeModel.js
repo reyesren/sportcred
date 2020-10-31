@@ -31,7 +31,9 @@ export default class TriviaChallenge {
 
     /**
      * Retrieve a user's incoming challenges, where key = epoch timestamp
+     *
      * Example:
+     *
      * incoming_challenges = {
      *     1603746692: {
      *         opAnswers: {
@@ -46,10 +48,10 @@ export default class TriviaChallenge {
      * }
      *
      * @param uid   String  Use user.uid
-     * @returns {Promise<FirebaseFirestoreTypes.DocumentSnapshot<FirebaseFirestoreTypes.DocumentData>>} A user's incoming challenges.
+     * @returns  A user's incoming challenges.
      */
-    static getIncomingChallenges(uid: String) {
-        return this.triviaUserDataDocument.collection(uid).doc('incoming_challenges').get().then(doc => doc);
+    static async getIncomingChallenges(uid: String) {
+        return await this.triviaUserDataDocument.collection(uid).doc('incoming_challenges').get().then(doc => doc);
     }
 
     /**
