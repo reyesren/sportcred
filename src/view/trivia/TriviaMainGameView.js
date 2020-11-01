@@ -1,11 +1,41 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
+import BackHandler from 'react-native';
+import * as BackAndroid from 'react-native';
 
 /**
  * @param {{answer:string}} The answer to the question
  */
 const TriviaMainGameView = (props) => {
+  {
+    /*
+  function componentDidMount() {
+    BackHandler.BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+  }
+
+  function componentWillUnmount() {
+    BackHandler.BackHandler.removeEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+  }
+
+  function handleBackButton() {
+    return true;
+  }*/
+  }
+
+  useEffect(() => {
+    BackHandler.BackHandler.addEventListener('hardwareBackPress', () => {
+      console.log('back button pressed');
+      return true;
+    });
+  }, []);
+
   const firstQuestion = props.questions[0];
   console.log('props questions', props.questions);
   const questions = props.questions;
@@ -56,7 +86,8 @@ const TriviaMainGameView = (props) => {
   };
 
   const answerHandler = (whichAnswer) => {
-    if (whichAnswer === 0) {
+    {
+      /*if (whichAnswer === 0) {
       setDisabledAnswer2(true);
       setDisabledAnswer3(true);
       setDisabledAnswer4(true);
@@ -72,7 +103,14 @@ const TriviaMainGameView = (props) => {
       setDisabledAnswer1(true);
       setDisabledAnswer2(true);
       setDisabledAnswer3(true);
+    }*/
     }
+
+    setDisabledAnswer1(true);
+    setDisabledAnswer2(true);
+    setDisabledAnswer3(true);
+    setDisabledAnswer4(true);
+
     if (checkAnswer(whichAnswer)) {
       setScore(score + 1);
       if (whichAnswer === 0) {
@@ -99,24 +137,29 @@ const TriviaMainGameView = (props) => {
   };
 
   const updateAnswers = (whichAnswer) => {
-    console.log('prop questions before pop', props);
-    console.log('question count', questionCount);
-    let question = questions[questionCount];
-    console.log('update answer pop', questions);
-    setQuestion(question._data.question);
-    setOption1(question._data.options[0]);
-    setOption2(question._data.options[1]);
-    setOption3(question._data.options[2]);
-    setOption4(question._data.options[3]);
-    setQuestionCount(questionCount + 1);
-    setColorAnswer1('orange');
-    setColorAnswer2('orange');
-    setColorAnswer3('orange');
-    setColorAnswer4('orange');
-    setDisabledAnswer1(false);
-    setDisabledAnswer2(false);
-    setDisabledAnswer3(false);
-    setDisabledAnswer4(false);
+    if (questionCount === numOfQuestions) {
+      props.goToResults();
+    } else {
+      console.log('prop questions before pop', props);
+      console.log('question count', questionCount);
+      let question = questions[questionCount];
+      console.log('update answer pop', questions);
+      setQuestion(question._data.question);
+      setOption1(question._data.options[0]);
+      setOption2(question._data.options[1]);
+      setOption3(question._data.options[2]);
+      setOption4(question._data.options[3]);
+      setQuestionCount(questionCount + 1);
+      setActualAnswer(question._data.answer);
+      setColorAnswer1('orange');
+      setColorAnswer2('orange');
+      setColorAnswer3('orange');
+      setColorAnswer4('orange');
+      setDisabledAnswer1(false);
+      setDisabledAnswer2(false);
+      setDisabledAnswer3(false);
+      setDisabledAnswer4(false);
+    }
   };
 
   return (

@@ -93,10 +93,24 @@ export default function LoggedInStack() {
         <Stack.Screen
           name="TriviaMainGameController"
           component={TriviaMainGameController}
+          options={{
+            headerLeft: (props) => (
+              <HeaderBackButton
+                {...props}
+                onPress={() => {
+                  console.log('go back');
+                }}
+              />
+            ),
+          }}
         />
         <Stack.Screen
           name="TriviaLoadingScreenController"
           component={TriviaLoadingScreenController}
+        />
+        <Stack.Screen
+          name="TriviaResultsController"
+          component={TriviaResultsController}
         />
       </Stack.Navigator>
     </NavigationContainer>
