@@ -27,7 +27,7 @@ const PostSummary = (props) => {
     }
     const styles = StyleSheet.create({
         postContainer: {
-            margin: 10,
+            marginVertical: 10,
             padding: 20,
             marginVertical: 10,
             backgroundColor: '#ddd',

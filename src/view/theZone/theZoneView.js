@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity, Button} from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity} from 'react-native';
+import { Button } from 'react-native-paper';
 
 import { Colors,} from 'react-native/Libraries/NewAppScreen';
 import { PostSummary } from './../../components/index.js';
@@ -30,7 +31,9 @@ export function TheZoneContentView({navigation}) {
                       <Text style={styles.titleText}>THE ZONE</Text>
                   </View>
 
-                  <Button title='Create Post' onPress={() => {navigation.navigate('Create Post')}} />
+                  <Button mode='contained' 
+                  onPress={() => {navigation.navigate('Create Post')}}
+                  >Create Post</Button>
 
                   { renderButtons() }
               </ScrollView>
