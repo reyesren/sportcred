@@ -15,6 +15,9 @@ import {TriviaLanding} from '../controller/TriviaController.js';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import TriviaMainGameController from '../controller/TriviaMainGameController';
 import TriviaLoadingScreenController from '../controller/TriviaLoadingScreenController';
+import TriviaStartGameController from '../controller/TriviaStartGameController';
+import TriviaResultsController from '../controller/TriviaResultsController';
+import HeaderBackButton from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -83,6 +86,10 @@ export default function LoggedInStack() {
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
         <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
         <Stack.Screen name="TheZoneView" component={FullySignedUp} />
+        <Stack.Screen
+          name="TriviaStartGameController"
+          component={TriviaStartGameController}
+        />
         <Stack.Screen
           name="TriviaMainGameController"
           component={TriviaMainGameController}
