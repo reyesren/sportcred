@@ -2,13 +2,13 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Profile} from '../controller/ProfileController';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   ProfileSetup,
   Questionnaire,
   StartupCheck,
-  TheZone,
 } from '../controller/FirstTimeLoginController';
+import {TheZone} from '../controller/TheZoneController.js';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Settings} from '../controller/SettingsController.js';
 import {Live} from '../controller/LiveController.js';
 import {TriviaLanding} from '../controller/TriviaController.js';

@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
-import { HelperText, TextInput, Text } from 'react-native-paper';
+import { View, Button, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { HelperText, TextInput} from 'react-native-paper';
+
 
 const PostSummary = (props) => {
     const getPostData = (postId) => {
+        // TODO: should get the post with matching postId
         return {title:'Generic Post Title',
             posterId: 'posterId1',
             content: 'Lorem ipsum consectiture di amet lorem ipsum consectiture di amet',
@@ -13,9 +15,16 @@ const PostSummary = (props) => {
     const postData = getPostData(props.postId);
 
     const seeFullPost = () => {
-        // should launch full post page and send postData
+        // TODO: launch full post page and send postData
     }
 
+    const castUpvote = () => {
+        // TODO: mark the post as upvoted by user
+    }
+
+    const castDownvote = () => {
+        // TODO: mark the post as downvoted by user
+    }
     const styles = StyleSheet.create({
         postContainer: {
             margin: 10,
@@ -44,22 +53,37 @@ const PostSummary = (props) => {
         voteText: {
             fontSize: 17,
             paddingHorizontal:10
-        }
+        },
+        voteImage: {
+            height: 30,
+            width: 30,
+            resizeMode: 'contain',
+        },
     });
 
     return (
-    <View style={styles.postContainer}>
-        <Text style={styles.postTitleText}>{postData.title} </Text>
-        <Text>
-            <Text style={styles.posterText}>by {postData.posterId}</Text>
-        </Text>
-        <Text style={styles.postContentText}>{postData.content.substring(0, 60)}...</Text>
-        <View style={styles.utilsContainer}>
-            <Button title='upvote' />
-            <Text style={styles.voteText}>{postData.upvotes - postData.downvotes}</Text>
-            <Button title='downvote' />
+    <TouchableOpacity onPress={seeFullPost}>
+        <View style={styles.postContainer}>
+            <Text style={styles.postTitleText}>{postData.title} </Text>
+            <Text>
+                <Text style={styles.posterText}>by {postData.posterId}</Text>
+            </Text>
+            <Text style={styles.postContentText}>{postData.content.substring(0, 60)}...</Text>
+            <View style={styles.utilsContainer}>
+                <View>
+                    <TouchableOpacity onPress={castUpvote}>
+                        <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.voteText}>{postData.upvotes - postData.downvotes}</Text>
+                <View style={{transform: [{ rotate: "180deg" }]}}>
+                    <TouchableOpacity onPress={castDownvote}>
+                        <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
-    </View>
+    </TouchableOpacity>
     );
 };
 
