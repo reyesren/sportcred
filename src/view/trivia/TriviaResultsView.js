@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import {Divider, Text, Title} from 'react-native-paper';
+import {Button, Divider, Text, Title} from 'react-native-paper';
 import React from 'react';
 
 const TriviaResultView = (props) => {
@@ -11,6 +11,9 @@ const TriviaResultView = (props) => {
         You got <Text style={styles.score}>{props.score}</Text> questions right!
       </Text>
       <Text style={styles.ACS}>ACS: ? + ?</Text>
+      <Button mode="contained" onPress={() => props.goToTriviaLanding()}>
+        Continue
+      </Button>
     </View>
   );
 };
