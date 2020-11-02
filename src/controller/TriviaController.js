@@ -7,5 +7,9 @@ export const TriviaLanding = ({route, navigation}) => {
 
   const {msg} = route.params === undefined ? {} : route.params;
 
-  return TriviaLandingView();
-}
+  const goToTriviaStartGame = () => {
+    navigation.navigate('TriviaStartGameController');
+  };
+
+  return TriviaLandingView({goToTriviaStartGame});
+};

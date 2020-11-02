@@ -2,7 +2,7 @@ import {View} from 'react-native';
 import {Button} from 'react-native-paper';
 import React from 'react';
 
-const TriviaStartGameView = () => {
+const TriviaStartGameView = (props) => {
   return (
     <View
       style={{
@@ -11,7 +11,9 @@ const TriviaStartGameView = () => {
         justifyContent: 'center',
         padding: 100,
       }}>
-      <Button mode="contained">Start Trivia!</Button>
+      <Button mode="contained" onPress={() => props.goToTriviaLoadingScreen()}>
+        Start Trivia!
+      </Button>
     </View>
   );
 };
