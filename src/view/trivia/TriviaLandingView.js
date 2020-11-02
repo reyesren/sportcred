@@ -1,12 +1,15 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
-import Text from "react-native-paper/src/components/Typography/Text";
-import {Button, TextInput, Title} from "react-native-paper";
+import Text from 'react-native-paper/src/components/Typography/Text';
+import {Button, TextInput, Title} from 'react-native-paper';
 
 const TriviaLandingView = (props) => {
   return (
     <View>
-      <Image style={styles.logo} source={require('./../../../assets/logo.png')}/>
+      <Image
+        style={styles.logo}
+        source={require('./../../../assets/logo.png')}
+      />
       <Title style={{padding: 50, alignSelf: 'center'}}>TRIVIA</Title>
       <Button
         style={styles.button}
@@ -15,13 +18,11 @@ const TriviaLandingView = (props) => {
           props.navigation.navigate('TriviaHeadToHead')
         }>
         HEAD-TO-HEAD
-       </Button>
+      </Button>
       <Button
         style={styles.button}
         mode="contained"
-        onPress={() =>
-          console.log("SOLO")
-        }>
+        onPress={() => props.goToTriviaStartGame()}>
         SOLO
       </Button>
     </View>

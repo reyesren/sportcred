@@ -1,22 +1,27 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity, Button} from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity} from 'react-native';
+import { Button } from 'react-native-paper';
 
-import { Colors,} from 'react-native/Libraries/NewAppScreen';
-import { PostSummary } from './../../components/index.js';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {PostSummary} from './../../components/index.js';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import {CreatePostView} from './CreatePostView';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
 
-import { getPostIds } from '../../controller/TheZoneController';
-import {TriviaLanding} from "../../controller/TriviaController";
+import {getPostIds} from './../../controller/TheZoneController';
+import TriviaLandingView from '../trivia/TriviaLandingView';
+import {TriviaLanding} from '../../controller/TriviaController';
+
 
 function renderButtons() {
   return getPostIds().map((id) => {
-    return (<PostSummary postId={id} key={id} />);
+    return <PostSummary postId={id} key={id} />;
   });
-};
+}
 
-export function TheZoneContentView({route, navigation}) {
+export function TheZoneContentView({navigation}) {
     return (
         <>
           <StatusBar barStyle="dark-content"/>
@@ -30,13 +35,27 @@ export function TheZoneContentView({route, navigation}) {
                       <Text style={styles.titleText}>THE ZONE</Text>
                   </View>
 
-                  {/* <PostSummary postId='1' /> */}
+                  <Button mode='contained'
+                  onPress={() => {navigation.navigate('Create Post')}}
+                  >Create Post</Button>
+
                   { renderButtons() }
               </ScrollView>
           </SafeAreaView>
         </>
     );
 };
+
+function TriviaScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button
+        onPress={() => navigation.navigate('TriviaController')}
+        title="Trivia"
+      />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   titleText: {
@@ -56,16 +75,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-export function TheZoneView() {
+export function TheZoneView({navigation}) {
     return (
     <>
-        <Drawer.Navigator initialRouteName="The Zone">
-          <Drawer.Screen name="The Zone" component={TheZoneContentView} />
-          <Drawer.Screen name="Trivia" component={TriviaLanding} />
-        </Drawer.Navigator>
+      <Stack.Navigator headerMode={'none'} initialRouteName={"The Zone"}>
+        <Stack.Screen name="The Zone" component={TheZoneContentView} />
+        <Stack.Screen name="Create Post" component={CreatePostView} />
+      </Stack.Navigator>
     </>
-    );
+  );
 }
-
