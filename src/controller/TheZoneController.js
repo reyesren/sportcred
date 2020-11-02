@@ -5,6 +5,7 @@ import {AuthContext} from '../navigation/AuthNavigator';
 import {TheZoneView} from '../view/theZone/theZoneView.js';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
+import { TriviaLanding } from './TriviaController';
 
 const Drawer = createDrawerNavigator();
 
@@ -21,6 +22,7 @@ export const TheZone = ({route, navigation}) => {
       <>
         <Drawer.Navigator initialRouteName="The Zone">
           <Drawer.Screen name="The Zone" component={TheZoneView} />
+          <Drawer.Screen name="Trivia" component={TriviaLanding} />
         </Drawer.Navigator>
     </>
     );
