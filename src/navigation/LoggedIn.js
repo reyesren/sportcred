@@ -9,6 +9,7 @@ import {Settings} from "../controller/SettingsController.js";
 import {Live} from "../controller/LiveController.js";
 import {TriviaLanding} from "../controller/TriviaController.js";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {HeadToHeadTabs} from "../controller/TriviaHeadToHeadController";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,6 +58,8 @@ export default function LoggedInStack() {
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
         <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
         <Stack.Screen name="TheZoneView" component={FullySignedUp} />
+        <Stack.Screen name="Trivia" component={TriviaLanding} />
+        <Stack.Screen name="TriviaHeadToHead" component={HeadToHeadTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   )

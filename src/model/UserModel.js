@@ -165,8 +165,8 @@ export default class UserModel {
     return auth().onAuthStateChanged(onAuthStateChanged);
   }
 
-  static async getRegisteredUsers(offset: number, limit: number) {
-    return await this.userCollection
+  static getRegisteredUsers(offset: number, limit: number) {
+    return this.userCollection
         .where("profile_completed", "==", true)
         .where("questionnaire_completed", "==", true)
         .orderBy('last_login')

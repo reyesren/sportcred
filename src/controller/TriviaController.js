@@ -7,5 +7,5 @@ export const TriviaLanding = ({route, navigation}) => {
 
   const {msg} = route.params === undefined ? {} : route.params;
 
-  return TriviaLandingView();
+  return TriviaLandingView({navigation});
 }

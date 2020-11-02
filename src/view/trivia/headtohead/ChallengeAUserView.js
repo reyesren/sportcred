@@ -1,10 +1,8 @@
 import React, {useState} from "react";
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
-import Portal, {Button, List} from 'react-native-paper'
-import Modal from "react-native-paper";
+import {Modal, Portal, Button, List, Provider, Headline} from 'react-native-paper'
 
-
-export default function ChallengeUsersView (props) {
+export function ChallengeUsersView(props) {
     const { userList, loadMore, onChallenge, page } = props;
 
     const [visible, setVisible] = useState(false)
@@ -15,21 +13,29 @@ export default function ChallengeUsersView (props) {
         setVisible(true);
     }
     const hideModal = () => setVisible(false);
+
     const containerStyle = {backgroundColor: 'white', padding: 20};
 
 
-    function renderItem({item}) {
+    const renderItem = ({item}) => {
         return (
             <List.Item
                 title={item.displayName}
-                description={"Last Seen: " + item.lastSeen}
-                onpress={() => showModal(item)}
+                description={"Last Seen: " + item.lastSeen + " days ago"}
+                onPress={() => showModal(item)}
             />
         )
     }
 
+    const emptyList = () => {
+        return (
+            <></>
+        );
+    }
+
     return (
-        <>
+        <View>
+            {/*<Headline style={{padding: 10}}>Challenge a user</Headline>*/}
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
                     <Text> Challenge user {userToChallenge} to a game? </Text>
@@ -43,9 +49,11 @@ export default function ChallengeUsersView (props) {
             renderItem={renderItem}
             keyExtractor={item => item.uid}
             onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+            ListEmptyComponent={emptyList}
             >
             </FlatList>
-        </>
+        </View>
 
 
     );

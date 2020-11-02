@@ -12,7 +12,7 @@ const TriviaLandingView = (props) => {
         style={styles.button}
         mode="contained"
         onPress={() =>
-          console.log("SOLO")
+          props.navigation.navigate('TriviaHeadToHead')
         }>
         HEAD-TO-HEAD
        </Button>

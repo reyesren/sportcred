@@ -7,7 +7,8 @@ import { PostSummary } from './../../components/index.js';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { getPostIds } from './../../controller/TheZoneController';
+import { getPostIds } from '../../controller/TheZoneController';
+import {TriviaLanding} from "../../controller/TriviaController";
 
 function renderButtons() {
   return getPostIds().map((id) => {
@@ -62,6 +63,7 @@ export function TheZoneView() {
     <>
         <Drawer.Navigator initialRouteName="The Zone">
           <Drawer.Screen name="The Zone" component={TheZoneContentView} />
+          <Drawer.Screen name="Trivia" component={TriviaLanding} />
         </Drawer.Navigator>
     </>
     );
