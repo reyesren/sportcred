@@ -1,6 +1,7 @@
 import { auth, firestore, storage } from '../firebase.js';
 import React from 'react';
 import RNFS from 'react-native-fs';
+import TriviaModel from "./TriviaModel";
 
 export default class UserModel {
   static userDocObj = {
@@ -88,6 +89,7 @@ export default class UserModel {
 
   static createNewUserDoc(uid: string, callback = () => {}) {
     this.userCollection.doc(uid).set(this.userDocObj).then(callback());
+    TriviaModel.createUserTriviaCollection(uid);
   }
 
   static updateProfile(uid: string, profile, callback = (doc) => {}) {

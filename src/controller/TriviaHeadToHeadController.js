@@ -6,12 +6,13 @@ import {Loading} from '../view/Buffer';
 import {ChallengeUsersView} from "../view/trivia/headtohead/ChallengeAUserView";
 import PendingChallengesView from "../view/trivia/headtohead/PendingChallengesView";
 import {IncomingChallengesView} from "../view/trivia/headtohead/IncomingChallengesView";
-import CompletedChallengesView from "../view/trivia/headtohead/CompletedChallengesView";
+import {CompletedChallengesView} from "../view/trivia/headtohead/CompletedChallengesView";
 import UserModel from "../model/UserModel";
 import TriviaChallengeModel from "../model/TriviaChallengeModel";
 import TriviaLandingView from "../view/trivia/TriviaLandingView";
 import {Appbar, Button} from 'react-native-paper';
 import {View} from "react-native";
+import TriviaModel from "../model/TriviaModel";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,6 +27,7 @@ export const HeadToHeadTabs = ({navigation}) => {
             <Tab.Navigator>
                 <Tab.Screen name={"Challenge Users"} component={ChallengeUsers} />
                 <Tab.Screen name={"Incoming Challenges"} component={IncomingChallenges} />
+                <Tab.Screen name={"Challenge Results"} component={ChallengeResults} />
             </Tab.Navigator>
         </>
 
@@ -101,5 +103,29 @@ function IncomingChallenges({navigation, route}) {
 }
 
 function ChallengeResults({navigation, route}) {
+    const user = useContext(AuthContext);
 
+    const {routeList} = route.params === undefined ? {routeList: []} : route.params;
+    const [listState, setListState] = useState(routeList);
+
+    function load() {
+        // TriviaModel.getUserHistory(user.uid).then((doc) => {
+        TriviaModel.getUserHistory("user1").then((doc) => {
+            let list = listState
+            const d = doc.data()
+            Object.keys(d).forEach((k) => {
+                d[k]["id"] = k
+                d[k]["date"] = Math.round((Date.now() - k) / (1000*60*60*24)) + " days ago"
+                list.push(d[k])
+            })
+            setListState(list)
+            // console.log(JSON.stringify(list, null, 2))
+            navigation.navigate("Challenge Results", {routeList: listState})
+        })
+    }
+
+    if (listState.length === 0) load();
+
+
+    return CompletedChallengesView({listState});
 }
