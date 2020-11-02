@@ -99,3 +99,7 @@ function IncomingChallenges({navigation, route}) {
 
     return IncomingChallengesView({listState, onChallenge});
 }
+
+function ChallengeResults({navigation, route}) {
+
+}
