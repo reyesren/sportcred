@@ -7,17 +7,14 @@ import {PostSummary} from './../../components/index.js';
 
 import {CreatePostView} from './CreatePostView';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
 
 import {getPostIds} from './../../controller/TheZoneController';
-import TriviaLandingView from '../trivia/TriviaLandingView';
-import {TriviaLanding} from '../../controller/TriviaController';
+import { FullPostView } from './FullPostView';
 
 
-function renderButtons() {
+function renderButtons(nav) {
   return getPostIds().map((id) => {
-    return <PostSummary postId={id} key={id} />;
+    return <PostSummary postId={id} key={id} navigation={nav}/>;
   });
 }
 
@@ -39,7 +36,7 @@ export function TheZoneContentView({navigation}) {
                   onPress={() => {navigation.navigate('Create Post')}}
                   >Create Post</Button>
 
-                  { renderButtons() }
+                  { renderButtons(navigation) }
               </ScrollView>
           </SafeAreaView>
         </>
@@ -83,6 +80,7 @@ export function TheZoneView({navigation}) {
       <Stack.Navigator headerMode={'none'} initialRouteName={"The Zone"}>
         <Stack.Screen name="The Zone" component={TheZoneContentView} />
         <Stack.Screen name="Create Post" component={CreatePostView} />
+        <Stack.Screen name='Full Post' component={FullPostView} />
       </Stack.Navigator>
     </>
   );
