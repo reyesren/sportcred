@@ -33,6 +33,7 @@ export function getPostData(postId) {
 }
 
 export function getUserFromPosterId(posterId) {
+    // TODO: get actual post data
     return {username: 'Username1', 
     pic: './../../../assets/defaultProfilePic.jpg'};
 }
