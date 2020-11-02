@@ -6,7 +6,11 @@ const TriviaResultsController = ({route, navigation}) => {
   const user = useContext(AuthContext);
   const {msg} = route.params === undefined ? {} : route.params;
 
-  return TriviaResultView({score: route.params.score});
+  const goToTriviaLanding = () => {
+    navigation.navigate('TriviaLandingController');
+  };
+
+  return TriviaResultView({score: route.params.score, goToTriviaLanding});
 };
 
 export default TriviaResultsController;

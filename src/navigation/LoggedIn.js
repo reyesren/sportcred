@@ -68,6 +68,10 @@ export default function LoggedInStack() {
         <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
         <Stack.Screen name="TheZoneView" component={FullySignedUp} />
         <Stack.Screen
+          name="TriviaLandingController"
+          component={TriviaLanding}
+        />
+        <Stack.Screen
           name="TriviaStartGameController"
           component={TriviaStartGameController}
         />

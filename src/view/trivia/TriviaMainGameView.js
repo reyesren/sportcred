@@ -2,17 +2,50 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
 import BackHandler from 'react-native';
+import {useFocusEffect} from '@react-navigation/core';
 
 /**
  * @param {{answer:string}} The answer to the question
  */
 const TriviaMainGameView = (props) => {
+  {
+    /*
   useEffect(() => {
-    BackHandler.BackHandler.addEventListener('hardwareBackPress', () => {
-      console.log('back button pressed');
-      return true;
-    });
-  }, []);
+    BackHandler.BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () => {
+      console.log('cleanup called');
+      BackHandler.BackHandler.remove();
+    };
+
+      BackHandler.BackHandler.removeEventListener(
+        'hardwareBackPress',
+        () => true,
+      );
+
+  }, []); */
+  }
+
+  {
+    /*
+  useFocusEffect(
+    React.useCallback(() => {
+      const backHandler = () => {
+        return true;
+      };
+
+      BackHandler.BackHandler.addEventListener('hardwareBackPress', () =>
+        backHandler(),
+      );
+
+      return () => {
+        console.log('cleanup');
+        BackHandler.BackHandler.removeEventListener('hardwareBackPress', () =>
+          backHandler(),
+        );
+      };
+    }, []),
+  );*/
+  }
 
   const firstQuestion = props.questions[0];
   const questions = props.questions;
@@ -53,7 +86,6 @@ const TriviaMainGameView = (props) => {
   };
 
   const answerHandler = (whichAnswer) => {
-
     setAnswerSelected(true);
 
     setDisabledAnswer1(true);
