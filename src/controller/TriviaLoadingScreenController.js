@@ -8,7 +8,7 @@ const TriviaLoadingScreenController = ({route, navigation}) => {
   const user = useContext(AuthContext);
   const {msg} = route.params === undefined ? {} : route.params;
 
-  const numOfQuestions = [0, 1, 2];
+  const numOfQuestions = ['0', '1', '2'];
   TriviaModel.getTriviaQuestions(numOfQuestions).then((results) => {
     console.log('results', results);
     results.forEach((element) => {
@@ -17,7 +17,7 @@ const TriviaLoadingScreenController = ({route, navigation}) => {
     route.questions = results;
     navigation.navigate('TriviaMainGameController', {
       questions: results,
-      numOfQuestions: numOfQuestions.pop() + 1,
+      numOfQuestions: 3,
     });
   });
 
