@@ -7,8 +7,8 @@ const TriviaMainGameController = ({route, navigation}) => {
   const {msg} = route.params === undefined ? {} : route.params;
   const numOfQuestions = route.params.numOfQuestions;
 
-  const goToResults = () => {
-    navigation.navigate('TriviaResultsController');
+  const goToResults = (score) => {
+    navigation.navigate('TriviaResultsController', {score});
   };
 
   return TriviaMainGameView({

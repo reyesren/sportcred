@@ -2,13 +2,13 @@ import {StyleSheet, View} from 'react-native';
 import {Divider, Text, Title} from 'react-native-paper';
 import React from 'react';
 
-const TriviaResultView = () => {
+const TriviaResultView = (props) => {
   return (
     <View style={styles.container}>
       <Title style={styles.header}>TRIVIA</Title>
       <Text style={styles.subheader}>Results</Text>
       <Text style={styles.questions}>
-        You got <Text style={styles.score}>7</Text> questions right!
+        You got <Text style={styles.score}>{props.score}</Text> questions right!
       </Text>
       <Text style={styles.ACS}>ACS: ? + ?</Text>
     </View>
