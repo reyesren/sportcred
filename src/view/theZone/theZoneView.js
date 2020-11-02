@@ -35,7 +35,7 @@ export function TheZoneContentView({navigation}) {
                       <Text style={styles.titleText}>THE ZONE</Text>
                   </View>
 
-                  <Button mode='contained' 
+                  <Button mode='contained'
                   onPress={() => {navigation.navigate('Create Post')}}
                   >Create Post</Button>
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 35,
     padding: 10,
-    margin: 10,
+    margin: 10
   },
   logo: {
     width: '100%',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: Colors.lighter,
-  },
+  }
 });
 
 const Stack = createStackNavigator();

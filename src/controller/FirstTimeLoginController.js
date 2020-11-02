@@ -14,7 +14,9 @@ export const StartupCheck = ({route, navigation}) => {
         console.log(stack);
         UserModel.getUserDoc(user.uid).then((doc) => {
             // console.log("DOC: --------- : ", JSON.stringify(doc));
-            navigation.navigate(stack[0], {userDoc: doc});
+            UserModel.updateLoginTime(user.uid).then(() => {
+                navigation.navigate(stack[0], {userDoc: doc});
+            });
         });
     });
     // navigation.navigate("ProfileView");

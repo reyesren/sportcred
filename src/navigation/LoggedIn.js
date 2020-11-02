@@ -13,6 +13,7 @@ import {Settings} from '../controller/SettingsController.js';
 import {Live} from '../controller/LiveController.js';
 import {TriviaLanding} from '../controller/TriviaController.js';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {HeadToHeadTabs} from "../controller/TriviaHeadToHeadController";
 import TriviaMainGameController from '../controller/TriviaMainGameController';
 import TriviaLoadingScreenController from '../controller/TriviaLoadingScreenController';
 import TriviaStartGameController from '../controller/TriviaStartGameController';
@@ -25,50 +26,30 @@ const Tab = createBottomTabNavigator();
 
 function FullySignedUp() {
   return (
-    <Tab.Navigator initialRouteName={'The Zone'}>
-      <Tab.Screen
-        name="The Zone"
-        component={TheZone}
-        options={{
-          tabBarLabel: 'The Zone',
+    <Tab.Navigator initialRouteName={"The Zone"}>
+      <Tab.Screen name="The Zone" component={TheZone} options={{
+          tabBarLabel: "The Zone",
           tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="stadium-variant"
-              color="#900"
-              size={30}
-            />
+            <MaterialCommunityIcons name="stadium-variant" color="#900" size={30} />
           ),
         }}
       />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="face-profile"
-              color="#900"
-              size={30}
-            />
-          ),
-        }}
+      <Tab.Screen name="Profile" component={Profile} options={{
+           tabBarLabel: "Profile",
+           tabBarIcon: () => (
+             <MaterialCommunityIcons name="face-profile" color="#900" size={30} />
+           ),
+         }}
       />
-      <Tab.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          tabBarLabel: 'Settings',
+      <Tab.Screen name="Settings" component={Settings} options={{
+          tabBarLabel: "Settings",
           tabBarIcon: () => (
             <MaterialCommunityIcons name="cog" color="#900" size={30} />
           ),
         }}
       />
-      <Tab.Screen
-        name="Live"
-        component={Live}
-        options={{
-          tabBarLabel: 'Live',
+      <Tab.Screen name="Live" component={Live} options={{
+          tabBarLabel: "Live",
           tabBarIcon: () => (
             <MaterialCommunityIcons name="youtube-tv" color="#900" size={30} />
           ),
@@ -112,6 +93,8 @@ export default function LoggedInStack() {
           name="TriviaResultsController"
           component={TriviaResultsController}
         />
+        <Stack.Screen name="Trivia" component={TriviaLanding} />
+        <Stack.Screen name="TriviaHeadToHead" component={HeadToHeadTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

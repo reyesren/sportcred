@@ -36,10 +36,17 @@ export default class TriviaModel {
      *  The "1603745609" numbers are UNIX timestamps. They represent a date and time.
      *
      * @param uid   string  use user.uid for this field.
-     * @returns {Promise<FirebaseFirestoreTypes.DocumentSnapshot<FirebaseFirestoreTypes.DocumentData>>} User history object.
+     * @returns Promise<DocumentSnapshot<DocumentData>> User history object.
      */
     static getUserHistory(uid: String) {
-        return this.triviaUserDataDocument.collection(uid).doc('history').get().then(doc => doc);
+
+        return this.triviaUserDataDocument.collection(uid).doc('history').get().then((doc) => {
+            if (doc.exists) {
+                return doc
+            }
+            this.createUserTriviaCollection(uid) // TODO remove this line in production. This is only here because some existing users do not have this collection. All new users will already have this.
+            return {}
+        });
     }
 
     /**
@@ -51,6 +58,20 @@ export default class TriviaModel {
      */
     static addToUserHistory(uid: String, historyObj: {}, epochTimeStamp: String) {
         this.triviaUserDataDocument.collection(uid).doc('history').update({[epochTimeStamp]: historyObj}).then(console.log);
+    }
+
+    /**
+     * Creates user trivia collection (history, incoming challenges) for user with id `uid`
+     *
+     * @param uid User.uid
+     */
+    static createUserTriviaCollection(uid: string) {
+        this.triviaUserDataDocument.collection(uid).get().then((snapshot) => {
+            if (snapshot.empty) {
+                this.triviaUserDataDocument.collection(uid).doc('history').set({}).then()
+                this.triviaUserDataDocument.collection(uid).doc('incoming_challenges').set({}).then()
+            }
+        })
     }
 
 }

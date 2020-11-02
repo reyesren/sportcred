@@ -14,7 +14,9 @@ const TriviaLandingView = (props) => {
       <Button
         style={styles.button}
         mode="contained"
-        onPress={() => console.log('SOLO')}>
+        onPress={() =>
+          props.goToHeadToHead()
+        }>
         HEAD-TO-HEAD
       </Button>
       <Button
@@ -25,14 +27,14 @@ const TriviaLandingView = (props) => {
       </Button>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   button: {
     marginLeft: 20,
     marginRight: 20,
     marginTop: 40,
-    marginBottom: 40,
+    marginBottom: 40
   },
   logo: {
     width: '100%',
