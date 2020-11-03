@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity, StatusBar, ScrollView, SafeAreaView} from 'react-native';
 import Text from 'react-native-paper/src/components/Typography/Text';
 import {Button, TextInput, Title} from 'react-native-paper';
-import {getChallenges} from './../../controller/TriviaController';
+import {getChallenges, acceptChallenge, declineChallenge} from './../../controller/TriviaController';
 
 const ChallengeNotification = (props) => {
   const styles = StyleSheet.create({
@@ -37,8 +37,8 @@ const ChallengeNotification = (props) => {
         </Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Button mode="contained" onPress={() => {}}>Accept</Button>
-        <Button mode="contained" onPress={() => {}}>Decline</Button>
+        <Button mode="contained" onPress={() => {acceptChallenge(props.challengeId)}}>Accept</Button>
+        <Button mode="contained" onPress={() => {declineChallenge(props.challengeId)}}>Decline</Button>
       </View>
     </View>
     </>
@@ -67,13 +67,7 @@ const TriviaLandingView = (props) => {
     },
   });
 
-  //const challenges = getChallenges();
-  const challenges = [{challengeId: 'ajhfadljhfafj', 
-                       challengerId: 'challenger1', 
-                       time: '82358267'},
-                       {challengeId: 'ajhfadljhfafj', 
-                       challengerId: 'challenger2', 
-                       time: '82358267'}];
+  const challenges = getChallenges();
 
   function renderChallengeNotifications() {
     return challenges.map((challenge) => {
