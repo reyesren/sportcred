@@ -86,6 +86,7 @@ const TriviaLandingView = (props) => {
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View>
+        <Button onPress={() => props.goToTheZone()}>Back</Button>
           <Image
             style={styles.logo}
             source={require('./../../../assets/logo.png')}

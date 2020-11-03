@@ -94,8 +94,8 @@ function IncomingChallenges({navigation, route}) {
   console.log('aflkdsjf;lkdasjfsad: ' + JSON.stringify(routeChallengeList));
 
   function load() {
-    // TriviaChallengeModel.getIncomingChallenges(user.uid).then((doc) => {
-    TriviaChallengeModel.getIncomingChallenges('user1').then((doc) => {
+    TriviaChallengeModel.getIncomingChallenges(user.uid).then((doc) => {
+    // TriviaChallengeModel.getIncomingChallenges('user1').then((doc) => {
       let list = listState;
       const d = doc.data();
       Object.keys(d).forEach((k) => {

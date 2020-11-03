@@ -6,6 +6,12 @@ import TriviaChallenge from '../model/TriviaChallengeModel';
 import {TriviaModel} from '../model/TriviaModel';
 
 export const TriviaLanding = ({route, navigation}) => {
+
+  const goToTheZone = () => {
+    navigation.navigate('The Zone');
+  }
+
+
   const goToTriviaStartGameSolo = () => {
     navigation.navigate('TriviaStartGameController', {mode: 'solo'});
   };
@@ -17,6 +23,7 @@ export const TriviaLanding = ({route, navigation}) => {
   return TriviaLandingView({
     goToTriviaStartGame: goToTriviaStartGameSolo,
     goToHeadToHead,
+    goToTheZone
   });
 };
 

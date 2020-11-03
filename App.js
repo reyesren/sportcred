@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React from 'react';
 import {default as Colors, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
