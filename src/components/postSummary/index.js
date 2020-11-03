@@ -24,8 +24,8 @@ const PostSummary = (props) => {
   const postData = getPostData(props.postId);
 
   const seeFullPost = () => {
-    // TODO: launch full post page and send postData
-  };
+      props.navigation.navigate('Full Post', {postId: props.postId});
+  }
 
   const castUpvote = () => {
     // TODO: mark the post as upvoted by user
