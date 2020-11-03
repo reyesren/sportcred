@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
-import { HelperText, TextInput, Text } from 'react-native-paper';
+import {View, Button, StyleSheet} from 'react-native';
+import {HelperText, TextInput, Text} from 'react-native-paper';
 
 const EditableText = (props) => {
   const [text, setText] = React.useState(props.presetText);
@@ -8,20 +8,22 @@ const EditableText = (props) => {
 
   const [editing, setEditing] = React.useState(false);
 
-  const onChangeText = text => setText(text);
+  const onChangeText = (text) => setText(text);
 
   const hasErrors = () => {
     return false;
   };
 
   const buttonHandler = () => {
-    if(!editing) setPreviousText(text);
+    if (!editing) {
+      setPreviousText(text);
+    }
     setEditing(!editing);
-  }
+  };
   const cancelButtonHandler = () => {
     setEditing(false);
     setText(previousText);
-  }
+  };
 
   const styles = StyleSheet.create({
     textContainer: {
@@ -56,32 +58,33 @@ const EditableText = (props) => {
     },
   });
 
- return (
-  <View style={{backgroundColor:'#fff'}}>
-    <Text style={styles.sectionTitle}>{props.textTitle}</Text>
-    {editing ?
-      <View style={styles.sectionContainer}>
-        <View style={styles.textInputContainer}>
-          <TextInput label='' value={text} onChangeText={onChangeText} />
-          {/* <HelperText type="error" visible={hasErrors()}>
+  return (
+    <View style={{backgroundColor: '#fff'}}>
+      <Text style={styles.sectionTitle}>{props.textTitle}</Text>
+      {editing ? (
+        <View style={styles.sectionContainer}>
+          <View style={styles.textInputContainer}>
+            <TextInput label="" value={text} onChangeText={onChangeText} />
+            {/* <HelperText type="error" visible={hasErrors()}>
             {props.helpText}
           </HelperText> */}
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button title="DONE" onPress={buttonHandler} />
+            <Button title="CANCEL" onPress={cancelButtonHandler} />
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button title='DONE' onPress={buttonHandler}/>
-          <Button title='CANCEL' onPress={cancelButtonHandler}/>
+      ) : (
+        <View style={styles.sectionContainer}>
+          <View style={styles.textInputContainer}>
+            <Text>{text}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button title="EDIT" onPress={buttonHandler} />
+          </View>
         </View>
-      </View>
-    :
-      <View style={styles.sectionContainer}>
-        <View style={styles.textInputContainer}>
-          <Text>{text}</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button title='EDIT' onPress={buttonHandler}/>
-        </View>
-      </View>}
-  </View>
+      )}
+    </View>
   );
 };
 

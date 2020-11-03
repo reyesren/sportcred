@@ -17,7 +17,7 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  Button
+  Button,
 } from 'react-native';
 
 import {
@@ -25,33 +25,33 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {
   CMTextfield,
-  EditableText
+  EditableText,
 } from './../components/index.js';
 
 const ACSQuestionsView = () => {
 
-  const goToInfo = () => {}
-    
+  const goToInfo = () => {};
+
   const styles = StyleSheet.create({
     selectedNavText: {
-      fontSize: 24
+      fontSize: 24,
     },
     selectedNavButton: {
       padding: 5,
       flex: 1,
       backgroundColor: 'rgb(200,200,200)',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     navButton: {
       padding: 5,
       flex: 1,
-      backgroundColor: 'rgb(34,150,243)'
+      backgroundColor: 'rgb(34,150,243)',
     },
     navBarContainer: {
       flex: 1,
       flexDirection: 'row',
-      justifyContent: 'flex-start'
+      justifyContent: 'flex-start',
     },
     introBody: {
       backgroundColor: Colors.white,
@@ -61,7 +61,7 @@ const ACSQuestionsView = () => {
     titleText: {
       fontWeight: 'bold',
       textAlign: 'center',
-      fontSize: 80
+      fontSize: 80,
     },
     logo: {
       width: '100%',
@@ -74,20 +74,20 @@ const ACSQuestionsView = () => {
     body: {
       backgroundColor: Colors.white,
       flex: 1,
-      flexDirection: 'row'
+      flexDirection: 'row',
     },
     textContainer: {
       paddingHorizontal: 24,
       marginTop: 32,
       marginBottom: 32,
-      flex: 2
+      flex: 2,
     },
     questionInfoContainer: {
       paddingHorizontal: 24,
       marginTop: 32,
       marginBottom: 32,
       flex: 1,
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     isCorrectText: {
       color: '#0C7C0D',
@@ -111,18 +111,18 @@ const ACSQuestionsView = () => {
       fontSize: 18,
       fontWeight: '400',
       color: Colors.dark,
-    }
+    },
   });
-  
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      
+
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-       
+
           <Image style={styles.logo} source={require('./../../assets/logo.png')}/>
           <View>
             <Text style={styles.titleText}>Profile</Text>
@@ -130,7 +130,7 @@ const ACSQuestionsView = () => {
 
           <View style={styles.navBarContainer}>
             <View style={styles.navButton}>
-              <Button title='INFO' onPress={goToInfo}/>
+              <Button title="INFO" onPress={goToInfo}/>
             </View>
             <View style={styles.selectedNavButton}>
               <Text style={styles.selectedNavText}>ACS Questions</Text>

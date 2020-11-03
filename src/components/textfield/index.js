@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { HelperText, TextInput } from 'react-native-paper';
+import {View} from 'react-native';
+import {HelperText, TextInput} from 'react-native-paper';
 
 const CMTextfield = () => {
   const [text, setText] = React.useState('');
 
-   const onChangeText = text => setText(text);
+  const onChangeText = (text) => setText(text);
 
   const hasErrors = () => {
     return !text.includes('@');
   };
 
- return (
+  return (
     <View>
       <TextInput label="Email" value={text} onChangeText={onChangeText} />
       <HelperText type="error" visible={hasErrors()}>

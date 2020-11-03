@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
-import BackHandler from 'react-native';
-import {useFocusEffect} from '@react-navigation/core';
 
 /**
  * @param {{answer:string}} The answer to the question

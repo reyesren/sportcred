@@ -8,4 +8,4 @@ export const Live = ({route, navigation}) => {
   const {msg} = route.params === undefined ? {} : route.params;
 
   return LiveView();
-}
+};

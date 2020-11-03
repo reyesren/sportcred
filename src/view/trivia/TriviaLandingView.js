@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
-import Text from 'react-native-paper/src/components/Typography/Text';
-import {Button, TextInput, Title} from 'react-native-paper';
+import {Button, Title} from 'react-native-paper';
 
 const TriviaLandingView = (props) => {
   return (
@@ -14,9 +13,7 @@ const TriviaLandingView = (props) => {
       <Button
         style={styles.button}
         mode="contained"
-        onPress={() =>
-          props.goToHeadToHead()
-        }>
+        onPress={() => props.goToHeadToHead()}>
         HEAD-TO-HEAD
       </Button>
       <Button
@@ -27,14 +24,14 @@ const TriviaLandingView = (props) => {
       </Button>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {
     marginLeft: 20,
     marginRight: 20,
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
   },
   logo: {
     width: '100%',

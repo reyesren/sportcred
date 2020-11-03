@@ -7,5 +7,5 @@ export function SettingsView(props) {
     <View>
       <Text>Settings</Text>
     </View>
-   );
+  );
 }
