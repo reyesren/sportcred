@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, TouchableOpacity, StatusBar, ScrollView, SafeAreaView} from 'react-native';
 import Text from 'react-native-paper/src/components/Typography/Text';
 import {Button, TextInput, Title} from 'react-native-paper';
 import {getChallenges} from './../../controller/TriviaController';
@@ -7,22 +7,24 @@ import {getChallenges} from './../../controller/TriviaController';
 const ChallengeNotification = (props) => {
   const styles = StyleSheet.create({
     notificationContainer: {
+      marginHorizontal: 20,
+      paddingVertical: 20,
+      paddingHorizontal: 10, 
+      backgroundColor: '#ddd',
+      borderRadius: 15,
+      marginVertical: 10,
       flex: 1,
-      flexDirection: 'row',
-      margin: 20,
-      paddingTop: 20,
-      borderTopWidth: 3
+      flexDirection: 'row'
     },
     challengeTextContainer: {
       flex: 2,
-      flexDirection:'column'
+      margin: 10
     },
     challengeText: {
       fontSize: 17
     },
     buttonContainer: {
-      flex:1,
-      flexDirection: 'column'
+      flex: 1
     }
   });
 
@@ -35,8 +37,8 @@ const ChallengeNotification = (props) => {
         </Text>
       </View>
       <View style={styles.buttonContainer}>
-          <Button mode="contained" onPress={() => {}}>Accept</Button>
-          <Button mode="contained" onPress={() => {}}>Decline</Button>
+        <Button mode="contained" onPress={() => {}}>Accept</Button>
+        <Button mode="contained" onPress={() => {}}>Decline</Button>
       </View>
     </View>
     </>
@@ -45,53 +47,73 @@ const ChallengeNotification = (props) => {
 
 
 const TriviaLandingView = (props) => {
+  const styles = StyleSheet.create({
+    button: {
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    logo: {
+      width: '100%',
+      height: 100,
+      resizeMode: 'contain',
+    },
+    pad: {
+      padding: 10,
+      borderTopWidth: 3,
+      margin: 20,
+      marginBottom: 0,
+    },
+  });
+
   //const challenges = getChallenges();
-  const challenges = [{challengerId: 'challenger1', time: '82358267'}];
+  const challenges = [{challengeId: 'ajhfadljhfafj', 
+                       challengerId: 'challenger1', 
+                       time: '82358267'},
+                       {challengeId: 'ajhfadljhfafj', 
+                       challengerId: 'challenger2', 
+                       time: '82358267'}];
 
   function renderChallengeNotifications() {
     return challenges.map((challenge) => {
       return <ChallengeNotification 
               challengerId={challenge.challengerId} 
-              key={challenge.challengerId} />;
+              challengeId={challenge.challengeId}
+              key={challenge.challengeId} />;
       });
   }
 
   return (
-    <View>
-      <Image
-        style={styles.logo}
-        source={require('./../../../assets/logo.png')}
-      />
-      <Title style={{padding: 50, alignSelf: 'center'}}>TRIVIA</Title>
-      <Button
-        style={styles.button}
-        mode="contained"
-        onPress={() => console.log('SOLO')}>
-        HEAD-TO-HEAD
-      </Button>
-      <Button
-        style={styles.button}
-        mode="contained"
-        onPress={() => props.goToTriviaStartGame()}>
-        SOLO
-      </Button>
-      {renderChallengeNotifications()}
-    </View>
+    <>
+    <StatusBar barStyle="dark-content"/>
+    <SafeAreaView>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
+          <Image
+            style={styles.logo}
+            source={require('./../../../assets/logo.png')}
+          />
+          <Title style={{padding: 50, alignSelf: 'center'}}>TRIVIA</Title>
+          <Button
+            style={styles.button}
+            mode="contained"
+            onPress={() => console.log('SOLO')}>
+            HEAD-TO-HEAD
+          </Button>
+          <Button
+            style={styles.button}
+            mode="contained"
+            onPress={() => props.goToTriviaStartGame()}>
+            SOLO
+          </Button>
+          <View style={styles.pad}></View>
+          {renderChallengeNotifications()}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  logo: {
-    width: '100%',
-    height: 100,
-    resizeMode: 'contain',
-  },
-});
 
 export default TriviaLandingView;

@@ -19,3 +19,6 @@ export function getChallenges() {
   console.log(challenges);
   return challenges;
 }
+
+export function acceptChallenge() {}
+export function declineChallenge() {}
