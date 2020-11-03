@@ -25,6 +25,9 @@ const ChallengeNotification = (props) => {
     },
     buttonContainer: {
       flex: 1
+    },
+    opName: {
+      fontWeight: 'bold'
     }
   });
 
@@ -33,7 +36,7 @@ const ChallengeNotification = (props) => {
     <View style={styles.notificationContainer}>
       <View style={styles.challengeTextContainer}>
         <Text style={styles.challengeText}>
-          {props.challengerId} is challenging you to a trivia contest!
+          <Text style={styles.opName}>{props.challengerId}</Text> is challenging you to a trivia contest!
         </Text>
       </View>
       <View style={styles.buttonContainer}>
@@ -83,7 +86,7 @@ const TriviaLandingView = (props) => {
     <StatusBar barStyle="dark-content"/>
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View>
+      <View>
           <Image
             style={styles.logo}
             source={require('./../../../assets/logo.png')}
@@ -92,7 +95,9 @@ const TriviaLandingView = (props) => {
           <Button
             style={styles.button}
             mode="contained"
-            onPress={() => console.log('SOLO')}>
+            onPress={() =>
+              props.goToHeadToHead()
+            }>
             HEAD-TO-HEAD
           </Button>
           <Button
