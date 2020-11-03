@@ -4,16 +4,13 @@ import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
 
 export const TheZone = ({route, navigation}) => {
-    const user = useContext(AuthContext);
-  
-    function onSubmit(profileObj) {
-      UserModel.getUserDoc(user.uid, profileObj, (doc) => {
-          navigation.navigate('TheZoneView', doc);
-      });
-    }
-  
-    return (
-        <>
-        </>
-    );
+  const user = useContext(AuthContext);
+
+  function onSubmit(profileObj) {
+    UserModel.getUserDoc(user.uid, profileObj, (doc) => {
+      navigation.navigate('TheZoneView', doc);
+    });
+  }
+
+  return <></>;
 };

@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import {Button, Divider, Text, Title} from 'react-native-paper';
+import {Button, Text, Title} from 'react-native-paper';
 import React from 'react';
 
 const TriviaResultView = (props) => {

@@ -46,8 +46,7 @@ const ChallengeNotification = (props) => {
     </View>
     </>
   );
-}
-
+};
 
 const TriviaLandingView = (props) => {
   const styles = StyleSheet.create({

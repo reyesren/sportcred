@@ -1,22 +1,22 @@
-import { auth, firestore, storage } from '../firebase.js';
+import {auth, firestore, storage} from '../firebase.js';
 import React from 'react';
 import RNFS from 'react-native-fs';
-import TriviaModel from "./TriviaModel";
+import TriviaModel from './TriviaModel';
 
 export default class UserModel {
   static userDocObj = {
     is_active: true,
     last_login: Date.now(),
     profile: {
-      first_name: "",
-      middle_name: "",
-      last_name: "",
-      displayName: "",
-      about: ""
+      first_name: '',
+      middle_name: '',
+      last_name: '',
+      displayName: '',
+      about: '',
     },
     profile_completed: false,
     questionnaire_completed: false,
-    questionnaire_responses: {}
+    questionnaire_responses: {},
   };
   static userCollection = firestore().collection('users');
 
@@ -24,15 +24,25 @@ export default class UserModel {
     await this.userCollection.doc(uid).update({last_login: Date.now()});
   }
 
-  static async updateProfilePicture(filepath: string, uid: string, success, failure) {
+  static async updateProfilePicture(
+    filepath: string,
+    uid: string,
+    success,
+    failure,
+  ) {
     let reference = storage().ref(`profile_pictures/${uid}`);
     const data = await RNFS.readFile(filepath, 'base64');
     await reference.putString(data, 'base64').catch((error) => failure(error));
-    const url = await reference.getDownloadURL().catch((error) => failure(error));
+    const url = await reference
+      .getDownloadURL()
+      .catch((error) => failure(error));
 
-    auth().currentUser.updateProfile({
-      photoURL: url
-    }).then(success()).catch((error) => failure(error));
+    auth()
+      .currentUser.updateProfile({
+        photoURL: url,
+      })
+      .then(success())
+      .catch((error) => failure(error));
   }
 
   /**
@@ -42,17 +52,19 @@ export default class UserModel {
    * @returns {{}} userobject
    */
   static async getUserDoc(uid: string) {
-    return this._fetchUserDoc(uid).then(() => this.userDocObj).catch();
+    return this._fetchUserDoc(uid)
+      .then(() => this.userDocObj)
+      .catch();
   }
 
   static async _fetchUserDoc(uid: string) {
-    await this.userCollection.doc(uid).get().then(
-        (doc) => {
-          this.userDocObj = doc.data();
-        }
-    );
+    await this.userCollection
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        this.userDocObj = doc.data();
+      });
   }
-
 
   /**
    * Which first time tasks are required to be complete.
@@ -64,27 +76,29 @@ export default class UserModel {
    * @returns {number}
    */
   static async firstTimeLoginChecks(uid: string) {
-
-    await this.userCollection.doc(uid).get().then(
-        (docSnapshot) => {
-          if (!docSnapshot.exists) {
-            UserModel.createNewUserDoc(uid);
-          }
+    await this.userCollection
+      .doc(uid)
+      .get()
+      .then((docSnapshot) => {
+        if (!docSnapshot.exists) {
+          UserModel.createNewUserDoc(uid);
         }
-    );
+      });
 
     await this._fetchUserDoc(uid);
-    console.log("User doc obj:\n" + JSON.stringify(this.userDocObj, null, 2));
+    console.log('User doc obj:\n' + JSON.stringify(this.userDocObj, null, 2));
     let stack = [];
 
-    if (!this.userDocObj.questionnaire_completed)
-      stack.push("Questionnaire");
-    if (!this.userDocObj.profile_completed)
-      stack.push("ProfileSetup");
+    if (!this.userDocObj.questionnaire_completed) {
+      stack.push('Questionnaire');
+    }
+    if (!this.userDocObj.profile_completed) {
+      stack.push('ProfileSetup');
+    }
 
-    stack.push("TheZoneView");
+    stack.push('TheZoneView');
 
-    return stack
+    return stack;
   }
 
   static createNewUserDoc(uid: string, callback = () => {}) {
@@ -93,23 +107,31 @@ export default class UserModel {
   }
 
   static updateProfile(uid: string, profile, callback = (doc) => {}) {
-    this.userCollection.doc(uid).update({profile: profile}).then(() => {
-      this.userCollection.doc(uid).update({profile_completed: true}).then(async () => {
-        await this._fetchUserDoc(uid).then(
-            callback(this.userDocObj)
-        );
+    this.userCollection
+      .doc(uid)
+      .update({profile: profile})
+      .then(() => {
+        this.userCollection
+          .doc(uid)
+          .update({profile_completed: true})
+          .then(async () => {
+            await this._fetchUserDoc(uid).then(callback(this.userDocObj));
+          });
       });
-    });
   }
 
   static updateQuestionnaire(uid: string, questionnaire, callback = () => {}) {
-    this.userCollection.doc(uid).update({questionnaire_responses: questionnaire}).then(() => {
-      this.userCollection.doc(uid).update({questionnaire_completed: true}).then(async () => {
-        await this._fetchUserDoc(uid).then(
-            callback()
-        );
-      })
-    });
+    this.userCollection
+      .doc(uid)
+      .update({questionnaire_responses: questionnaire})
+      .then(() => {
+        this.userCollection
+          .doc(uid)
+          .update({questionnaire_completed: true})
+          .then(async () => {
+            await this._fetchUserDoc(uid).then(callback());
+          });
+      });
   }
 
   /**
@@ -169,11 +191,11 @@ export default class UserModel {
 
   static getRegisteredUsers(offset: number, limit: number) {
     return this.userCollection
-        .where("profile_completed", "==", true)
-        .where("questionnaire_completed", "==", true)
-        .orderBy('last_login')
-        .startAfter(offset)
-        .limit(limit)
-        .get();
+      .where('profile_completed', '==', true)
+      .where('questionnaire_completed', '==', true)
+      .orderBy('last_login')
+      .startAfter(offset)
+      .limit(limit)
+      .get();
   }
 }

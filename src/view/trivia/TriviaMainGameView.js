@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
-import BackHandler from 'react-native';
-import {useFocusEffect} from '@react-navigation/core';
 
 /**
  * @param {{answer:string}} The answer to the question
@@ -123,7 +121,10 @@ const TriviaMainGameView = (props) => {
     console.log('question count', questionCount);
     console.log('isAnswerPressed', isAnswerSelected);
     if (questionCount === numOfQuestions && isAnswerSelected) {
-      setTimeout(() => props.goToResults(score), 2000);
+      setTimeout(() => {
+        props.goToResults(score);
+        props.processResults(score);
+      }, 2000);
     }
   });
 

@@ -1,7 +1,3 @@
-
-
-export default function PendingChallengesView (props) {
-    return (
-        <></>
-    );
+export default function PendingChallengesView(props) {
+  return <></>;
 }

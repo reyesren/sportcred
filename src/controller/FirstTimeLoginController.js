@@ -6,21 +6,20 @@ import {QuestionnaireView} from '../view/firstTimeLogin/QuestionnaireView';
 import {ProfileSetupView} from '../view/firstTimeLogin/ProfileSetupView';
 
 export const StartupCheck = ({route, navigation}) => {
-    const user = useContext(AuthContext);
+  const user = useContext(AuthContext);
 
-
-    // UserModel.signOut();
-    UserModel.firstTimeLoginChecks(user.uid).then((stack) => {
-        console.log(stack);
-        UserModel.getUserDoc(user.uid).then((doc) => {
-            // console.log("DOC: --------- : ", JSON.stringify(doc));
-            UserModel.updateLoginTime(user.uid).then(() => {
-                navigation.navigate(stack[0], {userDoc: doc});
-            });
-        });
+  // UserModel.signOut();
+  UserModel.firstTimeLoginChecks(user.uid).then((stack) => {
+    console.log(stack);
+    UserModel.getUserDoc(user.uid).then((doc) => {
+      // console.log("DOC: --------- : ", JSON.stringify(doc));
+      UserModel.updateLoginTime(user.uid).then(() => {
+        navigation.navigate(stack[0], {userDoc: doc});
+      });
     });
-    // navigation.navigate("ProfileView");
-    return Loading();
+  });
+  // navigation.navigate("ProfileView");
+  return Loading();
 };
 
 export const Questionnaire = ({route, navigation}) => {
@@ -29,7 +28,7 @@ export const Questionnaire = ({route, navigation}) => {
   function onSubmit(responses) {
     const {q1, q2, q3, q4, q5, q6} = responses;
     UserModel.updateQuestionnaire(user.uid, responses, () => {
-        navigation.navigate('ProfileSetup');
+      navigation.navigate('ProfileSetup');
     });
   }
 
@@ -37,11 +36,11 @@ export const Questionnaire = ({route, navigation}) => {
 };
 
 export const ProfileSetup = ({route, navigation}) => {
-    const user = useContext(AuthContext);
+  const user = useContext(AuthContext);
 
-    function onSubmit(profileObj) {
+  function onSubmit(profileObj) {
     UserModel.updateProfile(user.uid, profileObj, (doc) => {
-        navigation.navigate('Profile', doc);
+      navigation.navigate('Profile', doc);
     });
   }
 

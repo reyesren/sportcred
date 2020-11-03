@@ -6,17 +6,18 @@ import TriviaChallenge from '../model/TriviaChallengeModel';
 import {TriviaModel} from '../model/TriviaModel';
 
 export const TriviaLanding = ({route, navigation}) => {
-  const {msg} = route.params === undefined ? {} : route.params;
-
-  const goToTriviaStartGame = () => {
-    navigation.navigate('TriviaStartGameController');
+  const goToTriviaStartGameSolo = () => {
+    navigation.navigate('TriviaStartGameController', {mode: 'solo'});
   };
 
   const goToHeadToHead = () => {
     navigation.navigate('TriviaHeadToHead');
-  }
+  };
 
-  return TriviaLandingView({goToTriviaStartGame, goToHeadToHead});
+  return TriviaLandingView({
+    goToTriviaStartGame: goToTriviaStartGameSolo,
+    goToHeadToHead,
+  });
 };
 
 export function getChallenges() {
