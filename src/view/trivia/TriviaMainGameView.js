@@ -123,7 +123,10 @@ const TriviaMainGameView = (props) => {
     console.log('question count', questionCount);
     console.log('isAnswerPressed', isAnswerSelected);
     if (questionCount === numOfQuestions && isAnswerSelected) {
-      setTimeout(() => props.goToResults(score), 2000);
+      setTimeout(() => {
+        props.goToResults(score);
+        props.processResults(score);
+      }, 2000);
     }
   });
 
