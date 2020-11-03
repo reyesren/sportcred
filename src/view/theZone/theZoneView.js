@@ -1,6 +1,15 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Image, TouchableOpacity} from 'react-native';
-import { Button } from 'react-native-paper';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import {Button} from 'react-native-paper';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PostSummary} from './../../components/index.js';
@@ -11,7 +20,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {getPostIds} from './../../controller/TheZoneController';
 import { FullPostView } from './FullPostView';
 
-
 function renderButtons(nav) {
   return getPostIds().map((id) => {
     return <PostSummary postId={id} key={id} navigation={nav}/>;
@@ -19,28 +27,34 @@ function renderButtons(nav) {
 }
 
 export function TheZoneContentView({navigation}) {
-    return (
-        <>
-          <StatusBar barStyle="dark-content"/>
-          <SafeAreaView>
-              <ScrollView
-                  contentInsetAdjustmentBehavior="automatic"
-                  style={styles.scrollView}>
+  return (
+    <>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={styles.scrollView}>
+          <Image
+            style={styles.logo}
+            source={require('./../../../assets/logo.png')}
+          />
+          <View>
+            <Text style={styles.titleText}>THE ZONE</Text>
+          </View>
 
-                  <Image style={styles.logo} source={require('./../../../assets/logo.png')}/>
-                  <View>
-                      <Text style={styles.titleText}>THE ZONE</Text>
-                  </View>
+          <Button
+            mode="contained"
+            onPress={() => {
+              navigation.navigate('Create Post');
+            }}>
+            Create Post
+          </Button>
 
-                  <Button mode='contained' 
-                  onPress={() => {navigation.navigate('Create Post')}}
-                  >Create Post</Button>
-
-                  { renderButtons(navigation) }
-              </ScrollView>
-          </SafeAreaView>
-        </>
-    );
+          { renderButtons(navigation) }
+        </ScrollView>
+      </SafeAreaView>
+    </>
+  );
 };
 
 function TriviaScreen({navigation}) {
@@ -75,9 +89,9 @@ const styles = StyleSheet.create({
 const Stack = createStackNavigator();
 
 export function TheZoneView({navigation}) {
-    return (
+  return (
     <>
-      <Stack.Navigator headerMode={'none'} initialRouteName={"The Zone"}>
+      <Stack.Navigator headerMode={'none'} initialRouteName={'The Zone'}>
         <Stack.Screen name="The Zone" component={TheZoneContentView} />
         <Stack.Screen name="Create Post" component={CreatePostView} />
         <Stack.Screen name='Full Post' component={FullPostView} />

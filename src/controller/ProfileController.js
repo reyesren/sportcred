@@ -4,15 +4,14 @@
 
 import ProfileView from '../view/ProfileView';
 import ImagePicker from 'react-native-image-picker';
-import {AuthContext} from '../navigation/AuthNavigator'
+import {AuthContext} from '../navigation/AuthNavigator';
 import {useContext} from 'react';
 import UserModel from '../model/UserModel';
-import {Loading} from "../view/Buffer";
+import {Loading} from '../view/Buffer';
 
 export const Profile = ({route, navigation}) => {
-
   const user = useContext(AuthContext);
-  const {userDoc} = typeof route.params === "undefined" ? {} : route.params;
+  const {userDoc} = typeof route.params === 'undefined' ? {} : route.params;
 
   function profilePicChange(setProfilePic, setPictureChange) {
     const options = {
@@ -24,16 +23,20 @@ export const Profile = ({route, navigation}) => {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
         const source = {uri: response.uri};
-        UserModel.updateProfilePicture(response.uri, user.uid, () => {
-          console.log("success")
-        }, console.log);
+        UserModel.updateProfilePicture(
+          response.uri,
+          user.uid,
+          () => {
+            console.log('success');
+          },
+          console.log,
+        );
         setProfilePic(source);
         setPictureChange(true);
       }
@@ -46,7 +49,7 @@ export const Profile = ({route, navigation}) => {
 
   if (userDoc === undefined) {
     UserModel.getUserDoc(user.uid).then((doc) => {
-      navigation.navigate("Profile", {userDoc: doc});
+      navigation.navigate('Profile', {userDoc: doc});
     });
     return Loading();
   }

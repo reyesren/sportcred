@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
-import BackHandler from 'react-native';
-import * as BackAndroid from 'react-native';
 
 /**
  * @param {{answer:string}} The answer to the question
@@ -10,34 +8,44 @@ import * as BackAndroid from 'react-native';
 const TriviaMainGameView = (props) => {
   {
     /*
-  function componentDidMount() {
-    BackHandler.BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackButton,
-    );
-  }
-
-  function componentWillUnmount() {
-    BackHandler.BackHandler.removeEventListener(
-      'hardwareBackPress',
-      handleBackButton,
-    );
-  }
-
-  function handleBackButton() {
-    return true;
-  }*/
-  }
-
   useEffect(() => {
-    BackHandler.BackHandler.addEventListener('hardwareBackPress', () => {
-      console.log('back button pressed');
-      return true;
-    });
-  }, []);
+    BackHandler.BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () => {
+      console.log('cleanup called');
+      BackHandler.BackHandler.remove();
+    };
+
+      BackHandler.BackHandler.removeEventListener(
+        'hardwareBackPress',
+        () => true,
+      );
+
+  }, []); */
+  }
+
+  {
+    /*
+  useFocusEffect(
+    React.useCallback(() => {
+      const backHandler = () => {
+        return true;
+      };
+
+      BackHandler.BackHandler.addEventListener('hardwareBackPress', () =>
+        backHandler(),
+      );
+
+      return () => {
+        console.log('cleanup');
+        BackHandler.BackHandler.removeEventListener('hardwareBackPress', () =>
+          backHandler(),
+        );
+      };
+    }, []),
+  );*/
+  }
 
   const firstQuestion = props.questions[0];
-  console.log('props questions', props.questions);
   const questions = props.questions;
   const numOfQuestions = props.numOfQuestions;
 
@@ -57,7 +65,7 @@ const TriviaMainGameView = (props) => {
   const [isDisabledAnswer2, setDisabledAnswer2] = useState(false);
   const [isDisabledAnswer3, setDisabledAnswer3] = useState(false);
   const [isDisabledAnswer4, setDisabledAnswer4] = useState(false);
-  const [index, setIndex] = useState(0);
+  const [isAnswerSelected, setAnswerSelected] = useState(false);
 
   const checkAnswer = (answer) => {
     if (answer === 0 && option1 === actualAnswer) {
@@ -75,36 +83,8 @@ const TriviaMainGameView = (props) => {
     return false;
   };
 
-  const mockBackendGetAnswers = () => {
-    setIndex(index + 1);
-    return [
-      'answer' + index,
-      'answer' + (index + 1),
-      'answer' + (index + 2),
-      'answer' + (index + 3),
-    ];
-  };
-
   const answerHandler = (whichAnswer) => {
-    {
-      /*if (whichAnswer === 0) {
-      setDisabledAnswer2(true);
-      setDisabledAnswer3(true);
-      setDisabledAnswer4(true);
-    } else if (whichAnswer === 1) {
-      setDisabledAnswer1(true);
-      setDisabledAnswer3(true);
-      setDisabledAnswer4(true);
-    } else if (whichAnswer === 2) {
-      setDisabledAnswer1(true);
-      setDisabledAnswer2(true);
-      setDisabledAnswer4(true);
-    } else {
-      setDisabledAnswer1(true);
-      setDisabledAnswer2(true);
-      setDisabledAnswer3(true);
-    }*/
-    }
+    setAnswerSelected(true);
 
     setDisabledAnswer1(true);
     setDisabledAnswer2(true);
@@ -133,17 +113,30 @@ const TriviaMainGameView = (props) => {
         setColorAnswer4('red');
       }
     }
-    setTimeout(() => updateAnswers(whichAnswer), 2000);
+    setTimeout(() => updateOptions(whichAnswer), 2000);
   };
 
-  const updateAnswers = (whichAnswer) => {
-    if (questionCount === numOfQuestions) {
-      props.goToResults();
-    } else {
-      console.log('prop questions before pop', props);
-      console.log('question count', questionCount);
+  useEffect(() => {
+    console.log('page updated');
+    console.log('question count', questionCount);
+    console.log('isAnswerPressed', isAnswerSelected);
+    if (questionCount === numOfQuestions && isAnswerSelected) {
+      setTimeout(() => {
+        props.goToResults(score);
+        props.processResults(score);
+      }, 2000);
+    }
+  });
+
+  const updateOptions = () => {
+    setAnswerSelected(false);
+    {
+      /*if (questionCount === numOfQuestions) {
+      props.goToResults(score);
+    } else {*/
+    }
+    if (questionCount < numOfQuestions) {
       let question = questions[questionCount];
-      console.log('update answer pop', questions);
       setQuestion(question._data.question);
       setOption1(question._data.options[0]);
       setOption2(question._data.options[1]);
@@ -159,6 +152,9 @@ const TriviaMainGameView = (props) => {
       setDisabledAnswer2(false);
       setDisabledAnswer3(false);
       setDisabledAnswer4(false);
+    }
+    {
+      /*}*/
     }
   };
 

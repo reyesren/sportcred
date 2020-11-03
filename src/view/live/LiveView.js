@@ -7,5 +7,5 @@ export function LiveView(props) {
     <View>
       <Text>Live</Text>
     </View>
-   );
+  );
 }

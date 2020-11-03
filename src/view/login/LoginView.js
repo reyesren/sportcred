@@ -30,16 +30,10 @@ const LoginView = (props) => {
       <TextInput onChangeText={(text) => setPassword(text)} label="Password" />
       <Button
         mode="contained"
-        onPress={() =>
-          props.onUserLogin({email, password})
-        }>
+        onPress={() => props.onUserLogin({email, password})}>
         Login
       </Button>
-      <Button
-        mode="contained"
-        onPress={() =>
-            props.register()
-        }>
+      <Button mode="contained" onPress={() => props.register()}>
         Sign Up
       </Button>
     </View>

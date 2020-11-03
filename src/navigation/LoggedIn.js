@@ -13,6 +13,7 @@ import {Settings} from '../controller/SettingsController.js';
 import {Live} from '../controller/LiveController.js';
 import {TriviaLanding} from '../controller/TriviaController.js';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {HeadToHeadTabs} from '../controller/TriviaHeadToHeadController';
 import TriviaMainGameController from '../controller/TriviaMainGameController';
 import TriviaLoadingScreenController from '../controller/TriviaLoadingScreenController';
 import TriviaStartGameController from '../controller/TriviaStartGameController';
@@ -87,6 +88,10 @@ export default function LoggedInStack() {
         <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
         <Stack.Screen name="TheZoneView" component={FullySignedUp} />
         <Stack.Screen
+          name="TriviaLandingController"
+          component={TriviaLanding}
+        />
+        <Stack.Screen
           name="TriviaStartGameController"
           component={TriviaStartGameController}
         />
@@ -112,6 +117,8 @@ export default function LoggedInStack() {
           name="TriviaResultsController"
           component={TriviaResultsController}
         />
+        <Stack.Screen name="Trivia" component={TriviaLanding} />
+        <Stack.Screen name="TriviaHeadToHead" component={HeadToHeadTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
