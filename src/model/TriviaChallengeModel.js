@@ -102,4 +102,17 @@ export default class TriviaChallenge {
             })
             .then(successCallback);
     }
+
+    static closeChallenge(challengerUid: String, challengeeUid: String, docId: String, successCallback = () => {}) {
+        this.triviaUserDataDocument
+            .collection(challengeeUid)
+            .doc('incoming_challenges')
+            .update({
+            [docId]: null
+        }).then(
+            this.triviaUserDataDocument.collection(challengerUid).doc('outgoing_challenges').update({
+                [docId]: null
+            }).then(successCallback)
+        );
+    }
 }
