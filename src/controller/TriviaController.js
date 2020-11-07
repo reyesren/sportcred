@@ -6,11 +6,9 @@ import TriviaChallenge from '../model/TriviaChallengeModel';
 import {TriviaModel} from '../model/TriviaModel';
 
 export const TriviaLanding = ({route, navigation}) => {
-
   const goToTheZone = () => {
     navigation.navigate('The Zone');
-  }
-
+  };
 
   const goToTriviaStartGameSolo = () => {
     navigation.navigate('TriviaStartGameController', {mode: 'solo'});
@@ -23,7 +21,7 @@ export const TriviaLanding = ({route, navigation}) => {
   return TriviaLandingView({
     goToTriviaStartGame: goToTriviaStartGameSolo,
     goToHeadToHead,
-    goToTheZone
+    goToTheZone,
   });
 };
 
@@ -31,10 +29,14 @@ export function getChallenges() {
   const user = useContext(AuthContext);
   const [challenges, setChallenges] = React.useState([]);
   TriviaChallenge.getIncomingChallenges(user.uid).then((challenge) => {
-    setChallenges(Object.keys(challenge._data).map((element) => {
-      return ({challengeId: element,
-                       challengerId: challenge._data[element].opDisplayName});
-    }));
+    setChallenges(
+      Object.keys(challenge._data).map((element) => {
+        return {
+          challengeId: element,
+          challengerId: challenge._data[element].opDisplayName,
+        };
+      }),
+    );
   });
   return challenges;
 }

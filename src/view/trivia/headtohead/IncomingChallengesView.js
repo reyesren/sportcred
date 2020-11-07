@@ -14,9 +14,18 @@ export function IncomingChallengesView(props) {
 
   const [visible, setVisible] = useState(false);
   const [challenger, setChallenger] = useState('');
+  const [challengerUid, setChallengerUid] = useState('');
+  const [questions, setQuestions] = useState([]);
+  const [challengerScore, setChallengerScore] = useState(-1);
+  const [id, setId] = useState('');
 
   const showModal = (item) => {
+    console.log('item', item);
+    setChallengerUid(item.opUid);
+    setQuestions(item.questions);
     setChallenger(item.opDisplayName);
+    setChallengerScore(item.score);
+    setId(item.id);
     setVisible(true);
   };
 
@@ -43,7 +52,14 @@ export function IncomingChallengesView(props) {
           onDismiss={hideModal}
           contentContainerStyle={containerStyle}>
           <Text> Start game against {challenger}? </Text>
-          <Button onPress={onChallenge}> Accept </Button>
+          <Button
+            onPress={() => {
+              onChallenge(challengerUid, questions, challengerScore, id);
+              hideModal();
+            }}>
+            {' '}
+            Accept{' '}
+          </Button>
           <Button onPress={hideModal}> Cancel </Button>
         </Modal>
       </Portal>

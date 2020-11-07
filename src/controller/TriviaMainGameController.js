@@ -3,6 +3,7 @@ import {AuthContext} from '../navigation/AuthNavigator';
 import TriviaMainGameView from '../view/trivia/TriviaMainGameView';
 import TriviaChallengeModel from '../model/TriviaChallengeModel';
 import UserModel from '../model/UserModel';
+import TriviaModel from '../model/TriviaModel';
 
 const TriviaMainGameController = ({route, navigation}) => {
   const user = useContext(AuthContext);
@@ -10,36 +11,94 @@ const TriviaMainGameController = ({route, navigation}) => {
   const numOfQuestions = route.params.numOfQuestions;
 
   const processResults = (score) => {
-    console.log('user being challenged UID: ', route.params.userToChallengeUid);
-    UserModel.getUserDoc(user.uid).then(
-      (currUserDoc) => {
-        console.log('user doc', currUserDoc);
-        if (route.params.mode === 'solo') {
-          // todo
-        }
-        if (route.params.mode === 'head') {
-          TriviaChallengeModel.sendChallenge(
-            route.params.userToChallengeUid,
+    if (route.params.mode === 'head') {
+      console.log(
+        'user being challenged UID: ',
+        route.params.userToChallengeUid,
+      );
+      const date = Date.now().toString();
+      console.log('sending challenge...');
+      UserModel.getUserDoc(user.uid).then(
+        (currUserDoc) => {
+          console.log('user doc', currUserDoc);
+          if (route.params.mode === 'solo') {
+            // todo
+          }
+          if (route.params.mode === 'head') {
+            TriviaChallengeModel.sendChallenge(
+              route.params.userToChallengeUid,
+              {
+                opAnswers: {},
+                opDisplayName: currUserDoc.profile.displayName,
+                opUid: user.uid,
+                questions: route.params.questionIds,
+                score: score,
+              },
+              date,
+              () => {},
+            );
+          }
+        },
+        (error) => {
+          console.log(
+            'Firestore error: Does the challenged UID exist in trivia > userData?',
+            error,
+          );
+        },
+      );
+      console.log('Creating pending challenge');
+      UserModel.getUserDoc(route.params.userToChallengeUid).then(
+        (userToChallengeDoc) => {
+          TriviaChallengeModel.setOutgoing(
+            user.uid,
             {
-              opAnswers: {},
-              opDisplayName: currUserDoc.profile.displayName,
-              // opDisplayName: 'test display name',
-              opUid: user.uid,
-              questions: route.params.questionIds,
-              score: score,
+              opDisplayName: userToChallengeDoc.profile.displayName,
+              opUid: route.params.userToChallengeUid,
             },
-            Date.now().toString(),
+            date,
             () => {},
           );
-        }
-      },
-      (error) => {
-        console.log(
-          'Firestore error: Does the challenged UID exist in trivia > userData?',
-          error,
-        );
-      },
-    );
+        },
+        (error) => {
+          console.log('Firestore error: ', error);
+        },
+      );
+    }
+
+    if (route.params.mode === 'headIncoming') {
+      // TODO
+      console.log('Do something with the results of the incoming challenge');
+      const date = Date.now();
+      console.log('adding history for user ', user.uid);
+      TriviaModel.addToUserHistory(
+        user.uid,
+        {
+          acs: '?',
+          mode: 'head to head',
+          opponent: route.params.challengerUid,
+          win: score > route.params.challengerScore,
+        },
+        date,
+      );
+      console.log('adding history for user ', route.params.challengerUid);
+      TriviaModel.addToUserHistory(
+        route.params.challengerUid,
+        {
+          acs: '?',
+          mode: 'head to head',
+          opponent: user.uid,
+          win: route.params.challengerScore > score,
+        },
+        date,
+      );
+      console.log('deleting incoming and outgoing challenges');
+      TriviaChallengeModel.closeChallenge(
+        route.params.challengerUid,
+        user.uid,
+        route.params.challengeID,
+        () => {},
+      );
+    }
   };
 
   const goToResults = (score) => {
