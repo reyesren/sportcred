@@ -15,7 +15,6 @@ import {
   Provider,
   Headline,
 } from 'react-native-paper';
-import {useFocusEffect} from '@react-navigation/core';
 
 export function ChallengeUsersView(props) {
   const {userList, loadMore, onChallenge, page} = props;
@@ -51,16 +50,13 @@ export function ChallengeUsersView(props) {
     <View>
       {/*<Headline style={{padding: 10}}>Challenge a user</Headline>*/}
       <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={containerStyle}>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
           <Text> Challenge user {userToChallenge} to a game? </Text>
-          <Button
-            onPress={() => {
+          <Button onPress={() => {
               onChallenge(userToChallengeUid);
               hideModal();
-            }}>
+            }
+          }>
             {' '}
             Confirm{' '}
           </Button>

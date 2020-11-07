@@ -3,9 +3,7 @@ import React from 'react';
 
 export default class TriviaModel {
     static triviaCollection = firestore().collection('trivia');
-    static questionsCollection = this.triviaCollection
-        .doc('questions')
-        .collection('01');
+    static questionsCollection = this.triviaCollection.doc('questions').collection('01');
     static triviaUserDataDocument = this.triviaCollection.doc('userData');
 
     /**
@@ -52,6 +50,8 @@ export default class TriviaModel {
                     return doc;
                 }
                 this.createUserTriviaCollection(uid); // TODO remove this line in production. This is only here because some existing users do not have this collection. All new users will already have this.
+                console.log("CREATED NEW DOC")
+
                 return {};
             });
     }
@@ -91,7 +91,13 @@ export default class TriviaModel {
                                     .collection(uid)
                                     .doc('incoming_challenges')
                                     .set({})
-                                    .then();
+                                    .then(() => {
+                                        this.triviaUserDataDocument
+                                            .collection(uid)
+                                            .doc('outgoing_challenges')
+                                            .set({})
+                                            .then();
+                                    });
                             }
                         );
                 }

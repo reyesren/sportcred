@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Loading} from '../view/Buffer';
 import {ChallengeUsersView} from '../view/trivia/headtohead/ChallengeAUserView';
-import PendingChallengesView from '../view/trivia/headtohead/PendingChallengesView';
+import {PendingChallengesView} from '../view/trivia/headtohead/PendingChallengesView';
 import {IncomingChallengesView} from '../view/trivia/headtohead/IncomingChallengesView';
 import {CompletedChallengesView} from '../view/trivia/headtohead/CompletedChallengesView';
 import UserModel from '../model/UserModel';
@@ -24,17 +24,16 @@ export const HeadToHeadTabs = ({navigation}) => {
       <Button onPress={() => navigation.navigate('Trivia')}>Back</Button>
       <Tab.Navigator>
         <Tab.Screen name={'Challenge Users'} component={ChallengeUsers} />
-        <Tab.Screen
-          name={'Incoming Challenges'}
-          component={IncomingChallenges}
-        />
-        <Tab.Screen name={'Challenge Results'} component={ChallengeResults} />
+        <Tab.Screen name={'Pending'} component={PendingChallenges} />
+        <Tab.Screen name={'Incoming'} component={IncomingChallenges} />
+        <Tab.Screen name={'History'} component={ChallengeResults} />
       </Tab.Navigator>
     </>
   );
 };
 
 function ChallengeUsers({navigation, route}) {
+  const user = useContext(AuthContext);
   const {routeUserList, routePage} =
     route.params === undefined
       ? {routeUserList: [], routePage: -1}
@@ -50,6 +49,9 @@ function ChallengeUsers({navigation, route}) {
       const list = userList;
       snapshot.docs.forEach((doc) => {
         // console.log(doc)
+        if (doc.id === user.uid) {
+          return;
+        }
         let lastSeen = doc.data().last_login;
         let text = (Date.now() - lastSeen) / (1000 * 60 * 60 * 24);
         text = Math.round(text * 10) / 10;
@@ -90,11 +92,11 @@ function IncomingChallenges({navigation, route}) {
   const {routeChallengeList} =
     route.params === undefined ? {routeChallengeList: []} : route.params;
   const [listState, setListState] = useState(routeChallengeList);
-
-  console.log('aflkdsjf;lkdasjfsad: ' + JSON.stringify(routeChallengeList));
+  const [initState, setInitState] = useState(false);
 
   function load() {
     TriviaChallengeModel.getIncomingChallenges(user.uid).then((doc) => {
+      // TriviaChallengeModel.getIncomingChallenges('user1').then((doc) => {
       let list = listState;
       const d = doc.data();
       Object.keys(d).forEach((k) => {
@@ -102,27 +104,58 @@ function IncomingChallenges({navigation, route}) {
         list.push(d[k]);
       });
       setListState(list);
-      navigation.navigate('Incoming Challenges', {
+      navigation.navigate('Incoming', {
         routeChallengeList: listState,
       });
     });
   }
 
-  if (listState.length === 0) {
+  if (listState.length === 0 && !initState) {
     load();
+    setInitState(true);
   }
 
-  function onChallenge(challengerUid, questions, challengerScore) {
+  function onChallenge(challengerUid, questions, challengerScore, challengeID) {
     // todo route to play
     navigation.navigate('TriviaStartGameController', {
       mode: 'headIncoming',
       challengerUid,
       questions,
       challengerScore,
+      challengeID,
     });
   }
 
   return IncomingChallengesView({listState, onChallenge});
+}
+
+function PendingChallenges({navigation, route}) {
+  const user = useContext(AuthContext);
+
+  const {routePendingList} =
+    route.params === undefined ? {routePendingList: []} : route.params;
+  const [listState, setListState] = useState(routePendingList);
+  const [initState, setInitState] = useState(false);
+
+  function load() {
+    TriviaChallengeModel.getPendingChallenges(user.uid).then((doc) => {
+      let list = listState;
+      const d = doc.data();
+      Object.keys(d).forEach((k) => {
+        d[k].id = k;
+        list.push(d[k]);
+      });
+      setListState(list);
+      navigation.navigate('Pending', {routePendingList: listState});
+    });
+  }
+
+  if (listState.length === 0 && !initState) {
+    load();
+    setInitState(true);
+  }
+
+  return PendingChallengesView({listState});
 }
 
 function ChallengeResults({navigation, route}) {
@@ -131,10 +164,11 @@ function ChallengeResults({navigation, route}) {
   const {routeList} =
     route.params === undefined ? {routeList: []} : route.params;
   const [listState, setListState] = useState(routeList);
+  const [initState, setInitState] = useState(false);
 
   function load() {
-    // TriviaModel.getUserHistory(user.uid).then((doc) => {
-    TriviaModel.getUserHistory('user1').then((doc) => {
+    TriviaModel.getUserHistory(user.uid).then((doc) => {
+      // TriviaModel.getUserHistory('user1').then((doc) => {
       let list = listState;
       const d = doc.data();
       Object.keys(d).forEach((k) => {
@@ -145,12 +179,13 @@ function ChallengeResults({navigation, route}) {
       });
       setListState(list);
       // console.log(JSON.stringify(list, null, 2))
-      navigation.navigate('Challenge Results', {routeList: listState});
+      navigation.navigate('History', {routeList: listState});
     });
   }
 
-  if (listState.length === 0) {
+  if (listState.length === 0 && !initState) {
     load();
+    setInitState(true);
   }
 
   return CompletedChallengesView({listState});
