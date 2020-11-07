@@ -17,12 +17,15 @@ export function IncomingChallengesView(props) {
   const [challengerUid, setChallengerUid] = useState('');
   const [questions, setQuestions] = useState([]);
   const [challengerScore, setChallengerScore] = useState(-1);
+  const [id, setId] = useState('');
 
   const showModal = (item) => {
+    console.log('item', item);
     setChallengerUid(item.opUid);
     setQuestions(item.questions);
     setChallenger(item.opDisplayName);
     setChallengerScore(item.score);
+    setId(item.id);
     setVisible(true);
   };
 
@@ -51,7 +54,7 @@ export function IncomingChallengesView(props) {
           <Text> Start game against {challenger}? </Text>
           <Button
             onPress={() => {
-              onChallenge(challengerUid, questions, challengerScore);
+              onChallenge(challengerUid, questions, challengerScore, id);
               hideModal();
             }}>
             {' '}

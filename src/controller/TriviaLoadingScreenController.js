@@ -28,6 +28,7 @@ const TriviaLoadingScreenController = ({route, navigation}) => {
       userToChallengeUid: route.params.userToChallengeUid,
       challengerUid: route.params.challengerUid,
       challengerScore: route.params.challengerScore,
+      challengeID: route.params.challengeID,
     });
   });
 

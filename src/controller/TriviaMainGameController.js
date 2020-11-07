@@ -73,6 +73,9 @@ const TriviaMainGameController = ({route, navigation}) => {
         },
         date,
       );
+      console.log('deleting incoming and outgoing challenges');
+      TriviaChallengeModel.closeChallenge(route.params.challengerUid, user.uid, route.params.challengeID,
+          () => {});
     }
   };
 

@@ -17,6 +17,7 @@ const TriviaStartGameController = ({route, navigation}) => {
       challengerUid: route.params.challengerUid,
       questions: route.params.questions,
       challengerScore: route.params.challengerScore,
+      challengeID: route.params.challengeID,
     });
   };
 
