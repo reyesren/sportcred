@@ -11,6 +11,7 @@ const Drawer = createDrawerNavigator();
 
 export const TheZone = ({route, navigation}) => {
   const user = useContext(AuthContext);
+  console.log('user uid', user.uid);
 
   function onSubmit(profileObj) {
     UserModel.getUserDoc(user.uid, profileObj, (doc) => {

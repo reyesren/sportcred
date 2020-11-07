@@ -95,7 +95,6 @@ function IncomingChallenges({navigation, route}) {
 
   function load() {
     TriviaChallengeModel.getIncomingChallenges(user.uid).then((doc) => {
-    // TriviaChallengeModel.getIncomingChallenges('user1').then((doc) => {
       let list = listState;
       const d = doc.data();
       Object.keys(d).forEach((k) => {
@@ -113,8 +112,14 @@ function IncomingChallenges({navigation, route}) {
     load();
   }
 
-  function onChallenge() {
+  function onChallenge(challengerUid, questions, challengerScore) {
     // todo route to play
+    navigation.navigate('TriviaStartGameController', {
+      mode: 'headIncoming',
+      challengerUid,
+      questions,
+      challengerScore,
+    });
   }
 
   return IncomingChallengesView({listState, onChallenge});

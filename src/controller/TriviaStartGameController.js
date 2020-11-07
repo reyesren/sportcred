@@ -14,6 +14,9 @@ const TriviaStartGameController = ({route, navigation}) => {
     navigation.navigate('TriviaLoadingScreenController', {
       mode: route.params.mode,
       userToChallengeUid: route.params.userToChallengeUid,
+      challengerUid: route.params.challengerUid,
+      questions: route.params.questions,
+      challengerScore: route.params.challengerScore,
     });
   };
 
