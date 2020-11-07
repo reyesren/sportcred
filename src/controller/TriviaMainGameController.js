@@ -16,6 +16,8 @@ const TriviaMainGameController = ({route, navigation}) => {
         'user being challenged UID: ',
         route.params.userToChallengeUid,
       );
+      const date = Date.now().toString();
+      console.log('sending challenge...');
       UserModel.getUserDoc(user.uid).then(
         (currUserDoc) => {
           console.log('user doc', currUserDoc);
@@ -28,12 +30,11 @@ const TriviaMainGameController = ({route, navigation}) => {
               {
                 opAnswers: {},
                 opDisplayName: currUserDoc.profile.displayName,
-                // opDisplayName: 'test display name',
                 opUid: user.uid,
                 questions: route.params.questionIds,
                 score: score,
               },
-              Date.now().toString(),
+              date,
               () => {},
             );
           }
@@ -43,6 +44,23 @@ const TriviaMainGameController = ({route, navigation}) => {
             'Firestore error: Does the challenged UID exist in trivia > userData?',
             error,
           );
+        },
+      );
+      console.log('Creating pending challenge');
+      UserModel.getUserDoc(route.params.userToChallengeUid).then(
+        (userToChallengeDoc) => {
+          TriviaChallengeModel.setOutgoing(
+            user.uid,
+            {
+              opDisplayName: userToChallengeDoc.profile.displayName,
+              opUid: route.params.userToChallengeUid,
+            },
+            date,
+            () => {},
+          );
+        },
+        (error) => {
+          console.log('Firestore error: ', error);
         },
       );
     }
@@ -74,8 +92,12 @@ const TriviaMainGameController = ({route, navigation}) => {
         date,
       );
       console.log('deleting incoming and outgoing challenges');
-      TriviaChallengeModel.closeChallenge(route.params.challengerUid, user.uid, route.params.challengeID,
-          () => {});
+      TriviaChallengeModel.closeChallenge(
+        route.params.challengerUid,
+        user.uid,
+        route.params.challengeID,
+        () => {},
+      );
     }
   };
 
