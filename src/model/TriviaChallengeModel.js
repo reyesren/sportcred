@@ -108,10 +108,10 @@ export default class TriviaChallenge {
             .collection(challengeeUid)
             .doc('incoming_challenges')
             .update({
-            [docId]: null
+            [docId]: firestore.FieldValue.delete()
         }).then(
             this.triviaUserDataDocument.collection(challengerUid).doc('outgoing_challenges').update({
-                [docId]: null
+                [docId]: firestore.FieldValue.delete()
             }).then(successCallback)
         );
     }
