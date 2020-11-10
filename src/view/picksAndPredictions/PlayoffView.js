@@ -440,16 +440,19 @@ const Overview = (props) => {
 
     function Team(props) {
         return (
-            <Paragraph style={{textAlign: "center", color: "grey", fontSize: 14}} >{props.team}</Paragraph>
+            <View style={{backgroundColor: "#CBE5CF", borderRadius: 10, height: "10%", justifyContent: "center"}}>
+                <Paragraph style={{textAlign: "center", color: "grey", fontSize: 14, marginRight: 5}} >
+                    {props.team}
+                </Paragraph>
+            </View>
         );
-
     }
 
     return(
         <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', marginHorizontal: 10}}>
             <Subheading style={{textAlign: "center", paddingTop: 20, fontSize: 24}}>YOUR PICKS</Subheading>
             <View style={{flex: 2, flexDirection: 'row'}}>
-                <View style={{flex: 3, flexDirection: 'column', justifyContent: 'space-around'}}>
+                <View style={{flex: 30, flexDirection: 'column', justifyContent: 'space-around'}}>
                     <Team team={props.firstRound.eg1} />
                     <Team team={props.firstRound.eg2} />
                     <Team team={props.firstRound.eg3} />
@@ -459,31 +462,31 @@ const Overview = (props) => {
                     <Team team={props.firstRound.wg3} />
                     <Team team={props.firstRound.wg4} />
                 </View>
-                <View style={{flex: 0, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Divider style={{width: 2, height: "18%"}}/>
-                    <Divider style={{width: 2, height: "18%"}}/>
-                    <Divider style={{width: 2, height: "18%"}}/>
-                    <Divider style={{width: 2, height: "18%"}}/>
+                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Divider style={{width: 4, height: "18%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
+                    <Divider style={{width: 4, height: "18%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
+                    <Divider style={{width: 4, height: "18%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
+                    <Divider style={{width: 4, height: "18%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
                 </View>
-                <View style={{flex: 3, flexDirection: 'column', justifyContent: 'space-around'}}>
+                <View style={{flex: 30, flexDirection: 'column', justifyContent: 'space-around'}}>
                     <Team team={props.confSemis.eg1} />
                     <Team team={props.confSemis.eg2} />
                     <Team team={props.confSemis.wg1} />
                     <Team team={props.confSemis.wg2} />
                 </View>
-                <View style={{flex: 0, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Divider style={{width: 2, height: "30%"}}/>
-                    <Divider style={{width: 2, height: "30%"}}/>
+                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Divider style={{width: 4, height: "30%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
+                    <Divider style={{width: 4, height: "30%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
                 </View>
-                <View style={{flex: 3, flexDirection: 'column', justifyContent: 'space-around'}}>
+                <View style={{flex: 30, flexDirection: 'column', justifyContent: 'space-around'}}>
                     <Team team={props.confFinals.eg1} />
                     <Team team={props.confFinals.wg1} />
                 </View>
-                <View style={{flex: 0, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Divider style={{width: 2, height: "55%"}}/>
+                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Divider style={{width: 4, height: "55%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
                 </View>
-                <View style={{flex: 4, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Card style={{backgroundColor: "green", borderRadius: 25}}>
+                <View style={{flex: 32, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Card style={{backgroundColor: "#98CC9F", borderRadius: 25}}>
                         <Card.Content>
                             <Subheading style={{textAlign: "center", color: "white"}} >{props.nbaFinals.champion} </Subheading>
                         </Card.Content>
