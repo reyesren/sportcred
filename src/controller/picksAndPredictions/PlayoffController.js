@@ -1,8 +1,11 @@
 import React from "react";
 import {PlayoffView} from "../../view/picksAndPredictions/PlayoffView";
+import UnavailableView from "../../view/picksAndPredictions/UnavailableView";
 
 export const Playoff = () => {
+    const pickType = 'Playoff';
 
+    // TODO replace testData with queries
     const testData = {
         "firstRound": {
             "eg1": "New York Knicks",
@@ -28,9 +31,11 @@ export const Playoff = () => {
             "champion": "Toronto Raptors"
         }
     }
-
     const locked = false;
+    const picksCurrentlyOpen = false;
 
-
-    return PlayoffView({locked, picks: testData});
+    if (picksCurrentlyOpen)
+        return PlayoffView({locked, picks: testData});
+    else
+        return UnavailableView({pickType});
 }
