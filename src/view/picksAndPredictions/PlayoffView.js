@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {View} from "react-native";
-import { Text, Chip, Card, Title, Divider, RadioButton, Paragraph, Button} from "react-native-paper";
+import { Subheading, Chip, Card, Title, Divider, RadioButton, Paragraph, Button} from "react-native-paper";
 import {ScrollView} from "react-native";
 
 
@@ -69,7 +69,6 @@ const FirstRound = (props) => {
 
     return (
       <ScrollView style={{flex: 1}}>
-
           <View style={{flex: 1, flexDirection: "row", justifyContent: "space-around", alignItems: "center"}}>
               <View style={{flexDirection: "column"}}>
                   <RadioButton.Group onValueChange={value => setWinner(setEg1, value)} value={eg1}>
@@ -431,7 +430,7 @@ const NBAFinals = (props) => {
             <Divider style={{height: 2}}/>
 
             <Button icon={"arrow-right"} disabled={nextDisabled} onPress={() => props.setRound(p => p + 1)}>
-                Submit picks
+                Submit your picks
             </Button>
         </ScrollView>
     );
@@ -439,31 +438,60 @@ const NBAFinals = (props) => {
 
 const Overview = (props) => {
 
+    function Team(props) {
+        return (
+            <Paragraph style={{textAlign: "center", color: "grey", fontSize: 14}} >{props.team}</Paragraph>
+        );
+
+    }
+
     return(
-        <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Chip>{props.firstRound.eg1}</Chip>
-                    <Chip>{props.firstRound.eg2}</Chip>
-                    <Chip>{props.firstRound.eg3}</Chip>
-                    <Chip>{props.firstRound.eg4}</Chip>
-                    <Chip>{props.firstRound.wg1}</Chip>
-                    <Chip>{props.firstRound.wg2}</Chip>
-                    <Chip>{props.firstRound.wg3}</Chip>
-                    <Chip>{props.firstRound.wg4}</Chip>
+        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', marginHorizontal: 10}}>
+            <Subheading style={{textAlign: "center", paddingTop: 20, fontSize: 24}}>YOUR PICKS</Subheading>
+            <View style={{flex: 2, flexDirection: 'row'}}>
+                <View style={{flex: 3, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Team team={props.firstRound.eg1} />
+                    <Team team={props.firstRound.eg2} />
+                    <Team team={props.firstRound.eg3} />
+                    <Team team={props.firstRound.eg4} />
+                    <Team team={props.firstRound.wg1} />
+                    <Team team={props.firstRound.wg2} />
+                    <Team team={props.firstRound.wg3} />
+                    <Team team={props.firstRound.wg4} />
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Chip>{props.confSemis.eg1}</Chip>
-                    <Chip>{props.confSemis.eg2}</Chip>
-                    <Chip>{props.confSemis.wg1}</Chip>
-                    <Chip>{props.confSemis.wg2}</Chip>
+                <View style={{flex: 0, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Divider style={{width: 2, height: "18%"}}/>
+                    <Divider style={{width: 2, height: "18%"}}/>
+                    <Divider style={{width: 2, height: "18%"}}/>
+                    <Divider style={{width: 2, height: "18%"}}/>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Chip>{props.confFinals.eg1}</Chip>
-                    <Chip>{props.confFinals.wg1}</Chip>
+                <View style={{flex: 3, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Team team={props.confSemis.eg1} />
+                    <Team team={props.confSemis.eg2} />
+                    <Team team={props.confSemis.wg1} />
+                    <Team team={props.confSemis.wg2} />
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Chip>{props.nbaFinals.champion}</Chip>
+                <View style={{flex: 0, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Divider style={{width: 2, height: "30%"}}/>
+                    <Divider style={{width: 2, height: "30%"}}/>
                 </View>
+                <View style={{flex: 3, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Team team={props.confFinals.eg1} />
+                    <Team team={props.confFinals.wg1} />
+                </View>
+                <View style={{flex: 0, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Divider style={{width: 2, height: "55%"}}/>
+                </View>
+                <View style={{flex: 4, flexDirection: 'column', justifyContent: 'space-around'}}>
+                    <Card style={{backgroundColor: "green", borderRadius: 25}}>
+                        <Card.Content>
+                            <Subheading style={{textAlign: "center", color: "white"}} >{props.nbaFinals.champion} </Subheading>
+                        </Card.Content>
+                    </Card>
+                </View>
+            </View>
+
         </View>
     );
 }
+
