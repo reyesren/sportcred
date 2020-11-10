@@ -1,28 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
+import {useFocusEffect} from '@react-navigation/core';
 
 /**
  * @param {{answer:string}} The answer to the question
  */
 const TriviaMainGameView = (props) => {
-  {
-    /*
-  useEffect(() => {
-    BackHandler.BackHandler.addEventListener('hardwareBackPress', () => true);
-    return () => {
-      console.log('cleanup called');
-      BackHandler.BackHandler.remove();
-    };
-
-      BackHandler.BackHandler.removeEventListener(
-        'hardwareBackPress',
-        () => true,
-      );
-
-  }, []); */
-  }
-
   {
     /*
   useFocusEffect(
@@ -66,6 +50,10 @@ const TriviaMainGameView = (props) => {
   const [isDisabledAnswer3, setDisabledAnswer3] = useState(false);
   const [isDisabledAnswer4, setDisabledAnswer4] = useState(false);
   const [isAnswerSelected, setAnswerSelected] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [timerId, setTimerId] = useState(0);
+  const [isAnswerHandler, setIsAnswerHandler] = useState(undefined);
+  const [intervalId, setIntervalId] = useState(0);
 
   const checkAnswer = (answer) => {
     if (answer === 0 && option1 === actualAnswer) {
@@ -84,36 +72,47 @@ const TriviaMainGameView = (props) => {
   };
 
   const answerHandler = (whichAnswer) => {
+    clearInterval(intervalId);
+    setIsAnswerHandler(0);
     setAnswerSelected(true);
-
     setDisabledAnswer1(true);
     setDisabledAnswer2(true);
     setDisabledAnswer3(true);
     setDisabledAnswer4(true);
 
-    if (checkAnswer(whichAnswer)) {
-      setScore(score + 1);
-      if (whichAnswer === 0) {
-        setColorAnswer1('green');
-      } else if (whichAnswer === 1) {
-        setColorAnswer2('green');
-      } else if (whichAnswer === 2) {
-        setColorAnswer3('green');
+    if (whichAnswer != -1) {
+      if (checkAnswer(whichAnswer)) {
+        setScore(score + 1);
+        if (whichAnswer === 0) {
+          setColorAnswer1('green');
+        } else if (whichAnswer === 1) {
+          setColorAnswer2('green');
+        } else if (whichAnswer === 2) {
+          setColorAnswer3('green');
+        } else {
+          setColorAnswer4('green');
+        }
       } else {
-        setColorAnswer4('green');
+        if (whichAnswer === 0) {
+          setColorAnswer1('red');
+        } else if (whichAnswer === 1) {
+          setColorAnswer2('red');
+        } else if (whichAnswer === 2) {
+          setColorAnswer3('red');
+        } else {
+          setColorAnswer4('red');
+        }
       }
     } else {
-      if (whichAnswer === 0) {
-        setColorAnswer1('red');
-      } else if (whichAnswer === 1) {
-        setColorAnswer2('red');
-      } else if (whichAnswer === 2) {
-        setColorAnswer3('red');
-      } else {
-        setColorAnswer4('red');
-      }
+      setColorAnswer1('red');
+      setColorAnswer2('red');
+      setColorAnswer3('red');
+      setColorAnswer4('red');
     }
-    setTimeout(() => updateOptions(whichAnswer), 2000);
+    setTimeout(() => {
+      console.log('setting update answer timeout');
+      updateOptions(whichAnswer);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -128,13 +127,31 @@ const TriviaMainGameView = (props) => {
     }
   });
 
+  useEffect(() => {
+    if (timeLeft === 0 && typeof isAnswerHandler !== 'number') {
+      answerHandler(-1);
+    }
+  });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const id = setInterval(() => {
+        console.log('interval');
+        setTimeLeft((prevState) => {
+          return prevState > 0 ? prevState - 1 : 0;
+        });
+      }, 1000);
+      setIntervalId(id);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }, []),
+  );
+
   const updateOptions = () => {
     setAnswerSelected(false);
-    {
-      /*if (questionCount === numOfQuestions) {
-      props.goToResults(score);
-    } else {*/
-    }
+    console.log('question count before if statement', questionCount);
     if (questionCount < numOfQuestions) {
       let question = questions[questionCount];
       setQuestion(question._data.question);
@@ -142,7 +159,7 @@ const TriviaMainGameView = (props) => {
       setOption2(question._data.options[1]);
       setOption3(question._data.options[2]);
       setOption4(question._data.options[3]);
-      setQuestionCount(questionCount + 1);
+      setQuestionCount((prevState) => prevState + 1);
       setActualAnswer(question._data.answer);
       setColorAnswer1('orange');
       setColorAnswer2('orange');
@@ -152,9 +169,20 @@ const TriviaMainGameView = (props) => {
       setDisabledAnswer2(false);
       setDisabledAnswer3(false);
       setDisabledAnswer4(false);
-    }
-    {
-      /*}*/
+      setTimeLeft(10);
+      /* clearTimeout(timerId);
+      const timerId = setTimeout(() => {
+        answerHandler(-1);
+      }, 10000);
+      setTimerId(timerId);*/
+      setIsAnswerHandler(undefined);
+      const id = setInterval(() => {
+        console.log('interval');
+        setTimeLeft((prevState) => {
+          return prevState > 0 ? prevState - 1 : 0;
+        });
+      }, 1000);
+      setIntervalId(id);
     }
   };
 
@@ -165,6 +193,7 @@ const TriviaMainGameView = (props) => {
         Question {questionCount}/{numOfQuestions}
       </Text>
       <View style={styles.scoreContainer}>
+        <Text style={styles.timeLeft}>{timeLeft}</Text>
         <Text style={styles.score}>{score}</Text>
       </View>
       <Text style={styles.question}>{question}</Text>
@@ -226,12 +255,16 @@ const styles = StyleSheet.create({
   },
   score: {
     alignSelf: 'center',
-    paddingTop: 25,
+    paddingTop: 5,
     fontSize: 40,
   },
   question: {
     fontSize: 20,
     textAlign: 'center',
+  },
+  timeLeft: {
+    alignSelf: 'center',
+    fontSize: 20,
   },
 });
 
