@@ -5,20 +5,20 @@ import {ScrollView} from "react-native";
 
 
 export const PlayoffView = (props) => {
-    const locked = false; // todo set this variable to if user may change choices
+    const locked = props.locked;
     const [round, setRound] = useState(0)
-    const [firstRound, setFirstRound] = useState({})
-    const [confSemis, setConfSemis] = useState({})
-    const [confFinals, setConfFinals] = useState({})
-    const [nbaFinals, setNbaFinals] = useState({})
+    const [firstRound, setFirstRound] = useState(props.picks.firstRound ? props.picks.firstRound : {})
+    const [confSemis, setConfSemis] = useState(props.picks.confSemis ? props.picks.confSemis : {})
+    const [confFinals, setConfFinals] = useState(props.picks.confFinals ? props.picks.confFinals : {})
+    const [nbaFinals, setNbaFinals] = useState(props.picks.nbaFinals ? props.picks.nbaFinals : {})
     const eastTeams = {e1name: "Boston Celtics", e2name: "New York Knicks", e3name: "Toronto Raptors", e4name: "Chicago Bulls", e5name: "Milwaukee Bucks", e6name: "Miami Heat", e7name: "Brooklyn Nets", e8name: "Philadelphia 76ers"}
     const westTeams = {w1name: "Denver Nuggets", w2name: "Golden State Warriors", w3name: "LA Clippers", w4name: "Los Angeles Lakers", w5name: "Sacramento Kings", w6name: "Houston Rockets", w7name: "New Orleans Pelicans", w8name: "San Antonio Spurs"}
 
     const content = [
-        <FirstRound setFirstRound={setFirstRound} next={() => setRound(p => p + 1)} east={eastTeams} west={westTeams} locked={locked}/>,
-        <Semis teams={firstRound} setRound={setRound} setConfSemis={setConfSemis} locked={locked}/>,
-        <ConfFinals teams={confSemis} setRound={setRound} setNbaFinals={setConfFinals} locked={locked}/>,
-        <NBAFinals teams={confFinals} setRound={setRound} setNbaFinals={setNbaFinals} locked={locked}/>,
+        <FirstRound setFirstRound={setFirstRound} next={() => setRound(p => p + 1)} east={eastTeams} west={westTeams} locked={locked} picks={firstRound}/>,
+        <Semis teams={firstRound} setRound={setRound} setConfSemis={setConfSemis} locked={locked} picks={confSemis}/>,
+        <ConfFinals teams={confSemis} setRound={setRound} setConfFinals={setConfFinals} locked={locked} picks={confFinals}/>,
+        <NBAFinals teams={confFinals} setRound={setRound} setNbaFinals={setNbaFinals} locked={locked} picks={nbaFinals}/>,
         <Overview firstRound={firstRound} confSemis={confSemis} confFinals={confFinals} nbaFinals={nbaFinals}/>
     ]
 
@@ -38,17 +38,19 @@ const FirstRound = (props) => {
     const {w1name, w2name, w3name, w4name, w5name, w6name, w7name, w8name} = props.west
     const locked = props.locked;
 
-    const[eg1, setEg1] = useState('Pick a winner')
-    const[eg2, setEg2] = useState('Pick a winner')
-    const[eg3, setEg3] = useState('Pick a winner')
-    const[eg4, setEg4] = useState('Pick a winner')
+    const [eg1, setEg1] = useState(props.picks.eg1 ? props.picks.eg1 : 'Pick a winner')
+    const [eg2, setEg2] = useState(props.picks.eg2 ? props.picks.eg2 : 'Pick a winner')
+    const [eg3, setEg3] = useState(props.picks.eg3 ? props.picks.eg3 : 'Pick a winner')
+    const [eg4, setEg4] = useState(props.picks.eg4 ? props.picks.eg4 : 'Pick a winner')
 
-    const[wg1, setWg1] = useState('Pick a winner')
-    const[wg2, setWg2] = useState('Pick a winner')
-    const[wg3, setWg3] = useState('Pick a winner')
-    const[wg4, setWg4] = useState('Pick a winner')
+    const [wg1, setWg1] = useState(props.picks.wg1 ? props.picks.wg1 : 'Pick a winner')
+    const [wg2, setWg2] = useState(props.picks.wg2 ? props.picks.wg2 : 'Pick a winner')
+    const [wg3, setWg3] = useState(props.picks.wg3 ? props.picks.wg3 : 'Pick a winner')
+    const [wg4, setWg4] = useState(props.picks.wg4 ? props.picks.wg4 : 'Pick a winner')
 
     const [nextDisabled, setNextDisabled] = useState(true)
+
+    console.log({eg1, eg2, eg3, eg4, wg1, wg2, wg3, wg4})
 
     function setWinner(setter, winner) {
         setter(winner);
@@ -64,7 +66,8 @@ const FirstRound = (props) => {
     }
 
     function next() {
-
+        props.setFirstRound({eg1, eg2, eg3, eg4, wg1, wg2, wg3, wg4})
+        props.next();
     }
 
     return (
@@ -205,7 +208,7 @@ const FirstRound = (props) => {
           </View>
           <Divider style={{height: 2}}/>
 
-          <Button icon={"arrow-right"} disabled={nextDisabled} onPress={() => props.next()}>
+          <Button icon={"arrow-right"} disabled={nextDisabled} onPress={next}>
               Conference Semi-finals
           </Button>
 
@@ -217,10 +220,13 @@ const FirstRound = (props) => {
 const Semis = (props) => {
     const {eg1: e1name, eg2: e2name, eg3: e3name, eg4: e4name, wg1: w1name, wg2: w2name, wg3: w3name, wg4: w4name} = props.teams
 
-    const [eg1, setEg1] = useState('Pick a winner')
-    const [eg2, setEg2] = useState('Pick a winner')
-    const [wg1, setWg1] = useState('Pick a winner')
-    const [wg2, setWg2] = useState('Pick a winner')
+    console.log(JSON.stringify(props.picks, null, 2))
+
+    const [eg1, setEg1] = useState(props.picks.eg1 !== undefined ? props.picks.eg1 : 'Pick a winner')
+    const [eg2, setEg2] = useState(props.picks.eg2 !== undefined ? props.picks.eg2 : 'Pick a winner')
+
+    const [wg1, setWg1] = useState(props.picks.wg1 !== undefined ? props.picks.wg1 : 'Pick a winner')
+    const [wg2, setWg2] = useState(props.picks.wg2 !== undefined ? props.picks.wg2 : 'Pick a winner')
 
     const [nextDisabled, setNextDisabled] = useState(true)
 
@@ -232,9 +238,14 @@ const Semis = (props) => {
 
     function tryNext() {
         if (![eg1, eg2, wg1, wg2].includes('Pick a winner')) {
-            props.setConfSemis({eg1, eg2,wg1, wg2})
+            props.setConfSemis({eg1, eg2, wg1, wg2})
             setNextDisabled(false)
         }
+    }
+
+    function next() {
+        props.setConfSemis({eg1, eg2, wg1, wg2})
+        props.setRound(p => p + 1)
     }
 
     return (
@@ -311,7 +322,7 @@ const Semis = (props) => {
             </View>
             <Divider style={{height: 2}}/>
 
-            <Button icon={"arrow-right"} disabled={nextDisabled} onPress={() => props.setRound(p => p + 1)}>
+            <Button icon={"arrow-right"} disabled={nextDisabled} onPress={next}>
                 Conference Finals
             </Button>
         </ScrollView>
@@ -321,8 +332,10 @@ const Semis = (props) => {
 const ConfFinals = (props) => {
     const {eg1: e1name, eg2: e2name, wg1: w1name, wg2: w2name} = props.teams
 
-    const [eg1, setEg1] = useState('Pick a winner')
-    const [wg1, setWg1] = useState('Pick a winner')
+    const [eg1, setEg1] = useState(props.picks.eg1 ? props.picks.eg1 : 'Pick a winner')
+
+    const [wg1, setWg1] = useState(props.picks.wg1 ? props.picks.wg1 : 'Pick a winner')
+
 
     const [nextDisabled, setNextDisabled] = useState(true)
 
@@ -334,9 +347,14 @@ const ConfFinals = (props) => {
 
     function tryNext() {
         if (![eg1, wg1].includes('Pick a winner')) {
-            props.setNbaFinals({eg1, wg1})
+            props.setConfFinals({eg1, wg1})
             setNextDisabled(false)
         }
+    }
+
+    function next() {
+        props.setConfFinals({eg1, wg1})
+        props.setRound(p => p + 1)
     }
 
     return (
@@ -379,7 +397,7 @@ const ConfFinals = (props) => {
             </View>
             <Divider style={{height: 2}}/>
 
-            <Button icon={"arrow-right"} disabled={nextDisabled} onPress={() => props.setRound(p => p + 1)}>
+            <Button icon={"arrow-right"} disabled={nextDisabled} onPress={next}>
                 NBA Finals
             </Button>
         </ScrollView>
@@ -389,7 +407,7 @@ const ConfFinals = (props) => {
 const NBAFinals = (props) => {
     const {eg1: e1name, wg1: w1name} = props.teams
 
-    const [champion, setChampion] = useState('Pick a winner')
+    const [champion, setChampion] = useState(props.picks.champion !== undefined ? props.picks.champion : 'Pick a champion')
 
     const [nextDisabled, setNextDisabled] = useState(true)
 
@@ -400,10 +418,15 @@ const NBAFinals = (props) => {
     useEffect(tryNext, [champion, nextDisabled])
 
     function tryNext() {
-        if (![champion].includes('Pick a winner')) {
+        if (![champion].includes('Pick a champion')) {
             props.setNbaFinals({champion})
             setNextDisabled(false)
         }
+    }
+    
+    function next() {
+        props.setNbaFinals({champion})
+        props.setRound(p => p + 1)
     }
 
     return (
@@ -429,7 +452,7 @@ const NBAFinals = (props) => {
             </View>
             <Divider style={{height: 2}}/>
 
-            <Button icon={"arrow-right"} disabled={nextDisabled} onPress={() => props.setRound(p => p + 1)}>
+            <Button icon={"arrow-right"} disabled={nextDisabled} onPress={next}>
                 Submit your picks
             </Button>
         </ScrollView>
@@ -437,6 +460,8 @@ const NBAFinals = (props) => {
 }
 
 const Overview = (props) => {
+
+    console.log(JSON.stringify(props, null, 2))
 
     function Team(props) {
         return (
@@ -486,7 +511,7 @@ const Overview = (props) => {
                     <Divider style={{width: 4, height: "55%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
                 </View>
                 <View style={{flex: 32, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Card style={{backgroundColor: "#98CC9F", borderRadius: 25}}>
+                    <Card style={{backgroundColor: "#98CC9F", borderRadius: 15}}>
                         <Card.Content>
                             <Subheading style={{textAlign: "center", color: "white"}} >{props.nbaFinals.champion} </Subheading>
                         </Card.Content>
