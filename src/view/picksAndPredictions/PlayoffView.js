@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {View} from "react-native";
-import { Subheading, Chip, Card, Title, Divider, RadioButton, Paragraph, Button} from "react-native-paper";
+import { Headline, Subheading, Chip, Card, Title, Divider, RadioButton, Paragraph, Button} from "react-native-paper";
 import {ScrollView} from "react-native";
 
 
@@ -220,13 +220,11 @@ const FirstRound = (props) => {
 const Semis = (props) => {
     const {eg1: e1name, eg2: e2name, eg3: e3name, eg4: e4name, wg1: w1name, wg2: w2name, wg3: w3name, wg4: w4name} = props.teams
 
-    console.log(JSON.stringify(props.picks, null, 2))
+    const [eg1, setEg1] = useState(props.picks.eg1 === undefined || !Object.values(props.teams).includes(props.picks.eg1)  ? 'Pick a winner' : props.picks.eg1 )
+    const [eg2, setEg2] = useState(props.picks.eg2 === undefined || !Object.values(props.teams).includes(props.picks.eg2)  ? 'Pick a winner' : props.picks.eg2 )
 
-    const [eg1, setEg1] = useState(props.picks.eg1 !== undefined ? props.picks.eg1 : 'Pick a winner')
-    const [eg2, setEg2] = useState(props.picks.eg2 !== undefined ? props.picks.eg2 : 'Pick a winner')
-
-    const [wg1, setWg1] = useState(props.picks.wg1 !== undefined ? props.picks.wg1 : 'Pick a winner')
-    const [wg2, setWg2] = useState(props.picks.wg2 !== undefined ? props.picks.wg2 : 'Pick a winner')
+    const [wg1, setWg1] = useState(props.picks.wg1 === undefined || !Object.values(props.teams).includes(props.picks.wg1)  ? 'Pick a winner' : props.picks.wg1 )
+    const [wg2, setWg2] = useState(props.picks.wg2 === undefined || !Object.values(props.teams).includes(props.picks.wg2)  ? 'Pick a winner' : props.picks.wg2 )
 
     const [nextDisabled, setNextDisabled] = useState(true)
 
@@ -332,9 +330,9 @@ const Semis = (props) => {
 const ConfFinals = (props) => {
     const {eg1: e1name, eg2: e2name, wg1: w1name, wg2: w2name} = props.teams
 
-    const [eg1, setEg1] = useState(props.picks.eg1 ? props.picks.eg1 : 'Pick a winner')
+    const [eg1, setEg1] = useState(props.picks.eg1 === undefined || !Object.values(props.teams).includes(props.picks.eg1)  ? 'Pick a winner' : props.picks.eg1 )
+    const [wg1, setWg1] = useState(props.picks.wg1 === undefined || !Object.values(props.teams).includes(props.picks.wg1)  ? 'Pick a winner' : props.picks.wg1 )
 
-    const [wg1, setWg1] = useState(props.picks.wg1 ? props.picks.wg1 : 'Pick a winner')
 
 
     const [nextDisabled, setNextDisabled] = useState(true)
@@ -407,7 +405,7 @@ const ConfFinals = (props) => {
 const NBAFinals = (props) => {
     const {eg1: e1name, wg1: w1name} = props.teams
 
-    const [champion, setChampion] = useState(props.picks.champion !== undefined ? props.picks.champion : 'Pick a champion')
+    const [champion, setChampion] = useState(props.picks.champion === undefined  || !Object.values(props.teams).includes(props.picks.champion) ? 'Pick a champion' : props.picks.champion)
 
     const [nextDisabled, setNextDisabled] = useState(true)
 
@@ -466,7 +464,7 @@ const Overview = (props) => {
     function Team(props) {
         return (
             <View style={{backgroundColor: "#CBE5CF", borderRadius: 10, height: "10%", justifyContent: "center"}}>
-                <Paragraph style={{textAlign: "center", color: "grey", fontSize: 14, marginRight: 5}} >
+                <Paragraph style={{textAlign: "center", color: "green", fontSize: 14, marginRight: 5}} >
                     {props.team}
                 </Paragraph>
             </View>
@@ -475,7 +473,7 @@ const Overview = (props) => {
 
     return(
         <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', marginHorizontal: 10}}>
-            <Subheading style={{textAlign: "center", paddingTop: 20, fontSize: 24}}>YOUR PICKS</Subheading>
+            <Subheading style={{textAlign: "center", paddingTop: 20, fontSize: 24, color: 'grey'}}>YOUR PICKS</Subheading>
             <View style={{flex: 2, flexDirection: 'row'}}>
                 <View style={{flex: 30, flexDirection: 'column', justifyContent: 'space-around'}}>
                     <Team team={props.firstRound.eg1} />
@@ -511,9 +509,9 @@ const Overview = (props) => {
                     <Divider style={{width: 4, height: "55%", backgroundColor: "#CBE5CF", marginLeft: -4}}/>
                 </View>
                 <View style={{flex: 32, flexDirection: 'column', justifyContent: 'space-around'}}>
-                    <Card style={{backgroundColor: "#98CC9F", borderRadius: 15}}>
+                    <Card style={{backgroundColor: "pink", borderRadius: 15}}>
                         <Card.Content>
-                            <Subheading style={{textAlign: "center", color: "white"}} >{props.nbaFinals.champion} </Subheading>
+                            <Subheading style={{textAlign: "center", color: "white"}} >{props.nbaFinals.champion}</Subheading>
                         </Card.Content>
                     </Card>
                 </View>
