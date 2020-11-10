@@ -8,17 +8,14 @@ import {ProfileSetupView} from '../view/firstTimeLogin/ProfileSetupView';
 export const StartupCheck = ({route, navigation}) => {
   const user = useContext(AuthContext);
 
-  // UserModel.signOut();
   UserModel.firstTimeLoginChecks(user.uid).then((stack) => {
     console.log(stack);
     UserModel.getUserDoc(user.uid).then((doc) => {
-      // console.log("DOC: --------- : ", JSON.stringify(doc));
       UserModel.updateLoginTime(user.uid).then(() => {
         navigation.navigate(stack[0], {userDoc: doc});
       });
     });
   });
-  // navigation.navigate("ProfileView");
   return Loading();
 };
 
@@ -40,7 +37,7 @@ export const ProfileSetup = ({route, navigation}) => {
 
   function onSubmit(profileObj) {
     UserModel.updateProfile(user.uid, profileObj, (doc) => {
-      navigation.navigate('Profile', doc);
+      navigation.navigate('TheZoneView');
     });
   }
 
