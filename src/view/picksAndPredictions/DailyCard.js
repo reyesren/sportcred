@@ -9,15 +9,13 @@ const DailyCard = () => {
 
     return (
         <>
-        <TouchableOpacity onPress={openModal}>
-            <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={openModal}>
                 <Image style={styles.teamImage} source={require('./../../../assets/teamLogos/unknown.png')} />
                 <View style={styles.textContainer}>
                     <Text>Match 1</Text>
                     <Text>00/00/00</Text>
                 </View>
                 <Image style={styles.teamImage} source={require('./../../../assets/teamLogos/unknown.png')} />
-            </View>
         </TouchableOpacity>
         </>
     );
@@ -39,10 +37,9 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         backgroundColor: '#ddd',
         borderRadius: 10,
-        minHeight: 140
+        minHeight: 140,
     },
     textContainer: {
-        zIndex: 5,
         flex: 2,
         alignItems: 'center',
         paddingTop: 30
