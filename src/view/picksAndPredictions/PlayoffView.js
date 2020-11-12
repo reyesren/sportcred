@@ -11,18 +11,32 @@ export const PlayoffView = (props) => {
     const [confSemis, setConfSemis] = useState(props.picks.confSemis ? props.picks.confSemis : {})
     const [confFinals, setConfFinals] = useState(props.picks.confFinals ? props.picks.confFinals : {})
     const [nbaFinals, setNbaFinals] = useState(props.picks.nbaFinals ? props.picks.nbaFinals : {})
-    const eastTeams = {e1name: "Boston Celtics", e2name: "New York Knicks", e3name: "Toronto Raptors", e4name: "Chicago Bulls", e5name: "Milwaukee Bucks", e6name: "Miami Heat", e7name: "Brooklyn Nets", e8name: "Philadelphia 76ers"}
-    const westTeams = {w1name: "Denver Nuggets", w2name: "Golden State Warriors", w3name: "LA Clippers", w4name: "Los Angeles Lakers", w5name: "Sacramento Kings", w6name: "Houston Rockets", w7name: "New Orleans Pelicans", w8name: "San Antonio Spurs"}
+    const eastTeams = props.teams.eastTeams ? props.teams.eastTeams : {}
+    const westTeams = props.teams.westTeams ? props.teams.westTeams : {}
+
+    function submitPicks() {
+        props.submitPicksCallback({firstRound, confSemis, confFinals, nbaFinals});
+    }
+
+    useEffect(() => {
+        if (Object.keys(props.picks).length !== 0) {
+            setFirstRound(props.picks.firstRound)
+            setConfSemis(props.picks.confSemis)
+            setConfFinals(props.picks.confFinals)
+            setNbaFinals(props.picks.nbaFinals)
+        }
+    }, [firstRound, confSemis, confFinals, nbaFinals, props.picks]) // TODO fix this shit
+
 
     const content = [
         <FirstRound setFirstRound={setFirstRound} next={() => setRound(p => p + 1)} east={eastTeams} west={westTeams} locked={locked} picks={firstRound}/>,
         <Semis teams={firstRound} setRound={setRound} setConfSemis={setConfSemis} locked={locked} picks={confSemis}/>,
         <ConfFinals teams={confSemis} setRound={setRound} setConfFinals={setConfFinals} locked={locked} picks={confFinals}/>,
-        <NBAFinals teams={confFinals} setRound={setRound} setNbaFinals={setNbaFinals} locked={locked} picks={nbaFinals}/>,
+        <NBAFinals teams={confFinals} setRound={setRound} setNbaFinals={setNbaFinals} locked={locked} picks={nbaFinals} submit={submitPicks}/>,
         <Overview firstRound={firstRound} confSemis={confSemis} confFinals={confFinals} nbaFinals={nbaFinals}/>
     ]
 
-    if (locked) {
+    if (Object.keys(props.picks).length !== 0) {
         return (
             <Overview firstRound={firstRound} confSemis={confSemis} confFinals={confFinals} nbaFinals={nbaFinals}/>
         );
@@ -49,8 +63,6 @@ const FirstRound = (props) => {
     const [wg4, setWg4] = useState(props.picks.wg4 ? props.picks.wg4 : 'Pick a winner')
 
     const [nextDisabled, setNextDisabled] = useState(true)
-
-    console.log({eg1, eg2, eg3, eg4, wg1, wg2, wg3, wg4})
 
     function setWinner(setter, winner) {
         setter(winner);
@@ -425,6 +437,7 @@ const NBAFinals = (props) => {
     function next() {
         props.setNbaFinals({champion})
         props.setRound(p => p + 1)
+        props.submit()
     }
 
     return (
