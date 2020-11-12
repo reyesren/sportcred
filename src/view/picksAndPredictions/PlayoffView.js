@@ -25,7 +25,7 @@ export const PlayoffView = (props) => {
             setConfFinals(props.picks.confFinals)
             setNbaFinals(props.picks.nbaFinals)
         }
-    }, [firstRound, confSemis, confFinals, nbaFinals, props.picks]) // TODO fix this shit
+    }, [firstRound, confSemis, confFinals, nbaFinals, props.picks])
 
 
     const content = [
