@@ -18,19 +18,17 @@ export const getTodayMatchData = () => {
                 
                 result: 0      // an int, 0 for undecided, 1 for team1, 1 for team2
                 userPick: 0    // ditto
-                matchResult: 0 // ditto
             }
     */
-    return [];
-    // return [{
-    //     id: '0',
-    //     team1: 'team1',                         
-    //     team2: 'team2',
-    //     date: new Date(2020, 10, 18, 12, 0, 0, 0),
-    //     result: 0,    
-    //     userPick: 0,
-    //     matchResult: 0
-    // }];
+    //return [];
+    return [{
+        id: '0',
+        team1: 'team1',                         
+        team2: 'team2',
+        date: new Date(2020, 10, 18, 12, 0, 0, 0),
+        result: 0,    
+        userPick: 0
+    }];
   };
 
   export const getPreviousMatchData = () => {
@@ -38,11 +36,18 @@ export const getTodayMatchData = () => {
     // structure similar to getTodayMatchData
     return [{
         id: '0',
-        team1: 'team1',                         
-        team2: 'team2',
+        team1: 'los angeles lakers',                         
+        team2: 'miami heat',
         date: new Date(2020, 10, 18, 12, 0, 0, 0),
-        result: 0,    
-        userPick: 0,
-        matchResult: 0
+        result: 1,    
+        userPick: 1
+    },
+    {
+        id: '1',
+        team1: 'los angeles lakers',                         
+        team2: 'miami heat',
+        date: new Date(2020, 10, 18, 12, 0, 0, 0),
+        result: 2,    
+        userPick: 1
     }];
   }
