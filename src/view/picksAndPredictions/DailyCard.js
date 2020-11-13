@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleSheet, View, Text, Image, TouchableOpacity, Modal, TouchableHighlight} from 'react-native';
-import {updateMatchDataDatabase} from './../../controller/picksAndPredictions/DailyController';
+import {updateMatchDataDatabase, teamLogos} from './../../controller/picksAndPredictions/DailyController';
 
 const DailyCard = (props) => {
 
@@ -14,11 +14,10 @@ const DailyCard = (props) => {
         return listName.join('_')+'.png';
     }
 
-    const renderUserPick = () => {}
-    const renderWinner = () => {}
-
-    const team1logo = './../../../assets/teamLogos/' + formatTeamName(props.matchData.team1);
-    const team2logo = './../../../assets/teamLogos/' + formatTeamName(props.matchData.team2);
+    const getTeamLogo = (teamName) => {
+        if (teamLogos.hasOwnProperty(teamName)) return teamLogos[teamName];
+        return teamLogos['unknown'];
+    }
 
     const updateMatchData = (pick) => {
         props.matchData.userPick = pick;
@@ -164,7 +163,7 @@ const DailyCard = (props) => {
             </Modal>
             <TouchableOpacity style={styles.container} onPress={openModal}>
                 <View>
-                    <Image style={styles.teamImage} source={require('./../../../assets/teamLogos/unknown.png')} />
+                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team1)} />
                     
                 </View>
                 <View style={styles.textContainer}>
@@ -174,11 +173,9 @@ const DailyCard = (props) => {
                     { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) }
                 </View>
                 <View>
-                    <Image style={styles.teamImage} source={require('./../../../assets/teamLogos/unknown.png')} />
+                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team2)} />
                 </View>
             </TouchableOpacity>
-            { console.log(team1logo) }
-            { console.log(team2logo) }
         </>
     );
 }

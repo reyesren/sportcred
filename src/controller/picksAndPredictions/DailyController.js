@@ -31,27 +31,35 @@ export const getTodayMatchData = () => {
     }];
   };
 
-  export const getPreviousMatchData = () => {
-    // TODO: return a list of previous days matches
-    // structure similar to getTodayMatchData
-    return [{
-        id: '0',
-        team1: 'los angeles lakers',                         
-        team2: 'miami heat',
-        date: new Date(2020, 10, 18, 12, 0, 0, 0),
-        result: 1,    
-        userPick: 1
-    },
-    {
-        id: '1',
-        team1: 'los angeles lakers',                         
-        team2: 'miami heat',
-        date: new Date(2020, 10, 18, 12, 0, 0, 0),
-        result: 2,    
-        userPick: 1
-    }];
-  }
+export const getPreviousMatchData = () => {
+// TODO: return a list of previous days matches
+// structure similar to getTodayMatchData
+return [{
+    id: '0',
+    team1: 'los angeles lakers',                         
+    team2: 'miami heat',
+    date: new Date(2020, 10, 18, 12, 0, 0, 0),
+    result: 1,    
+    userPick: 1
+},
+{
+    id: '1',
+    team1: 'los angeles lakers',                         
+    team2: 'miami heat',
+    date: new Date(2020, 10, 18, 12, 0, 0, 0),
+    result: 2,    
+    userPick: 1
+}];
+}
 
-  export const updateMatchDataDatabase = (matchData) => {
-      // TODO: takes input matchData (see above for structure) and updates firestore
-  }
+export const updateMatchDataDatabase = (matchData) => {
+    // TODO: takes input matchData (see above for structure) and updates firestore
+}
+
+
+// NOTE: SHOULD ALWAYS STORE ALL LOGOS POSSIBLE
+export const teamLogos = {
+    'Los Angeles Lakers': require('./../../../assets/teamLogos/los_angeles_lakers.png'),
+    'Miami Heat': require('./../../../assets/teamLogos/miami_heat.png'),
+    'unknown': require ('./../../../assets/teamLogos/unknown.png')
+}
