@@ -23,8 +23,8 @@ export const getTodayMatchData = () => {
     //return [];
     return [{
         id: '0',
-        team1: 'team1',                         
-        team2: 'team2',
+        team1: 'Los Angeles Lakers',                         
+        team2: 'Miami Heat',
         date: new Date(2020, 10, 18, 12, 0, 0, 0),
         result: 0,    
         userPick: 0
@@ -50,4 +50,8 @@ export const getTodayMatchData = () => {
         result: 2,    
         userPick: 1
     }];
+  }
+
+  export const updateMatchDataDatabase = (matchData) => {
+      // TODO: takes input matchData (see above for structure) and updates firestore
   }
