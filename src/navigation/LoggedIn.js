@@ -2,6 +2,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Profile} from '../controller/ProfileController';
+import {ProfileTabs} from '../controller/ProfileTabsController';
 import {
     ProfileSetup,
     Questionnaire,
@@ -40,7 +41,7 @@ function FullySignedUp() {
                             ),
                         }}
             />
-            <Tab.Screen name="Profile" component={Profile}
+            <Tab.Screen name="Profile" component={ProfileTabs}
                         options={{
                             tabBarLabel: 'Profile',
                             tabBarIcon: () => (

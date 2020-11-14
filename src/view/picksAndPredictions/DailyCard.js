@@ -132,7 +132,7 @@ const DailyCard = (props) => {
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Who will win?</Text>
                         <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                        style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
                             updateMatchData(1);
@@ -141,7 +141,7 @@ const DailyCard = (props) => {
                         <Text style={styles.textStyle}>{props.matchData.team1}</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                        style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
                             updateMatchData(2);
@@ -150,7 +150,7 @@ const DailyCard = (props) => {
                         <Text style={styles.textStyle}>{props.matchData.team2}</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                        style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
                             updateMatchData(0);
