@@ -49,3 +49,7 @@ export const castDownvote = () => {
 export function backtoZone(nav) {
     nav.pop();
 }
+
+export function addUserToRadar(userData) {
+    // TODO: add user to the RADAR
+}
