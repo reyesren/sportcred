@@ -5,7 +5,9 @@ const PlayerChooserController = ({route, navigation}) => {
     navigation.navigate('PreSeason');
   };
 
-  return PlayerChooserView({goBack: goToPreSeasonController});
+  const playerList = require('../../../assets/players.json');
+
+  return PlayerChooserView({goBack: goToPreSeasonController, playerList});
 };
 
 export default PlayerChooserController;
