@@ -1,12 +1,13 @@
 import {Text, TextInput, Title} from 'react-native-paper';
 import React from 'react';
 import {View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import players from '../../../assets/players.json';
 
 const playerChooserView = (props) => {
   const [search, setSearch] = React.useState('');
   const [selectedId, setSelectedId] = React.useState(null);
 
-  const DATA = [
+  /* const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
       title: 'Steph Curry',
@@ -19,30 +20,38 @@ const playerChooserView = (props) => {
       id: '58694a0f-3da1-471f-bd96-145571e29d72',
       title: 'Michael Jordan',
     },
-  ];
+  ];*/
+
+  const DATA = players;
 
   const Item = ({item, onPress, style}) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-      <Text>{item.title}</Text>
+      {/*<Text>{item.title}</Text>*/}
+      <Text>{item.firstName + ' ' + item.lastName}</Text>
     </TouchableOpacity>
   );
 
   const renderItem = ({item}) => {
-    const backgroundColor = item.id === selectedId ? '#a7a7a7' : '#dbdbdb';
+    const backgroundColor =
+      item.playerId === selectedId ? '#a7a7a7' : '#dbdbdb';
 
     const regex = new RegExp(search);
 
     if (search === '') {
       return <></>;
     }
-    if (!regex.test(item.title)) {
+    /*if (!regex.test(item.title)) {
+      return <></>;
+    }*/
+    if (!(regex.test(item.firstName) || regex.test(item.lastName))) {
       return <></>;
     }
     return (
       <Item
         item={item}
         onPress={() => {
-          setSelectedId(item.id);
+          //setSelectedId(item.id);
+          setSelectedId(item.playerId);
           props.goBack();
         }}
         style={{backgroundColor}}
@@ -62,7 +71,10 @@ const playerChooserView = (props) => {
         <FlatList
           data={DATA}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => {
+            //item.id;
+            return item.playerId.toString();
+          }}
           extraData={selectedId}
         />
       </View>
