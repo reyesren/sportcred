@@ -1,7 +1,10 @@
-import React from "react";
-import {PreSeasonView} from "../../view/picksAndPredictions/PreSeasonView";
+import React from 'react';
+import {PreSeasonView} from '../../view/picksAndPredictions/PreSeasonView';
 
-export const PreSeason = () => {
+export const PreSeason = ({route, navigation}) => {
+  const goToPlayerChooser = (whichAward) => {
+    navigation.navigate('PlayerChooser', {whichAward});
+  };
 
-    return PreSeasonView();
-}
+  return PreSeasonView({goToPlayerChooser});
+};
