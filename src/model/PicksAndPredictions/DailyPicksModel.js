@@ -55,7 +55,7 @@ export default class DailyPicks {
     static submitUserDailyPicks(uid: string, date: string, picks: Object,
                            callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
     {
-        for (game in picks) {
+        for (const game in picks) {
             this.userDataDocument
                 .collection(uid)
                 .doc('dailyPicks')
