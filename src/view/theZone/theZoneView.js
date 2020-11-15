@@ -34,10 +34,6 @@ export function TheZoneContentView({navigation}) {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Image
-            style={styles.logo}
-            source={require('./../../../assets/logo.png')}
-          />
           <View>
             <Text style={styles.titleText}>THE ZONE</Text>
           </View>
