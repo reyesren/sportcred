@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: '#ffc87c',
   },
-  image: {width: 200, height: 200},
+  image: {height: '50%', width: '50%'},
   item: {
     padding: 15,
     marginVertical: 1,

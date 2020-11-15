@@ -45,7 +45,6 @@ function FullySignedUp() {
           ),
         }}
       />
-      ), }} />
       <Tab.Screen
         name="Profile"
         component={ProfileTabs}
