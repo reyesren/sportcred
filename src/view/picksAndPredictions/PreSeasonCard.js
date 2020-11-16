@@ -18,55 +18,7 @@ import {
 import * as StatusBar from 'react-native';
 
 const PreSeasonCard = (props) => {
-  const [visible, setVisible] = React.useState(false);
-  const [search, setSearch] = React.useState('');
   const [playerName, setPlayerName] = React.useState('');
-  const [isPlayerChosen, setIsPlayerChosen] = React.useState(false);
-  const [selectedId, setSelectedId] = React.useState(null);
-
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
-
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-  ];
-
-  const Item = ({item, onPress, style}) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-      <Text>{item.title}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderItem = ({item}) => {
-    const backgroundColor = item.id === selectedId ? '#fc8c00' : '#ffc87c';
-
-    const regex = new RegExp(search);
-
-    if (search === '') {
-      return <></>;
-    }
-    if (!regex.test(item.title)) {
-      return <></>;
-    }
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        style={{backgroundColor}}
-      />
-    );
-  };
 
   return (
     <>
@@ -77,8 +29,8 @@ const PreSeasonCard = (props) => {
           props.onPress();
         }}>
         <Image style={styles.image} source={props.image} />
-        <Text>{playerName}</Text>
-        <Text>{props.text}</Text>
+        <Text>{props.player}</Text>
+        <Text style={styles.title}>{props.text}</Text>
       </TouchableOpacity>
     </>
   );
@@ -92,14 +44,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     margin: 20,
+    padding: 10,
     backgroundColor: '#ffc87c',
   },
-  image: {height: '50%', width: '50%'},
-  item: {
-    padding: 15,
-    marginVertical: 1,
-  },
+  image: {height: 100, width: 100},
   title: {
-    fontSize: 32,
+    textAlign: 'center',
   },
 });

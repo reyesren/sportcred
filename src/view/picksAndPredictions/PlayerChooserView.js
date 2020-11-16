@@ -6,21 +6,7 @@ import players from '../../../assets/players.json';
 const playerChooserView = (props) => {
   const [search, setSearch] = React.useState('');
   const [selectedId, setSelectedId] = React.useState(null);
-
-  /* const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'Steph Curry',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Lebron James',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Michael Jordan',
-    },
-  ];*/
+  const [filteredData, setFilteredData] = React.useState([]);
 
   const DATA = players;
 
@@ -34,29 +20,33 @@ const playerChooserView = (props) => {
   const renderItem = ({item}) => {
     const backgroundColor =
       item.playerId === selectedId ? '#a7a7a7' : '#dbdbdb';
-
-    const regex = new RegExp(search);
-
-    if (search === '') {
-      return <></>;
-    }
-    /*if (!regex.test(item.title)) {
-      return <></>;
-    }*/
-    if (!(regex.test(item.firstName) || regex.test(item.lastName))) {
-      return <></>;
-    }
     return (
       <Item
         item={item}
         onPress={() => {
           //setSelectedId(item.id);
           setSelectedId(item.playerId);
-          props.goBack();
+          console.log('player selected', item.playerId);
+          props.submitPicks(props.whichAward, item.playerId, props.whichTeam);
+          setTimeout(() => props.goBack(), 1000);
         }}
         style={{backgroundColor}}
       />
     );
+  };
+
+  const filterData = (search) => {
+    const regex = new RegExp(search);
+    const newData = [];
+    for (const player of DATA) {
+      /*if (search === '') {
+        setFilteredData([]);
+      }*/
+      if (regex.test(player.firstName + ' ' + player.lastName)) {
+        newData.push(player);
+      }
+    }
+    setFilteredData(newData);
   };
 
   return (
@@ -66,10 +56,15 @@ const playerChooserView = (props) => {
         <TextInput
           label="Player Name"
           value={search}
-          onChangeText={(search) => setSearch(search)}
+          onChangeText={(search) => {
+            setSearch(search);
+            filterData(search);
+          }}
         />
         <FlatList
-          data={DATA}
+          //data={DATA}
+          data={filteredData}
+          initialNumToRender="5"
           renderItem={renderItem}
           keyExtractor={(item) => {
             //item.id;
