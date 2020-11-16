@@ -11,14 +11,12 @@ firebase.initializeApp({
   
 var db = firebase.firestore();
 
-var questions = require('../data/triviaQuestions.json');
+var data = require('../data/coaches.json');
 
-questions.forEach(function(obj) {
-    console.log(obj.id);
-    db.collection("trivia").doc("questions").collection("01").doc(obj.id).set(obj).then(() => {
-        console.log("Document created");
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
+
+db.collection("picks_predictions").doc("preseason").update({2020: {coaches: data, players: []}}).then(() => {
+    console.log("Document created");
+})
+.catch(function(error) {
+    console.error("Error adding document: ", error);
 });
