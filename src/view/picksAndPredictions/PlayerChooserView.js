@@ -8,21 +8,6 @@ const playerChooserView = (props) => {
   const [selectedId, setSelectedId] = React.useState(null);
   const [filteredData, setFilteredData] = React.useState([]);
 
-  /* const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'Steph Curry',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Lebron James',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Michael Jordan',
-    },
-  ];*/
-
   const DATA = players;
 
   const Item = ({item, onPress, style}) => (
@@ -35,25 +20,15 @@ const playerChooserView = (props) => {
   const renderItem = ({item}) => {
     const backgroundColor =
       item.playerId === selectedId ? '#a7a7a7' : '#dbdbdb';
-
-    // const regex = new RegExp(search);
-
-    /*if (search === '') {
-      return <></>;
-    }*/
-    /*if (!regex.test(item.title)) {
-      return <></>;
-    }*/
-    /*if (!(regex.test(item.firstName) || regex.test(item.lastName))) {
-      return <></>;
-    }*/
     return (
       <Item
         item={item}
         onPress={() => {
           //setSelectedId(item.id);
           setSelectedId(item.playerId);
-          props.goBack();
+          console.log('player selected', item.playerId);
+          props.submitPicks(props.whichAward, item.playerId, props.whichTeam);
+          setTimeout(() => props.goBack(), 1000);
         }}
         style={{backgroundColor}}
       />
@@ -67,7 +42,7 @@ const playerChooserView = (props) => {
       /*if (search === '') {
         setFilteredData([]);
       }*/
-      if (regex.test(player.firstName) || regex.test(player.lastName)) {
+      if (regex.test(player.firstName + ' ' + player.lastName)) {
         newData.push(player);
       }
     }
