@@ -8,7 +8,7 @@ import {
   Questionnaire,
   StartupCheck,
 } from '../controller/FirstTimeLoginController';
-import {ZoneTabs} from '../controller/ZoneTabsController.js';
+import {TheZone} from '../controller/TheZoneController.js';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Settings} from '../controller/SettingsController.js';
 import {Live} from '../controller/LiveController.js';
@@ -33,7 +33,7 @@ function FullySignedUp() {
     <Tab.Navigator initialRouteName={'The Zone'}>
       <Tab.Screen
         name="The Zone"
-        component={ZoneTabs}
+        component={TheZone}
         options={{
           tabBarLabel: 'The Zone',
           tabBarIcon: () => (
