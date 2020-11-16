@@ -21,13 +21,7 @@ export default class DailyPicks {
             .collection('games')
             .get()
             .then(gamesSs => {
-                if (gamesSs.exists) {
-                    return gamesSs.data()[date] === undefined ? {} : gamesSs.data()[date];
-                } else {
-                    // create dailyPicks doc
-                    this.createDocuments(uid).then(this.getUserPicks(uid, year))
-                }
-                return {};
+                return gamesSs.docs;
             })
     }
 
@@ -63,7 +57,7 @@ export default class DailyPicks {
                 .doc([date])
                 .collection('games')
                 .doc([`${game}`])
-                .set({loserSelected: picks[loserSelected], winnerSelected: picks[winnerSelected]})
+                .set({loserSelected: picks["loserSelected"], winnerSelected: picks["winnerSelected"]})
                 .then(callback)
                 .catch(error => {
                     console.log(error)
