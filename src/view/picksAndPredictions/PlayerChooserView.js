@@ -6,6 +6,7 @@ import players from '../../../assets/players.json';
 const playerChooserView = (props) => {
   const [search, setSearch] = React.useState('');
   const [selectedId, setSelectedId] = React.useState(null);
+  const [filteredData, setFilteredData] = React.useState([]);
 
   /* const DATA = [
     {
@@ -35,17 +36,17 @@ const playerChooserView = (props) => {
     const backgroundColor =
       item.playerId === selectedId ? '#a7a7a7' : '#dbdbdb';
 
-    const regex = new RegExp(search);
+    // const regex = new RegExp(search);
 
-    if (search === '') {
+    /*if (search === '') {
       return <></>;
-    }
+    }*/
     /*if (!regex.test(item.title)) {
       return <></>;
     }*/
-    if (!(regex.test(item.firstName) || regex.test(item.lastName))) {
+    /*if (!(regex.test(item.firstName) || regex.test(item.lastName))) {
       return <></>;
-    }
+    }*/
     return (
       <Item
         item={item}
@@ -59,6 +60,20 @@ const playerChooserView = (props) => {
     );
   };
 
+  const filterData = (search) => {
+    const regex = new RegExp(search);
+    const newData = [];
+    for (const player of DATA) {
+      /*if (search === '') {
+        setFilteredData([]);
+      }*/
+      if (regex.test(player.firstName) || regex.test(player.lastName)) {
+        newData.push(player);
+      }
+    }
+    setFilteredData(newData);
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -66,10 +81,15 @@ const playerChooserView = (props) => {
         <TextInput
           label="Player Name"
           value={search}
-          onChangeText={(search) => setSearch(search)}
+          onChangeText={(search) => {
+            setSearch(search);
+            filterData(search);
+          }}
         />
         <FlatList
-          data={DATA}
+          //data={DATA}
+          data={filteredData}
+          initialNumToRender="5"
           renderItem={renderItem}
           keyExtractor={(item) => {
             //item.id;
