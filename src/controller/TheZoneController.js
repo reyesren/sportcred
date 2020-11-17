@@ -7,6 +7,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {TriviaLanding} from './TriviaController';
 import {PicksAndPredictionsTabs} from "./picksAndPredictions/PicksAndPredictionsTabsController";
+import PostModel from '../model/PostModel';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,7 +32,19 @@ export const TheZone = ({route, navigation}) => {
   );
 };
 
-export const getPostIds = () => {
+export function getPostIds() {
   // TODO: should return a list of valid post ids
-  return ['1'];
+//  const results = await PostModel.getAllPostIds(false);
+//  console.log("results[0] is: " + results[0]);
+//  return results;
+    return PostModel.getAllPostIds(false).then(async (allIds) => {
+        console.log("allIds[0] is: " + allIds[0]);
+        return allIds;
+    })
+//
+//
+//        .then((allIds) => {
+//            console.log(typeof allIds);
+//            return allIds;
+//        })
 };

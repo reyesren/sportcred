@@ -1,4 +1,3 @@
-import * as React from 'react';
 import UserModel from '../model/UserModel';
 import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
@@ -25,25 +24,19 @@ export const TheZone = ({route, navigation}) => {
 };
 
 export function getPostData(postId) {
-    return {title:'Generic Post Title',
-    posterId: 'posterId1',
-    content: 'Lorem ipsum consectiture di amet lorem ipsum consectiture di amet',
-    upvotes: 20,
-    downvotes: 10};
-}
-
-export function getUserFromPosterId(posterId) {
-    // TODO: get actual post data
-    return {username: 'Username1', 
-    pic: './../../../assets/defaultProfilePic.jpg'};
+    return PostModel.getPostDoc(postId);
 }
 
 export const castUpvote = () => {
     // TODO: mark the post as upvoted by user
+//    const user = useContext(AuthContext);
+//    PostModel.updateUpVotes(pid, user.uid);
 }
 
 export const castDownvote = () => {
     // TODO: mark the post as downvoted by user
+//    const user = useContext(AuthContext);
+//    PostModel.updateDownVotes(pid, user.uid);
 }
 
 export function backtoZone(nav) {
