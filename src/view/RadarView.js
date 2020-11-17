@@ -3,7 +3,10 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {getRadarList} from './../controller/RadarController';
 
 export const RadarView = () => {
-    const [radarList, updateRadarList] = React.useState(getRadarList());
+    const [radarList, updateRadarList] = React.useState([]);
+    if (radarList.length === 0) {
+        getRadarList().then((doc) => updateRadarList(doc));
+    }
 
     const RadarElement = (props) => {
         const styles = StyleSheet.create({
@@ -32,9 +35,11 @@ export const RadarView = () => {
     }
 
     const renderRadarList = () => {
+        var count = 0;
         return radarList.map((user) => {
+            count++;
             return <RadarElement
-                key={user.uId}
+                key={count}
                 displayName={user.profile.displayName}
                 status={user.profile.about} />
         })

@@ -52,4 +52,6 @@ export function backtoZone(nav) {
 
 export function addUserToRadar(userData) {
     // TODO: add user to the RADAR
+    const user = useContext(AuthContext);
+    
 }
