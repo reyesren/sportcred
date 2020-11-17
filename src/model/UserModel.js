@@ -2,6 +2,7 @@ import {auth, firestore, storage} from '../firebase.js';
 import React from 'react';
 import RNFS from 'react-native-fs';
 import TriviaModel from './TriviaModel';
+import firebase from 'firebase';
 
 export default class UserModel {
   static userDocObj = {
@@ -17,6 +18,7 @@ export default class UserModel {
     profile_completed: false,
     questionnaire_completed: false,
     questionnaire_responses: {},
+    radar_list: []
   };
   static userCollection = firestore().collection('users');
 
@@ -197,5 +199,11 @@ export default class UserModel {
       .startAfter(offset)
       .limit(limit)
       .get();
+  }
+
+  static updateRadarList(uid: string, radarUid: string) {
+    this.userCollection
+      .doc(uid)
+      .update({radar_list: firebase.firestore.FieldValue.arrayUnion(radarUid)});
   }
 }

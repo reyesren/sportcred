@@ -8,6 +8,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {TriviaLanding} from './TriviaController';
 import {PicksAndPredictionsTabs} from "./picksAndPredictions/PicksAndPredictionsTabsController";
 import PostModel from '../model/PostModel';
+import {ZoneTabs} from "./ZoneTabsController";
 
 const Drawer = createDrawerNavigator();
 
@@ -24,7 +25,7 @@ export const TheZone = ({route, navigation}) => {
   return (
     <>
       <Drawer.Navigator initialRouteName="The Zone">
-        <Drawer.Screen name="The Zone" component={TheZoneView} />
+        <Drawer.Screen name="The Zone" component={ZoneTabs} />
         <Drawer.Screen name="Trivia" component={TriviaLanding} />
         <Drawer.Screen name="Picks and Predictions" component={PicksAndPredictionsTabs} />
       </Drawer.Navigator>

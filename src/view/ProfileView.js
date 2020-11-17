@@ -31,22 +31,6 @@ const ProfileView = (props) => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Image
-            style={styles.logo}
-            source={require('./../../assets/logo.png')}
-          />
-          <View>
-            <Text style={styles.titleText}>Profile</Text>
-          </View>
-
-          <View style={styles.navBarContainer}>
-            <View style={styles.selectedNavButton}>
-              <Text style={styles.selectedNavText}>Info</Text>
-            </View>
-            <View style={styles.navButton}>
-              <Button title="ACS QUESTIONS" onPress={goToACSQuestions} />
-            </View>
-          </View>
 
           <View style={styles.introBody}>
             {promptingPictureChange ? (
@@ -111,26 +95,6 @@ const ProfileView = (props) => {
 };
 
 const styles = StyleSheet.create({
-  selectedNavText: {
-    fontSize: 24,
-  },
-  selectedNavButton: {
-    padding: 5,
-    flex: 1,
-    backgroundColor: 'rgb(200,200,200)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navButton: {
-    padding: 5,
-    flex: 1,
-    backgroundColor: 'rgb(34,150,243)',
-  },
-  navBarContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
   absoluteView: {
     flex: 1,
     position: 'absolute',
