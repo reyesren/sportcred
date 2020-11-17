@@ -1,5 +1,4 @@
 import UserModel from '../model/UserModel';
-import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
 import {TheZoneView} from '../view/theZone/theZoneView.js';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -45,4 +44,5 @@ export function backtoZone(nav) {
 
 export function addUserToRadar(userData) {
     // TODO: add user to the RADAR
+    console.log("REACHED CONTROLLER");
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {View, Button, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {Button} from 'react-native-paper';
 import {HelperText, TextInput, Text} from 'react-native-paper';
 
 const EditableText = (props) => {
@@ -54,7 +55,7 @@ const EditableText = (props) => {
       flex: 1,
     },
     textInputContainer: {
-      flex: 4,
+      flex: 2,
     },
   });
 
@@ -70,8 +71,8 @@ const EditableText = (props) => {
           </HelperText> */}
           </View>
           <View style={styles.buttonContainer}>
-            <Button title="DONE" onPress={buttonHandler} />
-            <Button title="CANCEL" onPress={cancelButtonHandler} />
+            <Button mode='contained' onPress={buttonHandler}>Done</Button>
+            <Button mode='contained' onPress={cancelButtonHandler}>Cancel</Button>
           </View>
         </View>
       ) : (
@@ -80,7 +81,7 @@ const EditableText = (props) => {
             <Text>{text}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <Button title="EDIT" onPress={buttonHandler} />
+            <Button mode='contained' onPress={buttonHandler}>Edit</Button>
           </View>
         </View>
       )}
