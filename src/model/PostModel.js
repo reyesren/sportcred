@@ -15,9 +15,24 @@ export default class PostModel {
   /**
    * Creates a new post. Used for adding posts into database.
    * Refer to firebase for schema.
+   * @params postData           [Object]
+   *
+   * format of postData parameter:
+   * postData = {
+   *    postTitle: "dafda"
+   *    postContent: "adfdasf"
+   *    posterId: (current uid of user on the app)
+   * }
+   *
    */
-  createNewPostDoc(pid: string) {
-    this.postCollection.doc(pid).set(this.postDocObj).then();
+  static createNewPostDoc(postData) {
+    const newPostPid = _createPostId();
+    postData.pid = newPostPid;
+    setPostDocObj(postData);
+    this.postCollection.doc(pid).set(this.postDocObj).then((doc) => {
+        console.log(this.postDocObj);
+        console.log("Created new post!");
+    })
   }
 
   /**
@@ -32,6 +47,12 @@ export default class PostModel {
       .then();
   }
 
+    /**
+     * @params isRadar      [boolean] true if retrieving radar posts, false if retrieving
+     *                                all posts
+     *
+     * @returns array of postDocObj
+     */
   static async getAllPostIds(isRadar) {
     if(isRadar) {
         const allPosts = await this.getRadarPosts();
@@ -63,19 +84,21 @@ export default class PostModel {
     return radarPosts;
   }
 
-//  /**
-//   * Returns the current working postDocObj in PostModel.
-//   *
-//   */
-//  static getPostDocObj() {
-//    return this.postDocObj;
-//  }
+  static setPostDocObj(postData) {
+    this.postDocObj.pid = postData.pid;
+    this.postDocObj.title = postData.title;
+    this.postDocObj.content = postData.content;
+    this.postDocObj.poster = postData.poster;
+  }
 
-  static setPostDocObj({pid, title, content, poster}) {
-    this.postDocObj.pid = pid;
-    this.postDocObj.title = title;
-    this.postDocObj.content = content;
-    this.postDocObj.poster = poster;
+   /**
+    *  Creates a post id using the current Date in milliseconds
+    *
+    *
+    */
+  static _createPostId() {
+    const dateAsId = Date.now();
+    return dateAsId;
   }
 
   /**
