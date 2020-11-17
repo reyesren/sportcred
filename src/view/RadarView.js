@@ -4,8 +4,12 @@ import {getRadarList} from './../controller/RadarController';
 
 export const RadarView = () => {
     const [radarList, updateRadarList] = React.useState([]);
-    if (radarList.length === 0) {
-        getRadarList().then((doc) => updateRadarList(doc));
+    const [fetched, setFetched] = React.useState(false)
+    if (!fetched) {
+        getRadarList().then((doc) => {
+            updateRadarList(doc)
+            setFetched(true)
+        });
     }
 
     const RadarElement = (props) => {
