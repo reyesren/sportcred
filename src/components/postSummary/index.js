@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Button,
@@ -8,20 +8,36 @@ import {
   Image,
 } from 'react-native';
 import {HelperText, TextInput} from 'react-native-paper';
+import PostModel from '../../model/PostModel';
+import UserModel from '../../model/UserModel';
+import {AuthContext} from '../../navigation/AuthNavigator';
 
 const PostSummary = (props) => {
+  const [pid, updatePid] = React.useState("");
+  const [title, updateTitle] = React.useState("");
+  const [content, updateContent] = React.useState("");
+  const [posterId, updatePosterId] = React.useState("");
+  const [upVotes, updateUpvotes] = React.useState([]);
+  const [downVotes, updateDownvotes] = React.useState([]);
+
+  if(pid === '') {
+    PostModel.getPostDoc(props.postId).then(post => {
+        console.log(post);
+        updatePid(post.pid);
+        updateTitle(post.title);
+        updateContent(post.content);
+        updatePosterId(post.poster);
+        UserModel.getUserDoc(post.poster).then(doc => {
+            updatePosterId(doc.profile.displayName);
+        })
+        updateUpvotes(post.upVotes);
+        updateDownvotes(post.downVotes);
+    })
+  }
   const getPostData = (postId) => {
     // TODO: should get the post with corresponding postId
-    return {
-      title: 'Generic Post Title',
-      posterId: 'posterId1',
-      content:
-        'Lorem ipsum consectiture di amet lorem ipsum consectiture di amet',
-      upvotes: 20,
-      downvotes: 10,
-    };
+    return PostModel.getPostDoc(postId);
   };
-  const postData = getPostData(props.postId);
 
   const seeFullPost = () => {
       props.navigation.navigate('Full Post', {postId: props.postId});
@@ -29,10 +45,14 @@ const PostSummary = (props) => {
 
   const castUpvote = () => {
     // TODO: mark the post as upvoted by user
+//    const user = useContext(AuthContext);
+//    PostModel.updateUpVotes(pid, user.uid);
   };
 
   const castDownvote = () => {
     // TODO: mark the post as downvoted by user
+//    const user = useContext(AuthContext);
+//    PostModel.updateDownVotes(pid, user.uid);
   };
   const styles = StyleSheet.create({
     postContainer: {
@@ -70,14 +90,15 @@ const PostSummary = (props) => {
   });
 
   return (
+    <>
     <TouchableOpacity onPress={seeFullPost}>
       <View style={styles.postContainer}>
-        <Text style={styles.postTitleText}>{postData.title} </Text>
+        <Text style={styles.postTitleText}>{title} </Text>
         <Text>
-          <Text style={styles.posterText}>by {postData.posterId}</Text>
+          <Text style={styles.posterText}>by {posterId}</Text>
         </Text>
         <Text style={styles.postContentText}>
-          {postData.content.substring(0, 60)}...
+          {content.substring(0, 60)}...
         </Text>
         <View style={styles.utilsContainer}>
           <View>
@@ -89,7 +110,7 @@ const PostSummary = (props) => {
             </TouchableOpacity>
           </View>
           <Text style={styles.voteText}>
-            {postData.upvotes - postData.downvotes}
+            {upVotes.length - downVotes.length}
           </Text>
           <View style={{transform: [{rotate: '180deg'}]}}>
             <TouchableOpacity onPress={castDownvote}>
@@ -102,6 +123,7 @@ const PostSummary = (props) => {
         </View>
       </View>
     </TouchableOpacity>
+    </>
   );
 };
 

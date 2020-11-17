@@ -20,13 +20,20 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {getPostIds} from './../../controller/TheZoneController';
 import { FullPostView } from './FullPostView';
 
-function renderButtons(nav) {
-  return getPostIds().map((id) => {
-    return <PostSummary postId={id} key={id} navigation={nav}/>;
-  });
-}
+
 
 export function TheZoneContentView({navigation}) {
+  const [postIds, updatePostIds] = React.useState([]);
+  if(postIds.length === 0) {
+    getPostIds().then(post => {
+        updatePostIds(post);
+    })
+  }
+  function renderButtons(nav) {
+    return postIds.map((id) => {
+      return <PostSummary postId={id} key={id} navigation={nav}/>;
+    });
+  }
   return (
     <>
       <StatusBar barStyle="dark-content" />
