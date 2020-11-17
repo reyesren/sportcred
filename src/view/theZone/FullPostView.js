@@ -24,7 +24,6 @@ export function FullPostView({route, navigation}) {
       const [upVotes, updateUpvotes] = React.useState([]);
       const [downVotes, updateDownvotes] = React.useState([]);
 
-<<<<<<< HEAD
       if(pid === '') {
         PostModel.getPostDoc(route.params.postId).then(post => {
             console.log(post);
@@ -39,14 +38,10 @@ export function FullPostView({route, navigation}) {
             updateDownvotes(post.downVotes);
         })
       }
-=======
-    const postData = getPostData(route.params.postId);
-    const userData = getUserFromPosterId(postData.posterId);
     const [modalVisible, setModalVisible] = React.useState(false);
     const openModal = () => {
         setModalVisible(true);
     }
->>>>>>> 979b1b8a5b548055184c6ea61860e0e742239ef1
 
     return (
         <>
@@ -91,15 +86,9 @@ export function FullPostView({route, navigation}) {
                         <View style={styles.titleContainer}>
                             <Text style={styles.titleText}>{title}</Text>
                         </View>
-<<<<<<< HEAD
-                        <View style={styles.posterContainer}>
-                            <Text style={styles.posterText}>by {posterId}</Text>
-                        </View>
-=======
                         <TouchableOpacity style={styles.posterContainer} onPress={openModal}>
-                            <Text style={styles.posterText}>by {userData.username}</Text>
+                            <Text style={styles.posterText}>by {posterId}</Text>
                         </TouchableOpacity>
->>>>>>> 979b1b8a5b548055184c6ea61860e0e742239ef1
                         <View style={styles.contentContainer}>
                             <Text style={styles.contentText}>{content}</Text>
                         </View>
