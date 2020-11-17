@@ -7,9 +7,9 @@ import {
   Text,
   StatusBar,
   Image,
-  TouchableOpacity,
-  Button,
+  TouchableOpacity
 } from 'react-native';
+import {Button} from 'react-native-paper';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {EditableText} from './../components/index.js';
@@ -44,19 +44,13 @@ const ProfileView = (props) => {
               </View>
             ) : (
               <View>
-                <Button
-                  title="CHANGE PROFILE PICTURE"
-                  onPress={() =>
+                <Button mode='contained' onPress={() =>
                     props.profilePicChange(
                       setProfilePic,
                       setPromptingPictureChange,
                     )
-                  }
-                />
-                <Button
-                  title="CANCEL"
-                  onPress={() => setPromptingPictureChange(true)}
-                />
+                  }>Change Profile Picture</Button>
+                  <Button mode='contained' onPress={() => setPromptingPictureChange(true)}>Cancel</Button>
               </View>
             )}
             <View style={styles.profileDescription}>
@@ -85,7 +79,7 @@ const ProfileView = (props) => {
           </View>
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Button title="LOGOUT" onPress={() => props.signOut()} />
+            <Button mode='contained' onPress={() => props.signOut()}>Logout</Button>
             </View>
           </View>
         </ScrollView>
