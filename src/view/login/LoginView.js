@@ -27,7 +27,7 @@ const LoginView = (props) => {
       }}>
       <Title style={{padding: 50, alignSelf: 'center'}}>SPORTCRED</Title>
       <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
-      <TextInput onChangeText={(text) => setPassword(text)} label="Password" />
+      <TextInput secureTextEntry={true} onChangeText={(text) => setPassword(text)} label="Password" />
       <Button
         mode="contained"
         onPress={() => props.onUserLogin({email, password})}>
