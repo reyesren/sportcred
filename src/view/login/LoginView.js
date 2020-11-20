@@ -18,7 +18,6 @@ const LoginTextComponent = (props) => {
 
 const LoginView = (props) => {
   const [password, setPassword] = React.useState('');
-  const [email, setEmail] = React.useState('');
 
   return (
     <View
