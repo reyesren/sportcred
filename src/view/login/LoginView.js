@@ -4,6 +4,7 @@ import {TextInput, Title, Button} from 'react-native-paper';
 
 const LoginTextComponent = (props) => {
   const [text, setText] = React.useState('');
+  const [error, setError] = React.useState('');
 
   return (
     <TextInput
@@ -17,7 +18,6 @@ const LoginTextComponent = (props) => {
 
 const LoginView = (props) => {
   const [password, setPassword] = React.useState('');
-  const [email, setEmail] = React.useState('');
 
   return (
     <View
@@ -27,9 +27,10 @@ const LoginView = (props) => {
       }}>
       <Title style={{padding: 50, alignSelf: 'center'}}>SPORTCRED</Title>
       <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
-      <TextInput onChangeText={(text) => setPassword(text)} label="Password" />
+      <TextInput secureTextEntry={true} onChangeText={(text) => setPassword(text)} label="Password" />
       <Button
         mode="contained"
+        disabled = {(email && password) ? false : true}
         onPress={() => props.onUserLogin({email, password})}>
         Login
       </Button>
