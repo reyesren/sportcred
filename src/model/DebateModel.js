@@ -52,8 +52,9 @@ export default class DebateModel {
             ).then(callback())
     }
 
-    static getAllResponses(questionId: string) {
-        return this.allResponsesCollection.doc(questionId).get()
+    static async getAllResponses(questionId: string) {
+        const snapshot = await this.allResponsesCollection.doc(questionId).get()
+        return snapshot.docs.map(doc => doc.data())
     }
 
 
