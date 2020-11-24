@@ -54,7 +54,12 @@ export default class DebateModel {
 
     static async getAllResponses(questionId: string) {
         const snapshot = await this.allResponsesCollection.collection(questionId).get()
-        return snapshot.docs.map(doc => doc.data())
+        return snapshot.docs.map(doc => {
+            let v = doc.data()
+            v['uid'] = doc.id
+            v['qid'] = questionId
+            return v
+        })
     }
 
 
