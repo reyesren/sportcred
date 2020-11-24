@@ -68,7 +68,9 @@ export default class ACSModel {
             return 'pro'
         else if (acs > 300)
             return 'analyst'
-        else
+        else if (acs >= 100)
             return 'fanalyst'
+        else
+            return ''
     }
 }
