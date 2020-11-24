@@ -24,8 +24,12 @@ export default class ACSModel {
     }
 
     /**
-     *  Returns the ACS score of user uid
-     *  Note: ACS cannot be under 100.
+     *  Returns the ACS history of user uid
+     *
+     *  ex: acsHistory: {
+     *          1606245184000: 50,
+     *          1606245184001: -17
+     *          }
      */
     static getACS(uid: string) {
         return this.acsCollection
@@ -35,16 +39,36 @@ export default class ACSModel {
                 if (ss.exists) {
                     return ss.data()
                 } else {
-                    this.createAcsModel(uid).then()
+                    this._createAcsModel(uid).then()
                 }
 
                 return {acsHistory: {}};
             })
     }
 
-    static createAcsModel(uid: string) {
+    /**
+     * private function
+     */
+    static _createAcsModel(uid: string) {
         return this.acsCollection
             .doc(uid)
             .set({acsHistory: {}}, {merge: true})
+    }
+
+    /**
+     * Calculate user label
+     *
+     * @param acs number    elo
+     *
+     */
+    static getLabelFromAcs(acs: number) {
+        if (acs > 900)
+            return 'expert'
+        else if (acs > 600)
+            return 'pro'
+        else if (acs > 300)
+            return 'analyst'
+        else
+            return 'fanalyst'
     }
 }
