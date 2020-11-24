@@ -10,7 +10,7 @@ import {
     Caption,
     TextInput,
     HelperText,
-    Subheading
+    Subheading, ProgressBar, Colors
 } from "react-native-paper";
 
 export const DebateQuestionsView = (props) => {
@@ -81,6 +81,7 @@ export const DebateQuestionsView = (props) => {
                     DAILY DEBATE
                 </Headline>
                 <Caption>ACS: {acs} - {userLabel}</Caption>
+                <ProgressBar progress={acs / 1000} color={Colors.green600} style={{width: 200, marginVertical: 10}}/>
             </View>
 
             <FlatList
