@@ -38,13 +38,13 @@ export default class ACSModel {
                     this.createAcsModel(uid).then()
                 }
 
-                return {};
+                return {acsHistory: {}};
             })
     }
 
     static createAcsModel(uid: string) {
         return this.acsCollection
             .doc(uid)
-            .set({}, {merge: true})
+            .set({acsHistory: {}}, {merge: true})
     }
 }
