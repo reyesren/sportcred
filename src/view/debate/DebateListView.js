@@ -56,7 +56,7 @@ export const DebateListView = (props) => {
                         style={{width: 200, height: 40}}
                         minimumValue={0}
                         maximumValue={1}
-                        value={0.5}
+                        value={scale}
                         step={0.01}
                         onSlidingComplete={setScale}
                         minimumTrackTintColor="#FF6060"
