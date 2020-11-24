@@ -1,4 +1,4 @@
-import firestore from "firebase";
+import {firestore} from "../firebase.js";
 
 
 export default class DebateModel {
@@ -53,7 +53,7 @@ export default class DebateModel {
     }
 
     static async getAllResponses(questionId: string) {
-        const snapshot = await this.allResponsesCollection.doc(questionId).get()
+        const snapshot = await this.allResponsesCollection.collection(questionId).get()
         return snapshot.docs.map(doc => doc.data())
     }
 

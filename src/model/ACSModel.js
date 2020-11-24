@@ -1,5 +1,4 @@
 import {firestore} from '../firebase.js';
-import React from 'react';
 
 export default class ACSModel {
     static acsCollection = firestore().collection('acs');
