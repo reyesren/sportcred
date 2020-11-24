@@ -83,6 +83,13 @@ export default class DebateModel {
         })
     }
 
+    static getPersonalResponses(uid: string) {
+        return this.personalResponseCollection
+            .doc(uid)
+            .get()
+            .then(ss => ss.data())
+    }
+
 
 
 }
