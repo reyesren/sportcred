@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Image
   } from 'react-native';
-import {TheZoneView} from '../view/theZone/theZoneView.js';
+import {TheZonePages} from '../controller/TheZoneContentController';
 import {Radar} from './RadarController';
 
 const Tab = createMaterialTopTabNavigator();
@@ -25,7 +25,7 @@ export const ZoneTabs = ({route, navigation}) => {
                 source={require('./../../assets/logo.png')}
             />
             <Tab.Navigator>
-                <Tab.Screen name={'The Zone'} component={TheZoneView}/>
+                <Tab.Screen name={'The Zone'} component={TheZonePages}/>
                 <Tab.Screen name={'My Radar'} component={Radar}/>
             </Tab.Navigator>
         </>
