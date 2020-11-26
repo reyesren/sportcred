@@ -13,14 +13,12 @@ import {Button} from 'react-native-paper';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-export function CreatePostView({navigation}) {
+export function CreatePostView(props) {
   const [postTitle, setPostTitle] = React.useState('');
   const [postText, setPostText] = React.useState('');
 
   function submitPost() {
-    // TODO: submit post to back end
-    // use postTitle and postText for post fields
-    navigation.pop();
+    props.submitPost(postTitle, postText);
   }
 
   return (
@@ -60,7 +58,7 @@ export function CreatePostView({navigation}) {
                 <Button
                   mode="contained"
                   onPress={() => {
-                    navigation.pop();
+                    props.navigation.pop();
                   }}>
                   Cancel
                 </Button>

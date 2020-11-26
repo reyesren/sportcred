@@ -2,15 +2,14 @@ import * as React from 'react';
 import UserModel from '../model/UserModel';
 import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
+import { CreatePostView } from '../view/theZone/CreatePostView';
 
-export const TheZone = ({route, navigation}) => {
-  const user = useContext(AuthContext);
+export const CreatePost = ({route, navigation}) => {
 
-  function onSubmit(profileObj) {
-    UserModel.getUserDoc(user.uid, profileObj, (doc) => {
-      navigation.navigate('TheZoneView', doc);
-    });
-  }
+  const submitPost = (title, postText) => {
+    // TODO: submit post data to firestore
+    navigation.pop() // THIS NEEDS TO BE HERE, DO NOT REMOVE PLEZ
+  };
 
-  return <></>;
-};
+  return CreatePostView({navigation, submitPost});
+}
