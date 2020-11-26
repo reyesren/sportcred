@@ -9,7 +9,22 @@ const TriviaLoadingScreenController = ({route, navigation}) => {
   const {msg} = route.params === undefined ? {} : route.params;
   const mode = route.params.mode;
 
-  let whichQuestionsToGet = ['0', '1', '2'];
+  const generateTriviaQuestion = (numOfQuestions) => {
+    let questions = [];
+    for (let i = 0; i < numOfQuestions; i++) {
+      while (true) {
+        let genNumber = Math.floor(Math.random() * 48).toString();
+        if (!questions.includes(genNumber)) {
+          questions.push(genNumber);
+          break;
+        }
+      }
+    }
+    return questions;
+  };
+
+  // let whichQuestionsToGet = ['0', '1', '2'];
+  let whichQuestionsToGet = generateTriviaQuestion(3);
   if (mode === 'headIncoming') {
     console.log('questions ', route.params.questions);
     whichQuestionsToGet = route.params.questions;
