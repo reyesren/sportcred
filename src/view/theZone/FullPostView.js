@@ -11,33 +11,29 @@ import { SafeAreaView,
     TouchableHighlight,
     Image} from 'react-native';
 import { Button, Title } from 'react-native-paper';
-import { getPostData, getUserFromPosterId, castDownvote, castUpvote, backtoZone, addUserToRadar } from './../../controller/FullPostController';
 import PostModel from '../../model/PostModel'
 import UserModel from '../../model/UserModel'
 
 
-export function FullPostView({route, navigation}) {
+export function FullPostView(props) {
     const [pid, updatePid] = React.useState("");
-      const [title, updateTitle] = React.useState("");
-      const [content, updateContent] = React.useState("");
-      const [posterId, updatePosterId] = React.useState("");
-      const [upVotes, updateUpvotes] = React.useState([]);
-      const [downVotes, updateDownvotes] = React.useState([]);
+    const [title, updateTitle] = React.useState("");
+    const [content, updateContent] = React.useState("");
+    const [posterId, updatePosterId] = React.useState("");
+    const [upVotes, updateUpvotes] = React.useState([]);
+    const [downVotes, updateDownvotes] = React.useState([]);
 
-      if(pid === '') {
-        PostModel.getPostDoc(route.params.postId).then(post => {
-            console.log(post);
-            updatePid(post.pid);
-            updateTitle(post.title);
-            updateContent(post.content);
-            updatePosterId(post.poster);
-            UserModel.getUserDoc(post.poster).then(doc => {
-                updatePosterId(doc.profile.displayName);
-            })
-            updateUpvotes(post.upVotes);
-            updateDownvotes(post.downVotes);
-        })
-      }
+    if(pid === '') {
+        var postData = props.getPostData();
+        updatePid(postData.pid);
+        updateTitle(postData.title);
+        updateContent(postData.content);
+        updatePosterId(postData.poster);
+        updatePosterId(postData.displayName);
+        updateUpvotes(postData.upVotes);
+        updateDownvotes(postData.downVotes);
+    }
+
     const [modalVisible, setModalVisible] = React.useState(false);
     const openModal = () => {
         setModalVisible(true);
