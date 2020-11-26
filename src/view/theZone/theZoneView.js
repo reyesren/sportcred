@@ -14,11 +14,7 @@ import {Button} from 'react-native-paper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PostSummary} from './../../components/index.js';
 
-import {CreatePostView} from './CreatePostView';
-import {createStackNavigator} from '@react-navigation/stack';
-
 import {getPostIds} from './../../controller/TheZoneController';
-import { FullPostView } from './FullPostView';
 
 
 
@@ -88,17 +84,3 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
   },
 });
-
-const Stack = createStackNavigator();
-
-export function TheZoneView({navigation}) {
-  return (
-    <>
-      <Stack.Navigator headerMode={'none'} initialRouteName={'The Zone'}>
-        <Stack.Screen name="The Zone" component={TheZoneContentView} />
-        <Stack.Screen name="Create Post" component={CreatePostView} />
-        <Stack.Screen name='Full Post' component={FullPostView} />
-      </Stack.Navigator>
-    </>
-  );
-}
