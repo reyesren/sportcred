@@ -86,7 +86,7 @@ function FullySignedUp() {
             <MaterialCommunityIcons
               name="youtube-tv"
               color="#FFFFFF"
-              size={focused ? 20 : 30} />
+              size={focused ? 30 : 20} />
           ),
         }}
       />
