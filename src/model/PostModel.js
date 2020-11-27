@@ -26,10 +26,9 @@ export default class PostModel {
    *
    */
   static createNewPostDoc(postData) {
-    const newPostPid = _createPostId();
-    postData.pid = newPostPid;
-    setPostDocObj(postData);
-    this.postCollection.doc(pid).set(this.postDocObj).then((doc) => {
+    postData.pid = (Date.now()).toString();
+    this.setPostDocObj(postData);
+    this.postCollection.doc(postData.pid).set(this.postDocObj).then((doc) => {
         console.log(this.postDocObj);
         console.log("Created new post!");
     })
@@ -89,16 +88,6 @@ export default class PostModel {
     this.postDocObj.title = postData.title;
     this.postDocObj.content = postData.content;
     this.postDocObj.poster = postData.poster;
-  }
-
-   /**
-    *  Creates a post id using the current Date in milliseconds
-    *
-    *
-    */
-  static _createPostId() {
-    const dateAsId = Date.now();
-    return dateAsId;
   }
 
   /**
