@@ -10,8 +10,15 @@ const TriviaResultView = (props) => {
       <Text style={styles.questions}>
         You got <Text style={styles.score}>{props.score}</Text> questions right!
       </Text>
-      <Text style={styles.ACS}>ACS: ? + ?</Text>
-      <Button mode="contained" onPress={() => props.goToTriviaLanding()}>
+      <Text style={styles.ACS}>
+        ACS: {props.acs} + {props.score}
+      </Text>
+      <Button
+        mode="contained"
+        onPress={() => {
+          props.goToTriviaLanding();
+          props.addToAcs(props.score);
+        }}>
         Continue
       </Button>
     </View>

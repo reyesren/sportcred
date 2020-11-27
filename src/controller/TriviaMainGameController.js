@@ -21,9 +21,6 @@ const TriviaMainGameController = ({route, navigation}) => {
       UserModel.getUserDoc(user.uid).then(
         (currUserDoc) => {
           console.log('user doc', currUserDoc);
-          if (route.params.mode === 'solo') {
-            // todo
-          }
           if (route.params.mode === 'head') {
             TriviaChallengeModel.sendChallenge(
               route.params.userToChallengeUid,
@@ -66,7 +63,6 @@ const TriviaMainGameController = ({route, navigation}) => {
     }
 
     if (route.params.mode === 'headIncoming') {
-      // TODO
       console.log('Do something with the results of the incoming challenge');
       const date = Date.now();
       console.log('adding history for user ', user.uid);
@@ -97,6 +93,18 @@ const TriviaMainGameController = ({route, navigation}) => {
         user.uid,
         route.params.challengeID,
         () => {},
+      );
+    }
+
+    if (route.params.mode === 'solo') {
+      TriviaModel.addToUserHistory(
+        user.uid,
+        {
+          acs: '?',
+          mode: 'solo',
+          score: score,
+        },
+        Date.now(),
       );
     }
   };

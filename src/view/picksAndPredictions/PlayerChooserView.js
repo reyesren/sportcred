@@ -36,7 +36,7 @@ const playerChooserView = (props) => {
   };
 
   const filterData = (search) => {
-    const regex = new RegExp(search);
+    const regex = new RegExp(search, 'i');
     const newData = [];
     for (const player of DATA) {
       /*if (search === '') {
