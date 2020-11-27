@@ -29,9 +29,10 @@ const TriviaMainGameView = (props) => {
   const [isDisabledAnswer4, setDisabledAnswer4] = useState(false);
   const [isAnswerSelected, setAnswerSelected] = useState(false);
   const [timeLeft, setTimeLeft] = useState(10);
-  const [timerId, setTimerId] = useState(0);
   const [isAnswerHandler, setIsAnswerHandler] = useState(undefined);
   const [intervalId, setIntervalId] = useState(0);
+  const [intervalIdTimeBar, setIntervalIdTimeBar] = useState(0);
+  const [timeBarLeft, setTimeBarLeft] = useState(10000);
 
   const checkAnswer = (answer) => {
     if (answer === 0 && option1 === actualAnswer) {
@@ -51,6 +52,7 @@ const TriviaMainGameView = (props) => {
 
   const answerHandler = (whichAnswer) => {
     clearInterval(intervalId);
+    clearInterval(intervalIdTimeBar);
     setIsAnswerHandler(0);
     setAnswerSelected(true);
     setDisabledAnswer1(true);
@@ -127,6 +129,21 @@ const TriviaMainGameView = (props) => {
     }, []),
   );
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const id = setInterval(() => {
+        setTimeBarLeft((prevState) => {
+          return prevState > 0 ? prevState - 1000 : 0;
+        });
+      }, 1000);
+      setIntervalIdTimeBar(id);
+
+      return () => {
+        clearInterval(intervalIdTimeBar);
+      };
+    }, []),
+  );
+
   const updateOptions = () => {
     setAnswerSelected(false);
     console.log('question count before if statement', questionCount);
@@ -148,11 +165,6 @@ const TriviaMainGameView = (props) => {
       setDisabledAnswer3(false);
       setDisabledAnswer4(false);
       setTimeLeft(10);
-      /* clearTimeout(timerId);
-      const timerId = setTimeout(() => {
-        answerHandler(-1);
-      }, 10000);
-      setTimerId(timerId);*/
       setIsAnswerHandler(undefined);
       const id = setInterval(() => {
         console.log('interval');
@@ -161,12 +173,22 @@ const TriviaMainGameView = (props) => {
         });
       }, 1000);
       setIntervalId(id);
+
+      setTimeBarLeft(10000);
+      const timeBarID = setInterval(() => {
+        setTimeBarLeft((prevState) => {
+          return prevState > 0 ? prevState - 1000 : 0;
+        });
+      }, 1000);
+      setIntervalIdTimeBar(timeBarID);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Title style={styles.header}>TRIVIA</Title>
+      <View
+        style={[styles.timeBar, {width: (timeBarLeft / 10000) * 100 + '%'}]}
+      />
       <Text style={styles.questionCounter}>
         Question {questionCount}/{numOfQuestions}
       </Text>
@@ -243,6 +265,11 @@ const styles = StyleSheet.create({
   timeLeft: {
     alignSelf: 'center',
     fontSize: 20,
+  },
+  timeBar: {
+    height: 10,
+    width: '50%',
+    backgroundColor: '#d94d4d',
   },
 });
 
