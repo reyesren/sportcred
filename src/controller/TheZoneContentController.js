@@ -6,32 +6,41 @@ import {CreatePost} from './../controller/CreatePostController';
 import {FullPost} from './../controller/FullPostController';
 import PostModel from './../model/PostModel';
 import UserModel from './../model/UserModel';
+import {AuthContext} from '../navigation/AuthNavigator';
+import {useContext} from 'react';
 
 const Stack = createStackNavigator();
 
 const TheZoneContent = ({route, navigation}) => {
+    const user = useContext(AuthContext);
 
     const goToFullPost = (postId) => {
         navigation.navigate('Full Post', {postId});
     }
 
-    const castUpvote = () => {
+    const castUpvote = (postId) => {
         // TODO: mark the post as upvoted by user
-    //    const user = useContext(AuthContext);
-    //    PostModel.updateUpVotes(pid, user.uid);
-    //
+        PostModel.updateUpVotes(postId, user.uid);
+
     }
 
-    const castDownvote = () => {
+    const castDownvote = (postId) => {
         // TODO: mark the post as downvoted by user
-    //    const user = useContext(AuthContext);
-    //    PostModel.updateDownVotes(pid, user.uid);
-    //
+        PostModel.updateDownVotes(postId, user.uid);
+
     }
 
-    const checkIfUserUpvoted = (postId) => {
+  /**
+   *
+   * @param {string} postId: post id
+   * @param {int} which: 0 if checking upVotes, 1 if checking downVotes
+   *
+   * @return {bool} true if user is found, false if user not found
+   */
+    const checkIfUserUpvoted = (postId, which) => {
         // TODO: returns true if user upvoted post with postId
         // false, otherwise
+        return PostModel.checkIfVoted(postId, user.uid, which);
     }
 
     const getPostIds = () => {

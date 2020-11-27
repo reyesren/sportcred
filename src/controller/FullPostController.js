@@ -6,33 +6,35 @@ import { NavigationContainer } from '@react-navigation/native';
 import { TriviaLanding } from './TriviaController';
 import { FullPostView } from '../view/theZone/FullPostView';
 import PostModel from './../model/PostModel';
+import {useContext} from 'react';
 
 export const FullPost = ({route, navigation}) => {
+    const user = useContext(AuthContext);
 
-    const castUpvote = () => {
+    const castUpvote = (postId) => {
         // TODO: mark the post as upvoted by user
-    //    const user = useContext(AuthContext);
-    //    PostModel.updateUpVotes(pid, user.uid);
+        PostModel.updateUpVotes(postId, user.uid);
     }
 
-    const castDownvote = () => {
+    const castDownvote = (postId) => {
         // TODO: mark the post as downvoted by user
-    //    const user = useContext(AuthContext);
-    //    PostModel.updateDownVotes(pid, user.uid);
+        PostModel.updateDownVotes(postId, user.uid);
     }
 
     const backtoZone = () => {
         navigation.pop();
     }
 
-    const getPostScore = () => {
+    const getPostScore = (postId) => {
         // TODO: Get a numerical score for the post, score = # of Upvotes - # of downvotes
-        return 0
+        const post = getPostDoc(postId);
+        return post.upVotes.length - post.downVotes.length;
     }
 
-    const addUserToRadar = (userData) => {
+    const addUserToRadar = (postData) => {
         // TODO: add user to the RADAR
         console.log("REACHED CONTROLLER");
+        updateRadarList(user.uid, postData.poster);
     }
 
     const getPostData = () => {
@@ -52,9 +54,17 @@ export const FullPost = ({route, navigation}) => {
         //console.log(postData);
     }
 
-    const checkIfUserUpvoted = (postId) => {
+  /**
+   *
+   * @param {string} postId: post id
+   * @param {int} which: 0 if checking upVotes, 1 if checking downVotes
+   *
+   * @return {bool} true if user is found, false if user not found
+   */
+    const checkIfUserUpvoted = (postId, which) => {
         // TODO: returns true if user upvoted post with postId
         // false, otherwise
+        return PostModel.checkIfVoted(postId, user.uid, which);
     }
   
     return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote, getPostScore, checkIfUserUpvoted});

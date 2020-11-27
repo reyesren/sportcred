@@ -163,7 +163,7 @@ export default class PostModel {
    * @param uid       {string}       user uid
    */
   static updateUpVotes(pid: string, uid) {
-    const check = checkIfVoted(pid, uid, 0);
+    const check = this.checkIfVoted(pid, uid, 0);
     if (check) {
       this.postCollection.doc(pid).update(
         { upVotes: admin.firestore.FieldValue.arrayUnion(uid) })
@@ -184,7 +184,7 @@ export default class PostModel {
    * @param uid       {string}       post uid
    */
   static updateDownVotes(pid: string, uid: string) {
-    const check = this._checkIfVoted(pid, uid, 1);
+    const check = this.checkIfVoted(pid, uid, 1);
     if (check) {
       this.postCollection.doc(pid).update(
         { downVotes: admin.firestore.FieldValue.arrayUnion(uid) })
@@ -207,13 +207,13 @@ export default class PostModel {
    * @return {bool} check: true if user is found, false if user not found
    */
 
-  static _checkIfVoted(pid: string, uid: string, which) {
+  static checkIfVoted(pid: string, uid: string, which) {
     let check = false;
     let votesArr = null;
     if (which === 0) {
-      votesArr = getPostDoc(pid).upVotes;
+      votesArr = this.getPostDoc(pid).upVotes;
     } else {
-      votesArr = getPostDoc(pid).downVotes;
+      votesArr = this.getPostDoc(pid).downVotes;
     }
 
     if (votesArr.find(uid)) {
