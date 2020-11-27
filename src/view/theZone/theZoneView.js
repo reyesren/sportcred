@@ -14,20 +14,21 @@ import {Button} from 'react-native-paper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PostSummary} from './../../components/index.js';
 
-import {getPostIds} from './../../controller/TheZoneController';
-
-
-
-export function TheZoneContentView({navigation}) {
+export function TheZoneContentView(props) {
   const [postIds, updatePostIds] = React.useState([]);
   if(postIds.length === 0) {
-    getPostIds().then(post => {
+    props.getPostIds().then(post => {
         updatePostIds(post);
     })
   }
   function renderButtons(nav) {
     return postIds.map((id) => {
-      return <PostSummary postId={id} key={id} navigation={nav}/>;
+      return <PostSummary 
+                postId={id} 
+                key={id} 
+                navigation={nav} 
+                goToFullPost={props.goToFullPost} 
+                getPostData={props.getPostData}/>;
     });
   }
   return (
@@ -44,28 +45,17 @@ export function TheZoneContentView({navigation}) {
           <Button
             mode="contained"
             onPress={() => {
-              navigation.navigate('Create Post');
+              props.navigation.navigate('Create Post');
             }}>
             Create Post
           </Button>
 
-          { renderButtons(navigation) }
+          { renderButtons(props.navigation) }
         </ScrollView>
       </SafeAreaView>
     </>
   );
 };
-
-function TriviaScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button
-        onPress={() => navigation.navigate('TriviaController')}
-        title="Trivia"
-      />
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   titleText: {

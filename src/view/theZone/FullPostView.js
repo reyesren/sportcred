@@ -11,8 +11,6 @@ import { SafeAreaView,
     TouchableHighlight,
     Image} from 'react-native';
 import { Button, Title } from 'react-native-paper';
-import PostModel from '../../model/PostModel'
-import UserModel from '../../model/UserModel'
 
 
 export function FullPostView(props) {
@@ -24,14 +22,20 @@ export function FullPostView(props) {
     const [downVotes, updateDownvotes] = React.useState([]);
 
     if(pid === '') {
-        var postData = props.getPostData();
-        updatePid(postData.pid);
-        updateTitle(postData.title);
-        updateContent(postData.content);
-        updatePosterId(postData.poster);
-        updatePosterId(postData.displayName);
-        updateUpvotes(postData.upVotes);
-        updateDownvotes(postData.downVotes);
+        props.getPostData().then(postData => {
+            console.log('IN FullPost')
+            console.log(postData);
+            updatePid(postData.pid);
+            if (pid === undefined) updatePid('');
+            updateTitle(postData.title);
+            updateContent(postData.content);
+            updatePosterId(postData.poster);
+            updatePosterId(postData.displayName);
+            updateUpvotes(postData.upVotes);
+            updateDownvotes(postData.downVotes);
+            if (!(upVotes)) setUpvotes([]);
+            if (!(downVotes)) setDownvotes([]);
+        });
     }
 
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -55,7 +59,7 @@ export function FullPostView(props) {
                         style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            addUserToRadar(userData);
+                            props.addUserToRadar(userData);
                         }}
                         >
                             <Text style={styles.modalTextStyle}>Add user to Radar</Text>
@@ -90,18 +94,18 @@ export function FullPostView(props) {
                         </View>
                         <View style={styles.utilsContainer}>
                             <View>
-                                <TouchableOpacity onPress={castUpvote}>
+                                <TouchableOpacity onPress={props.castUpvote}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
                                 </TouchableOpacity>
                             </View>
-                            <Text style={styles.voteText}>{upVotes.length - downVotes.length}</Text>
+                            <Text style={styles.voteText}>{props.getPostScore()}</Text>
                             <View style={{transform: [{ rotate: "180deg" }]}}>
-                                <TouchableOpacity onPress={castDownvote}>
+                                <TouchableOpacity onPress={props.castDownvote}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <Button mode='contained' onPress={() => {backtoZone(navigation)}}>Back</Button>
+                        <Button mode='contained' onPress={() => {props.backtoZone()}}>Back</Button>
                     </View>
                 </KeyboardAvoidingView>            
                 </ScrollView>

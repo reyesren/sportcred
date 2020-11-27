@@ -6,9 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { TriviaLanding } from './TriviaController';
 import { FullPostView } from '../view/theZone/FullPostView';
 import PostModel from './../model/PostModel';
-import UserModel from './../model/UserModel';
 
-export const FullPost = ({routes, navigation}) => {
+export const FullPost = ({route, navigation}) => {
 
     const castUpvote = () => {
         // TODO: mark the post as upvoted by user
@@ -22,8 +21,13 @@ export const FullPost = ({routes, navigation}) => {
     //    PostModel.updateDownVotes(pid, user.uid);
     }
 
-    const backtoZone = (nav) => {
-        nav.pop();
+    const backtoZone = () => {
+        navigation.pop();
+    }
+
+    const getPostScore = () => {
+        // TODO: Get a numerical score for the post, score = # of Upvotes - # of downvotes
+        return 0
     }
 
     const addUserToRadar = (userData) => {
@@ -32,9 +36,10 @@ export const FullPost = ({routes, navigation}) => {
     }
 
     const getPostData = () => {
-        return PostModel.getPostDoc(route.params.postId).then(post => {
-            console.log(post);
-            return UserModel.getUserDoc(post.poster).then(doc => {
+        var postData = {};
+        return PostModel.getPostDoc(route.params.postId).then(async (post) => {
+            //console.log(post);
+            return await UserModel.getUserDoc(post.poster).then(async (doc) => {
                 return {pid: post.pid,
                     title: post.title,
                     content: post.content,
@@ -44,7 +49,8 @@ export const FullPost = ({routes, navigation}) => {
                     displayName: doc.profile.displayName};
             });
         });
+        //console.log(postData);
     }
   
-    return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote});
+    return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote, getPostScore});
 };
