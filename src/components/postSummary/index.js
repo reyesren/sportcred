@@ -53,15 +53,19 @@ const PostSummary = (props) => {
   }
 
   const castUpvote = () => {
-    props.castUpvote();
+    if (!(pid === undefined)) props.castUpvote(pid);
   };
 
   const castDownvote = () => {
-    props.castDownvote();
+    if (!(pid === undefined)) props.castDownvote(pid);
   };
 
   const checkIfUserUpvoted = () => {
-    props.checkIfUserUpvoted();
+    props.checkIfUserVoted(pid, upVotes);
+  }
+
+  const checkIfUserDownvoted = () => {
+    props.checkIfUserVoted(pid, downVotes);
   }
 
   const styles = StyleSheet.create({

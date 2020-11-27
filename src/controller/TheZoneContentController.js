@@ -20,12 +20,14 @@ const TheZoneContent = ({route, navigation}) => {
 
     const castUpvote = (postId) => {
         // TODO: mark the post as upvoted by user
-        PostModel.updateUpVotes(postId, user.uid);
+        return;
+        PostModel.updateUpVotes(postId, user.uid).then(async () => {return});
 
     }
 
     const castDownvote = (postId) => {
         // TODO: mark the post as downvoted by user
+        return;
         PostModel.updateDownVotes(postId, user.uid);
 
     }
@@ -37,7 +39,7 @@ const TheZoneContent = ({route, navigation}) => {
    *
    * @return {bool} true if user is found, false if user not found
    */
-    const checkIfUserUpvoted = (postId, which) => {
+    const checkIfUserVoted = (postId, which) => {
         // TODO: returns true if user upvoted post with postId
         // false, otherwise
         return PostModel.checkIfVoted(postId, user.uid, which);
@@ -67,7 +69,7 @@ const TheZoneContent = ({route, navigation}) => {
         //console.log(postData);
     }
 
-    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote, checkIfUserUpvoted});
+    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote, checkIfUserVoted});
 }
 
 export const TheZonePages = ({route, navigation}) => {

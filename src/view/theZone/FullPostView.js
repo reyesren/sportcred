@@ -47,6 +47,11 @@ export function FullPostView(props) {
         props.checkIfUserUpvoted();
     }
 
+    const getPostScore = () => {
+        if (upVotes === undefined || downVotes === undefined) return 0;
+        return upVotes.length - downVotes.length;
+    }
+
     return (
         <>
             <Modal
@@ -63,7 +68,7 @@ export function FullPostView(props) {
                         style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            props.addUserToRadar(userData);
+                            props.addUserToRadar(posterId);
                         }}
                         >
                             <Text style={styles.modalTextStyle}>Add user to Radar</Text>
@@ -98,13 +103,13 @@ export function FullPostView(props) {
                         </View>
                         <View style={styles.utilsContainer}>
                             <View>
-                                <TouchableOpacity onPress={props.castUpvote}>
+                                <TouchableOpacity onPress={() => {props.castUpvote(pid)}}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
                                 </TouchableOpacity>
                             </View>
-                            <Text style={styles.voteText}>{props.getPostScore()}</Text>
+                            <Text style={styles.voteText}>{getPostScore()}</Text>
                             <View style={{transform: [{ rotate: "180deg" }]}}>
-                                <TouchableOpacity onPress={props.castDownvote}>
+                                <TouchableOpacity onPress={() => {props.castDownvote(pid)}}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
                                 </TouchableOpacity>
                             </View>

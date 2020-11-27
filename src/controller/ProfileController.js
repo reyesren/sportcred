@@ -50,6 +50,15 @@ export const Profile = ({route, navigation}) => {
     });
   }
 
-  return ProfileView({profilePicChange, user, signOut, userDoc});
+  const getACS = () => {
+    // TODO: gets ACS from backend
+    return 200;
+  }
+
+  const sendAboutMeData = (data) => {
+    // TODO: send about me data to backend
+  }
+
+  return ProfileView({profilePicChange, user, signOut, userDoc, getACS, sendAboutMeData});
 };
 // make sure to put all your business logic in the controller. Your view may contain callback functions as props

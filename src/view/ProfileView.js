@@ -54,13 +54,12 @@ const ProfileView = (props) => {
               </View>
             )}
             <View style={styles.profileDescription}>
-              <Text style={styles.sectionDescription}>
-                <Text style={styles.highlight}>Display name: </Text>
+              <Text style={styles.displayNameText}>
                 {props.userDoc.profile.displayName}
               </Text>
               <Text style={styles.sectionDescription}>
                 <Text style={styles.highlight}>ACS: </Text>
-                500
+                {props.getACS()}
               </Text>
             </View>
           </View>
@@ -68,6 +67,7 @@ const ProfileView = (props) => {
           <EditableText
             textTitle="About Me"
             presetText={props.userDoc.profile.about}
+            sendData={props.sendAboutMeData}
           />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
@@ -99,18 +99,20 @@ const styles = StyleSheet.create({
   },
   introBody: {
     backgroundColor: Colors.white,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
   },
   profilePic: {
     width: 200,
     height: 200,
     resizeMode: 'contain',
+    marginTop: 50
   },
   profileDescription: {
     paddingHorizontal: 24,
     marginTop: 32,
     marginBottom: 32,
+    alignItems: 'center'
   },
   titleText: {
     fontWeight: '300',
@@ -159,6 +161,13 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+  displayNameText: {
+    marginTop: 8,
+    fontSize: 24,
+    fontWeight: '400',
+    color: Colors.dark,
+  }
 });
 
 export default ProfileView;
+
