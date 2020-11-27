@@ -31,6 +31,7 @@ export function TheZoneContentView(props) {
                 getPostData={props.getPostData}
                 castUpvote={props.castUpvote}
                 castDownvote={props.castDownvote}
+                checkIfUserUpvoted={props.checkIfUserUpvoted}
                 />;
     });
   }

@@ -43,6 +43,10 @@ export function FullPostView(props) {
         setModalVisible(true);
     }
 
+    const checkIfUserUpvoted = () => {
+        props.checkIfUserUpvoted();
+    }
+
     return (
         <>
             <Modal

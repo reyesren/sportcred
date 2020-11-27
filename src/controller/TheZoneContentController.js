@@ -29,6 +29,11 @@ const TheZoneContent = ({route, navigation}) => {
     //
     }
 
+    const checkIfUserUpvoted = (postId) => {
+        // TODO: returns true if user upvoted post with postId
+        // false, otherwise
+    }
+
     const getPostIds = () => {
         return PostModel.getAllPostIds(false).then(async (allIds) => {
             console.log("allIds[0] is: " + allIds[0]);
@@ -53,7 +58,7 @@ const TheZoneContent = ({route, navigation}) => {
         //console.log(postData);
     }
 
-    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote});
+    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote, checkIfUserUpvoted});
 }
 
 export const TheZonePages = ({route, navigation}) => {

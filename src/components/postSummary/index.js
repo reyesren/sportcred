@@ -59,6 +59,11 @@ const PostSummary = (props) => {
   const castDownvote = () => {
     props.castDownvote();
   };
+
+  const checkIfUserUpvoted = () => {
+    props.checkIfUserUpvoted();
+  }
+
   const styles = StyleSheet.create({
     postContainer: {
       marginVertical: 10,

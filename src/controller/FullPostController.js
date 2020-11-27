@@ -51,6 +51,11 @@ export const FullPost = ({route, navigation}) => {
         });
         //console.log(postData);
     }
+
+    const checkIfUserUpvoted = (postId) => {
+        // TODO: returns true if user upvoted post with postId
+        // false, otherwise
+    }
   
-    return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote, getPostScore});
+    return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote, getPostScore, checkIfUserUpvoted});
 };
