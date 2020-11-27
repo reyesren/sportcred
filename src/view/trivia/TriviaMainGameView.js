@@ -7,28 +7,6 @@ import {useFocusEffect} from '@react-navigation/core';
  * @param {{answer:string}} The answer to the question
  */
 const TriviaMainGameView = (props) => {
-  {
-    /*
-  useFocusEffect(
-    React.useCallback(() => {
-      const backHandler = () => {
-        return true;
-      };
-
-      BackHandler.BackHandler.addEventListener('hardwareBackPress', () =>
-        backHandler(),
-      );
-
-      return () => {
-        console.log('cleanup');
-        BackHandler.BackHandler.removeEventListener('hardwareBackPress', () =>
-          backHandler(),
-        );
-      };
-    }, []),
-  );*/
-  }
-
   const firstQuestion = props.questions[0];
   const questions = props.questions;
   const numOfQuestions = props.numOfQuestions;
