@@ -12,7 +12,7 @@ export default class ACSModel {
      *
      */
     static addToACS(uid: string, delta: number, callback = () => {}) {
-        const key = Date.now()
+        const key = "acsHistory." + Date.now()
 
         this.acsCollection
             .doc(uid)
