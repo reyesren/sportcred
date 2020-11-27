@@ -28,7 +28,10 @@ export function TheZoneContentView(props) {
                 key={id} 
                 navigation={nav} 
                 goToFullPost={props.goToFullPost} 
-                getPostData={props.getPostData}/>;
+                getPostData={props.getPostData}
+                castUpvote={props.castUpvote}
+                castDownvote={props.castDownvote}
+                />;
     });
   }
   return (

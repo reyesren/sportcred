@@ -22,7 +22,7 @@ const PostSummary = (props) => {
 
     if(pid === '') {
       props.getPostData(props.postId).then(postData => {
-          console.log('IN FullPost')
+          console.log('IN PostSummary')
           console.log(postData);
           updatePid(postData.pid);
           if (pid === undefined) updatePid('');
@@ -53,15 +53,11 @@ const PostSummary = (props) => {
   }
 
   const castUpvote = () => {
-    // TODO: mark the post as upvoted by user
-//    const user = useContext(AuthContext);
-//    PostModel.updateUpVotes(pid, user.uid);
+    props.castUpvote();
   };
 
   const castDownvote = () => {
-    // TODO: mark the post as downvoted by user
-//    const user = useContext(AuthContext);
-//    PostModel.updateDownVotes(pid, user.uid);
+    props.castDownvote();
   };
   const styles = StyleSheet.create({
     postContainer: {

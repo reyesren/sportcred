@@ -15,6 +15,20 @@ const TheZoneContent = ({route, navigation}) => {
         navigation.navigate('Full Post', {postId});
     }
 
+    const castUpvote = () => {
+        // TODO: mark the post as upvoted by user
+    //    const user = useContext(AuthContext);
+    //    PostModel.updateUpVotes(pid, user.uid);
+    //
+    }
+
+    const castDownvote = () => {
+        // TODO: mark the post as downvoted by user
+    //    const user = useContext(AuthContext);
+    //    PostModel.updateDownVotes(pid, user.uid);
+    //
+    }
+
     const getPostIds = () => {
         return PostModel.getAllPostIds(false).then(async (allIds) => {
             console.log("allIds[0] is: " + allIds[0]);
@@ -39,7 +53,7 @@ const TheZoneContent = ({route, navigation}) => {
         //console.log(postData);
     }
 
-    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData});
+    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote});
 }
 
 export const TheZonePages = ({route, navigation}) => {
