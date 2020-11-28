@@ -24,16 +24,18 @@ export function TheZoneContentView(props) {
   }
 
   if(postIds.length === 0) {
-    console.log('Fetching posts in THE ZONE');
+    //console.log('Fetching posts in THE ZONE');
     props.getPostIds().then(post => {
         updatePostIds(post);
     })
   }
 
   const onRefresh = React.useCallback(() => {
-    console.log('Fetching posts in THE ZONE (Refresh)');
+    setRefreshing(true);
+    //console.log('Fetching posts in THE ZONE (Refresh)');
     props.getPostIds().then(post => {
         updatePostIds(post);
+        setRefreshing(false);
     })
   }, []);
 
@@ -48,6 +50,7 @@ export function TheZoneContentView(props) {
                 castUpvote={props.castUpvote}
                 castDownvote={props.castDownvote}
                 checkIfUserVoted={props.checkIfUserVoted}
+                refresh={props.shouldRefresh()}
                 />;
     });
   }
@@ -72,7 +75,6 @@ export function TheZoneContentView(props) {
             }}>
             Create Post
           </Button>
-
           { renderButtons(props.navigation) }
         </ScrollView>
       </SafeAreaView>

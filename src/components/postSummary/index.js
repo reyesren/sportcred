@@ -19,6 +19,13 @@ const PostSummary = (props) => {
     const [posterId, updatePosterId] = React.useState("");
     const [upVotes, updateUpvotes] = React.useState([]);
     const [downVotes, updateDownvotes] = React.useState([]);
+    const [refresh, setRefresh] = React.useState(false);
+    const [voteOffset, setVoteOffset] = React.useState(0);
+
+    if (props.refresh) {
+      setRefresh(true);
+      console.log('Post Summary should refresh');
+    }
 
     if(pid === '') {
       props.getPostData(props.postId).then(postData => {
@@ -34,7 +41,27 @@ const PostSummary = (props) => {
           updateDownvotes(postData.downVotes);
           if (!(upVotes)) setUpvotes([]);
           if (!(downVotes)) setDownvotes([]);
+          setVoteOffset(0);
       });
+  }
+
+  if(refresh) {
+    props.getPostData(props.postId).then(postData => {
+        console.log('IN PostSummary')
+        console.log(postData);
+        updatePid(postData.pid);
+        if (pid === undefined) updatePid('');
+        updateTitle(postData.title);
+        updateContent(postData.content);
+        updatePosterId(postData.poster);
+        updatePosterId(postData.displayName);
+        updateUpvotes(postData.upVotes);
+        updateDownvotes(postData.downVotes);
+        if (!(upVotes)) setUpvotes([]);
+        if (!(downVotes)) setDownvotes([]);
+        setRefresh(false);
+        setVoteOffset(0);
+    });
   }
 
   const seeFullPost = () => {
@@ -49,15 +76,25 @@ const PostSummary = (props) => {
 
   const getPostScore = () => {
     if (upVotes === undefined || downVotes === undefined) return 0;
-    return upVotes.length - downVotes.length;
+    return upVotes.length - downVotes.length + voteOffset;
   }
 
   const castUpvote = () => {
-    if (!(pid === undefined)) props.castUpvote(pid);
+    if (!(pid === undefined)) {
+      // if (checkIfUserUpvoted()) setVoteOffset(0);
+      // else if (checkIfUserDownvoted()) setVoteOffset(1);
+      // else setVoteOffset(1);
+      props.castUpvote(pid);
+    }
   };
 
   const castDownvote = () => {
-    if (!(pid === undefined)) props.castDownvote(pid);
+    if (!(pid === undefined)) {
+      // if (checkIfUserDownvoted()) setVoteOffset(0);
+      // else if (checkIfUserUpvoted()) setVoteOffset(-1);
+      // else setVoteOffset(-1);
+      props.castDownvote(pid);
+    }
   };
 
   const checkIfUserUpvoted = () => {

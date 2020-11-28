@@ -20,6 +20,7 @@ export function FullPostView(props) {
     const [posterId, updatePosterId] = React.useState("");
     const [upVotes, updateUpvotes] = React.useState([]);
     const [downVotes, updateDownvotes] = React.useState([]);
+    const [voteOffset, setVoteOffset] = React.useState(0);
 
     if(pid === '') {
         props.getPostData().then(postData => {
@@ -35,6 +36,7 @@ export function FullPostView(props) {
             updateDownvotes(postData.downVotes);
             if (!(upVotes)) setUpvotes([]);
             if (!(downVotes)) setDownvotes([]);
+            setVoteOffset(0);
         });
     }
 
@@ -44,8 +46,30 @@ export function FullPostView(props) {
     }
 
     const checkIfUserUpvoted = () => {
-        props.checkIfUserUpvoted();
+        props.checkIfUserVoted(pid, upVotes);
+      }
+    
+    const checkIfUserDownvoted = () => {
+    props.checkIfUserVoted(pid, downVotes);
     }
+
+    const castUpvote = () => {
+        if (!(pid === undefined)) {
+          if (checkIfUserUpvoted()) setVoteOffset(0);
+          else if (checkIfUserDownvoted()) setVoteOffset(1);
+          else setVoteOffset(1);
+          props.castUpvote(pid);
+        }
+      };
+    
+      const castDownvote = () => {
+        if (!(pid === undefined)) {
+          if (checkIfUserDownvoted()) setVoteOffset(0);
+          else if (checkIfUserUpvoted()) setVoteOffset(-1);
+          else setVoteOffset(-1);
+          props.castDownvote(pid);
+        }
+      };
 
     const getPostScore = () => {
         if (upVotes === undefined || downVotes === undefined) return 0;
@@ -103,13 +127,13 @@ export function FullPostView(props) {
                         </View>
                         <View style={styles.utilsContainer}>
                             <View>
-                                <TouchableOpacity onPress={() => {props.castUpvote(pid)}}>
+                                <TouchableOpacity onPress={() => {castUpvote()}}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
                                 </TouchableOpacity>
                             </View>
                             <Text style={styles.voteText}>{getPostScore()}</Text>
                             <View style={{transform: [{ rotate: "180deg" }]}}>
-                                <TouchableOpacity onPress={() => {props.castDownvote(pid)}}>
+                                <TouchableOpacity onPress={() => {castDownvote()}}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
                                 </TouchableOpacity>
                             </View>

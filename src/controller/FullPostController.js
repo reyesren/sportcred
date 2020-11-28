@@ -22,7 +22,7 @@ export const FullPost = ({route, navigation}) => {
     }
 
     const backtoZone = () => {
-        navigation.pop();
+        navigation.navigate('The Zone', {refresh: true});
     }
 
     const getPostScore = (postId) => {
@@ -62,11 +62,11 @@ export const FullPost = ({route, navigation}) => {
    *
    * @return {bool} true if user is found, false if user not found
    */
-    const checkIfUserUpvoted = (postId, which) => {
+    const checkIfUserVoted = (postId, which) => {
         // TODO: returns true if user upvoted post with postId
         // false, otherwise
         return PostModel.checkIfVoted(postId, user.uid, which);
     }
   
-    return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote, getPostScore, checkIfUserUpvoted});
+    return FullPostView({getPostData, addUserToRadar, backtoZone, castDownvote, castUpvote, getPostScore, checkIfUserVoted});
 };
