@@ -22,13 +22,14 @@ export const DebateList = ({navigation}) => {
                 setList(docs)
                 DebateModel.getPersonalResponses(user.uid).then(r => {
                     let p = {}
-                    Object.keys(r).map(k => {
-                        const ratings = Object.values(r[k]['ratings'])
-                        p[k] = ratings.reduce((a, b) => a + b, 0) / ratings.length
-                    })
+                    if (r !== undefined) {
+                        Object.keys(r).map(k => {
+                            const ratings = Object.values(r[k]['ratings'])
+                            p[k] = ratings.reduce((a, b) => a + b, 0) / ratings.length
+                        })
+                    }
 
                     setPersonal(p)
-                    console.log(JSON.stringify(p, null, 2))
                     setFetched(true)
                 })
             }
