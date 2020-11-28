@@ -17,6 +17,7 @@ import {PostSummary} from './../../components/index.js';
 export function TheZoneContentView(props) {
   const [postIds, updatePostIds] = React.useState([]);
   if(postIds.length === 0) {
+    console.log('Fetching posts in THE ZONE');
     props.getPostIds().then(post => {
         updatePostIds(post);
     })

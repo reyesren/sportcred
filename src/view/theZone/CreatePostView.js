@@ -58,7 +58,7 @@ export function CreatePostView(props) {
                 <Button
                   mode="contained"
                   onPress={() => {
-                    props.navigation.pop();
+                    props.navigation.navigate('The Zone');
                   }}>
                   Cancel
                 </Button>
