@@ -166,12 +166,12 @@ export default class PostModel {
     const check = this.checkIfVoted(pid, uid, 0);
     if (check) {
       this.postCollection.doc(pid).update(
-        { upVotes: admin.firestore.FieldValue.arrayUnion(uid) })
+        { upVotes: firestore.FieldValue.arrayUnion(uid) })
         .then(() => console.log("Upvote added!"))
         .catch();
     } else {
       this.postCollection.doc(pid).update(
-        { upVotes: admin.firestore.FieldValue.arrayRemove(uid) })
+        { upVotes: firestore.FieldValue.arrayRemove(uid) })
         .then(() => console.log("Upvote removed!"))
         .catch();
     }
@@ -187,12 +187,12 @@ export default class PostModel {
     const check = this.checkIfVoted(pid, uid, 1);
     if (check) {
       this.postCollection.doc(pid).update(
-        { downVotes: admin.firestore.FieldValue.arrayUnion(uid) })
+        { downVotes: firestore.FieldValue.arrayUnion(uid) })
         .then(() => console.log("Downvote added!"))
         .catch();
     } else {
       this.postCollection.doc(pid).update(
-        { downVotes: admin.firestore.FieldValue.arrayRemove(uid) })
+        { downVotes: firestore.FieldValue.arrayRemove(uid) })
         .then(() => console.log("Downvote removed!"))
         .catch();
     }

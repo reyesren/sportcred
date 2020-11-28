@@ -204,6 +204,6 @@ export default class UserModel {
   static updateRadarList(uid: string, radarUid: string) {
     this.userCollection
       .doc(uid)
-      .update({radar_list: firebase.firestore.FieldValue.arrayUnion(radarUid)});
+      .update({radar_list: firestore.FieldValue.arrayUnion(radarUid)});
   }
 }

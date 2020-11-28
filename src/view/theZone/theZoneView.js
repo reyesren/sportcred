@@ -49,6 +49,7 @@ export function TheZoneContentView(props) {
           <Button
             mode="contained"
             onPress={() => {
+              updatePostIds([]);
               props.navigation.navigate('Create Post');
             }}>
             Create Post
