@@ -20,16 +20,12 @@ const TheZoneContent = ({route, navigation}) => {
 
     const castUpvote = (postId) => {
         // TODO: mark the post as upvoted by user
-        return;
-        PostModel.updateUpVotes(postId, user.uid).then(async () => {return});
-
+        PostModel.updateUpVotes(postId, user.uid);
     }
 
     const castDownvote = (postId) => {
         // TODO: mark the post as downvoted by user
-        return;
         PostModel.updateDownVotes(postId, user.uid);
-
     }
 
   /**

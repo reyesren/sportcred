@@ -162,18 +162,16 @@ export default class PostModel {
    * @param pid       {string}       post uid
    * @param uid       {string}       user uid
    */
-  static updateUpVotes(pid: string, uid) {
-    const check = this.checkIfVoted(pid, uid, 0);
-    if (check) {
-      this.postCollection.doc(pid).update(
-        { upVotes: firestore.FieldValue.arrayUnion(uid) })
-        .then(() => console.log("Upvote added!"))
-        .catch();
-    } else {
-      this.postCollection.doc(pid).update(
-        { upVotes: firestore.FieldValue.arrayRemove(uid) })
-        .then(() => console.log("Upvote removed!"))
-        .catch();
+  static async updateUpVotes(pid: string, uid) {
+    const hasUpVoted = await this.checkIfVoted(pid, uid, 0);
+    const hasDownVoted = await this.checkIfVoted(pid, uid, 1);
+    if (!hasUpVoted && !hasDownVoted) {
+      await this.addUpVote(pid, uid);
+    } else if (!hasUpVoted && hasDownVoted) {
+      await this.removeDownVote(pid, uid);
+      await this.addUpVote(pid, uid);
+    } else if (hasUpVoted && !hasDownVoted) {
+        await this.removeUpVote(pid, uid);
     }
   }
 
@@ -183,20 +181,46 @@ export default class PostModel {
    * @param pid       {string}       post uid
    * @param uid       {string}       post uid
    */
-  static updateDownVotes(pid: string, uid: string) {
-    const check = this.checkIfVoted(pid, uid, 1);
-    if (check) {
-      this.postCollection.doc(pid).update(
-        { downVotes: firestore.FieldValue.arrayUnion(uid) })
-        .then(() => console.log("Downvote added!"))
-        .catch();
-    } else {
-      this.postCollection.doc(pid).update(
-        { downVotes: firestore.FieldValue.arrayRemove(uid) })
-        .then(() => console.log("Downvote removed!"))
-        .catch();
+  static async updateDownVotes(pid: string, uid: string) {
+    const hasUpVoted = await this.checkIfVoted(pid, uid, 0);
+    const hasDownVoted = await this.checkIfVoted(pid, uid, 1);
+    if (!hasDownVoted && !hasUpVoted) {
+      await this.addDownVote(pid, uid);
+    } else if (!hasDownVoted && hasUpVoted) {
+      await this.removeUpVote(pid, uid);
+      await this.addDownVote(pid, uid);
+    } else if (hasDownVoted && !hasUpVoted) {
+        await this.removeDownVote(pid, uid);
     }
   }
+
+  static async addUpVote(pid, uid) {
+    await this.postCollection.doc(pid).update(
+            { upVotes: firestore.FieldValue.arrayUnion(uid) })
+            .then(() => console.log("Upvote added!"))
+            .catch();
+  }
+
+  static async removeUpVote(pid, uid) {
+      await this.postCollection.doc(pid).update(
+              { upVotes: firestore.FieldValue.arrayRemove(uid) })
+              .then(() => console.log("Upvote removed!"))
+              .catch();
+  }
+
+  static async addDownVote(pid, uid) {
+    await this.postCollection.doc(pid).update(
+        { downVotes: firestore.FieldValue.arrayUnion(uid) })
+            .then(() => console.log("Downvote added!"))
+            .catch();
+    }
+
+  static async removeDownVote(pid, uid) {
+    await this.postCollection.doc(pid).update(
+        { downVotes: firestore.FieldValue.arrayRemove(uid) })
+            .then(() => console.log("Downvote added!"))
+            .catch();
+    }
 
   /**
    *
@@ -207,16 +231,16 @@ export default class PostModel {
    * @return {bool} check: true if user is found, false if user not found
    */
 
-  static checkIfVoted(pid: string, uid: string, which) {
+  static async checkIfVoted(pid: string, uid: string, which) {
     let check = false;
-    let votesArr = null;
+    const post = await this.getPostDoc(pid);
+    let votesArr;
     if (which === 0) {
-      votesArr = this.getPostDoc(pid).upVotes;
+      votesArr = post.upVotes;
     } else {
-      votesArr = this.getPostDoc(pid).downVotes;
+      votesArr = post.downVotes;
     }
-
-    if (votesArr.find(uid)) {
+    if (votesArr.includes(uid)) {
       check = true;
     }
 

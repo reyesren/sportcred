@@ -27,9 +27,6 @@ export const FullPost = ({route, navigation}) => {
 
     const getPostScore = (postId) => {
         // TODO: Get a numerical score for the post, score = # of Upvotes - # of downvotes
-        //const post = getPostDoc(postId);
-        //return post.upVotes.length - post.downVotes.length;
-        return 0;
         return PostModel.getPostDoc(postId).then(async (post) => {
             return await (post.upVotes.length - post.downVotes.length);
         });
