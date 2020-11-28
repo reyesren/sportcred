@@ -28,6 +28,10 @@ const TheZoneContent = ({route, navigation}) => {
         PostModel.updateDownVotes(postId, user.uid);
     }
 
+    const shouldRefresh = () => {
+        return route.refresh !== undefined;
+    }
+
   /**
    *
    * @param {string} postId: post id
@@ -65,7 +69,7 @@ const TheZoneContent = ({route, navigation}) => {
         //console.log(postData);
     }
 
-    return TheZoneContentView({navigation, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote, checkIfUserVoted});
+    return TheZoneContentView({navigation, shouldRefresh, getPostIds, goToFullPost, getPostData, castDownvote, castUpvote, checkIfUserVoted});
 }
 
 export const TheZonePages = ({route, navigation}) => {
