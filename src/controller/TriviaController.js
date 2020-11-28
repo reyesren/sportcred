@@ -33,7 +33,7 @@ export function getChallenges() {
       Object.keys(challenge._data).map((element) => {
         return {
           challengeId: element,
-          challengerId: challenge._data[element].opDisplayName,
+          // challengerId: challenge._data[element].opDisplayName,
         };
       }),
     );
