@@ -54,8 +54,7 @@ const ProfileView = (props) => {
               </View>
             )}
             <View style={styles.profileDescription}>
-              <Text style={styles.sectionDescription}>
-                <Text style={styles.highlight}>Display name: </Text>
+              <Text style={styles.displayNameText}>
                 {props.userDoc.profile.displayName}
               </Text>
               <Text style={styles.sectionDescription}>
@@ -99,8 +98,9 @@ const styles = StyleSheet.create({
   },
   introBody: {
     backgroundColor: Colors.white,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: 50
   },
   profilePic: {
     width: 200,
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginTop: 32,
     marginBottom: 32,
+    alignItems: 'center'
   },
   titleText: {
     fontWeight: '300',
@@ -145,6 +146,12 @@ const styles = StyleSheet.create({
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
+    fontWeight: '400',
+    color: Colors.dark,
+  },
+  displayNameText: {
+    marginTop: 8,
+    fontSize: 24,
     fontWeight: '400',
     color: Colors.dark,
   },
