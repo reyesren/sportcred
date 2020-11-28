@@ -18,6 +18,11 @@ import {PostSummary} from './../../components/index.js';
 export function TheZoneContentView(props) {
   const [postIds, updatePostIds] = React.useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
+
+  if (props.shouldRefresh()) {
+    setRefreshing(true);
+  }
+
   if(postIds.length === 0) {
     console.log('Fetching posts in THE ZONE');
     props.getPostIds().then(post => {
@@ -63,7 +68,6 @@ export function TheZoneContentView(props) {
           <Button
             mode="contained"
             onPress={() => {
-              updatePostIds([]);
               props.navigation.navigate('Create Post');
             }}>
             Create Post
