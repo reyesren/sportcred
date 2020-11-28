@@ -67,6 +67,7 @@ const ProfileView = (props) => {
           <EditableText
             textTitle="About Me"
             presetText={props.userDoc.profile.about}
+            setText={props.setAboutMe}
           />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>

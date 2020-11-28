@@ -43,6 +43,17 @@ export const Profile = ({route, navigation}) => {
     UserModel.signOut();
   }
 
+  const setAboutMe = (text) => {
+    console.log('sending about to backend');
+    UserModel.getUserDoc(user.uid).then((doc) => {
+      //console.log('.then reached');
+      var profile = doc.profile;
+      profile.about = text;
+      console.log(profile);
+      UserModel.updateProfile(user.uid, profile);
+    })
+  }
+
   if (!fetched) {
     UserModel.getUserDoc(user.uid).then((doc) => {
       setUserDoc(doc)
@@ -50,6 +61,6 @@ export const Profile = ({route, navigation}) => {
     });
   }
 
-  return ProfileView({profilePicChange, user, signOut, userDoc});
+  return ProfileView({profilePicChange, user, signOut, userDoc, setAboutMe});
 };
 // make sure to put all your business logic in the controller. Your view may contain callback functions as props
