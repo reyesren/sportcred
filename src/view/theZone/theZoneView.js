@@ -8,6 +8,7 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  RefreshControl
 } from 'react-native';
 import {Button} from 'react-native-paper';
 
@@ -16,12 +17,21 @@ import {PostSummary} from './../../components/index.js';
 
 export function TheZoneContentView(props) {
   const [postIds, updatePostIds] = React.useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
   if(postIds.length === 0) {
     console.log('Fetching posts in THE ZONE');
     props.getPostIds().then(post => {
         updatePostIds(post);
     })
   }
+
+  const onRefresh = React.useCallback(() => {
+    console.log('Fetching posts in THE ZONE (Refresh)');
+    props.getPostIds().then(post => {
+        updatePostIds(post);
+    })
+  }, []);
+
   function renderButtons(nav) {
     return postIds.map((id) => {
       return <PostSummary 
@@ -42,7 +52,10 @@ export function TheZoneContentView(props) {
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View>
             <Text style={styles.titleText}>THE ZONE</Text>
           </View>
