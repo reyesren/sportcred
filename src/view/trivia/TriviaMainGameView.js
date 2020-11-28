@@ -1,15 +1,44 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, Text, Title} from 'react-native-paper';
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, View, Animated, TouchableOpacity} from 'react-native';
+import {Button, Text} from 'react-native-paper';
 import {useFocusEffect} from '@react-navigation/core';
 
+const FadeInView = (props) => {
+  const fadeAnim = useRef(new Animated.Value(325)).current; // Initial value for opacity: 0
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 10000,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeAnim]);
+
+  return (
+    <Animated.View // Special animatable View
+      style={{
+        ...props.style,
+        width: fadeAnim, // Bind opacity to animated value
+      }}>
+      {props.children}
+    </Animated.View>
+  );
+};
+
 /**
- * @param {{answer:string}} The answer to the question
+ * @param {Object[]} props.questions[]
+ * @param {String} props.questions[]._data.answer
+ * @param {Number} props.numOfQuestions
+ * @param {Function} props.goToResults()
+ * @param {Function} props.processResults()
  */
 const TriviaMainGameView = (props) => {
   const firstQuestion = props.questions[0];
   const questions = props.questions;
   const numOfQuestions = props.numOfQuestions;
+
+  const interval = 1000;
+  const timeBarTotal = 10000;
 
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState(firstQuestion._data.question);
@@ -29,12 +58,29 @@ const TriviaMainGameView = (props) => {
   const [isDisabledAnswer4, setDisabledAnswer4] = useState(false);
   const [isAnswerSelected, setAnswerSelected] = useState(false);
   const [timeLeft, setTimeLeft] = useState(10);
-  const [timerId, setTimerId] = useState(0);
   const [isAnswerHandler, setIsAnswerHandler] = useState(undefined);
   const [intervalId, setIntervalId] = useState(0);
+  const [intervalIdTimeBar, setIntervalIdTimeBar] = useState(0);
+  const [timeBarLeft, setTimeBarLeft] = useState(timeBarTotal);
+  const [timeoutID, setTimeoutID] = useState(0);
+
+  const fadeAnim = useRef(new Animated.Value(325)).current; // Initial value for opacity: 0
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 10000,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeAnim]);
 
   const checkAnswer = (answer) => {
-    if (answer === 0 && option1 === actualAnswer) {
+    /* if (
+      (answer === 0 && option1 === actualAnswer) ||
+      (answer === 1 && option2 === actualAnswer) ||
+      (answer === 2 && option3 === actualAnswer) ||
+      (answer === 3 && option4 === actualAnswer)
+    ) {
       return true;
     }
     if (answer === 1 && option2 === actualAnswer) {
@@ -46,11 +92,21 @@ const TriviaMainGameView = (props) => {
     if (answer === 3 && option4 === actualAnswer) {
       return true;
     }
-    return false;
+    return false;*/
+
+    return (
+      (answer === 0 && option1 === actualAnswer) ||
+      (answer === 1 && option2 === actualAnswer) ||
+      (answer === 2 && option3 === actualAnswer) ||
+      (answer === 3 && option4 === actualAnswer)
+    );
   };
 
   const answerHandler = (whichAnswer) => {
-    clearInterval(intervalId);
+    // clearInterval(intervalId);
+    // clearInterval(intervalIdTimeBar);
+    clearTimeout(timeoutID);
+    Animated.timing(fadeAnim).stop();
     setIsAnswerHandler(0);
     setAnswerSelected(true);
     setDisabledAnswer1(true);
@@ -58,7 +114,7 @@ const TriviaMainGameView = (props) => {
     setDisabledAnswer3(true);
     setDisabledAnswer4(true);
 
-    if (whichAnswer != -1) {
+    if (whichAnswer !== -1) {
       if (checkAnswer(whichAnswer)) {
         setScore(score + 1);
         if (whichAnswer === 0) {
@@ -94,9 +150,6 @@ const TriviaMainGameView = (props) => {
   };
 
   useEffect(() => {
-    console.log('page updated');
-    console.log('question count', questionCount);
-    console.log('isAnswerPressed', isAnswerSelected);
     if (questionCount === numOfQuestions && isAnswerSelected) {
       setTimeout(() => {
         props.goToResults(score);
@@ -105,16 +158,29 @@ const TriviaMainGameView = (props) => {
     }
   });
 
-  useEffect(() => {
+  /* useEffect(() => {
+    // if (timeBarLeft === 0 && typeof isAnswerHandler !== 'number') {
     if (timeLeft === 0 && typeof isAnswerHandler !== 'number') {
       answerHandler(-1);
     }
-  });
+  });*/
 
   useFocusEffect(
     React.useCallback(() => {
+      const id = setTimeout(() => {
+        answerHandler(-1);
+      }, 10000);
+      setTimeoutID(id);
+
+      return () => {
+        clearTimeout(timeoutID);
+      };
+    }, []),
+  );
+
+  /* useFocusEffect(
+    React.useCallback(() => {
       const id = setInterval(() => {
-        console.log('interval');
         setTimeLeft((prevState) => {
           return prevState > 0 ? prevState - 1 : 0;
         });
@@ -125,7 +191,23 @@ const TriviaMainGameView = (props) => {
         clearInterval(intervalId);
       };
     }, []),
-  );
+  );*/
+
+  /* useFocusEffect(
+    React.useCallback(() => {
+      const id = setInterval(() => {
+        setTimeBarLeft((prevState) => {
+          console.log(prevState);
+          return prevState > 0 ? prevState - interval : 0;
+        });
+      }, interval);
+      setIntervalIdTimeBar(id);
+
+      return () => {
+        clearInterval(intervalIdTimeBar);
+      };
+    }, []),
+  );*/
 
   const updateOptions = () => {
     setAnswerSelected(false);
@@ -148,41 +230,97 @@ const TriviaMainGameView = (props) => {
       setDisabledAnswer3(false);
       setDisabledAnswer4(false);
       setTimeLeft(10);
-      /* clearTimeout(timerId);
-      const timerId = setTimeout(() => {
-        answerHandler(-1);
-      }, 10000);
-      setTimerId(timerId);*/
-      setIsAnswerHandler(undefined);
-      const id = setInterval(() => {
+      /* let id = setInterval(() => {
         console.log('interval');
         setTimeLeft((prevState) => {
           return prevState > 0 ? prevState - 1 : 0;
         });
       }, 1000);
-      setIntervalId(id);
+      setIntervalId(id);*/
+
+      /* setTimeBarLeft(timeBarTotal);
+      const timeBarID = setInterval(() => {
+        setTimeBarLeft((prevState) => {
+          console.log(prevState);
+          return prevState > 0 ? prevState - interval : 0;
+        });
+      }, interval);
+      setIntervalIdTimeBar(timeBarID);*/
+      fadeAnim.resetAnimation();
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 10000,
+        useNativeDriver: false,
+      }).start();
+      let id = setTimeout(() => {
+        answerHandler(-1);
+      }, 10000);
+      setTimeoutID(id);
+
+      setIsAnswerHandler(undefined);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Title style={styles.header}>TRIVIA</Title>
+      {/*<FadeInView style={{height: 50, backgroundColor: 'powderblue'}}>
+        <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>
+          Fading in
+        </Text>
+      </FadeInView>*/}
+      <View>
+        <View style={styles.behind} />
+        <Animated.View // Special animatable View
+          style={{
+            height: 50,
+            backgroundColor: 'orange',
+            width: fadeAnim, // Bind opacity to animated value
+            borderRadius: 3,
+            borderTopWidth: 1,
+            borderLeftWidth: 1,
+            borderBottomWidth: 1,
+          }}
+        />
+      </View>
+      {/*<View
+        style={[
+          styles.timeBar,
+          {width: (timeBarLeft / timeBarTotal) * 100 + '%'},
+        ]}
+      />*/}
       <Text style={styles.questionCounter}>
         Question {questionCount}/{numOfQuestions}
       </Text>
       <View style={styles.scoreContainer}>
-        <Text style={styles.timeLeft}>{timeLeft}</Text>
+        {/*<Text style={styles.timeLeft}>{timeLeft}</Text>*/}
         <Text style={styles.score}>{score}</Text>
       </View>
       <Text style={styles.question}>{question}</Text>
-      <Button
-        mode="contained"
-        style={{backgroundColor: colorAnswer1}}
+      <TouchableOpacity
+        style={[styles.option, {backgroundColor: colorAnswer1}]}
         onPress={() => answerHandler(0)}
         disabled={isDisabledAnswer1}>
-        {option1}
-      </Button>
-      <Button
+        <Text style={styles.optionText}>{option1}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.option, {backgroundColor: colorAnswer2}]}
+        onPress={() => answerHandler(1)}
+        disabled={isDisabledAnswer2}>
+        <Text style={styles.optionText}>{option2}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.option, {backgroundColor: colorAnswer3}]}
+        onPress={() => answerHandler(2)}
+        disabled={isDisabledAnswer3}>
+        <Text style={styles.optionText}>{option3}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.option, {backgroundColor: colorAnswer4}]}
+        onPress={() => answerHandler(3)}
+        disabled={isDisabledAnswer4}>
+        <Text style={styles.optionText}>{option4}</Text>
+      </TouchableOpacity>
+      {/*<Button
         mode="contained"
         style={{backgroundColor: colorAnswer2}}
         onPress={() => answerHandler(1)}
@@ -202,7 +340,7 @@ const TriviaMainGameView = (props) => {
         onPress={() => answerHandler(3)}
         disabled={isDisabledAnswer4}>
         {option4}
-      </Button>
+      </Button>*/}
     </View>
   );
 };
@@ -224,25 +362,51 @@ const styles = StyleSheet.create({
   },
   questionCounter: {
     fontSize: 20,
+    fontFamily: 'Roboto',
+    color: '#6d6d6d',
+    alignSelf: 'center',
   },
   scoreContainer: {
     height: 100,
     width: 150,
     backgroundColor: '#ff9020',
+    borderWidth: 3,
     alignSelf: 'center',
+    justifyContent: 'center',
   },
   score: {
     alignSelf: 'center',
-    paddingTop: 5,
     fontSize: 40,
   },
   question: {
-    fontSize: 20,
+    fontSize: 25,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   timeLeft: {
     alignSelf: 'center',
     fontSize: 20,
+  },
+  behind: {
+    height: 50,
+    width: 325,
+    backgroundColor: '#ffd5b3',
+    position: 'absolute',
+    borderWidth: 1,
+    borderRadius: 3,
+  },
+  option: {
+    borderRadius: 3,
+    borderWidth: 1,
+  },
+  optionText: {
+    alignSelf: 'center',
+    padding: 10,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    fontSize: 17,
+    color: '#fff',
   },
 });
 
