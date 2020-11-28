@@ -3,6 +3,7 @@ import ImagePicker from 'react-native-image-picker';
 import {AuthContext} from '../navigation/AuthNavigator';
 import {useContext, useState} from 'react';
 import UserModel from '../model/UserModel';
+import ACSModel from '../model/ACSModel';
 
 export const Profile = ({route, navigation}) => {
   const user = useContext(AuthContext);
@@ -43,6 +44,29 @@ export const Profile = ({route, navigation}) => {
     UserModel.signOut();
   }
 
+  const setAboutMe = (text) => {
+    console.log('sending about to backend');
+    UserModel.getUserDoc(user.uid).then((doc) => {
+      //console.log('.then reached');
+      var profile = doc.profile;
+      profile.about = text;
+      console.log(profile);
+      UserModel.updateProfile(user.uid, profile);
+    })
+  }
+
+  const getACSScore = () => {
+    return ACSModel.getACS(user.uid).then(
+      acsDoc => {
+          const m = acsDoc['acsHistory']
+          let array = Object.keys(m).map(k => m[k])
+          let sum = array.reduce((a,b) => a+b, 100)
+          //console.log(sum);
+          return sum;
+      }
+    );
+  }
+
   if (!fetched) {
     UserModel.getUserDoc(user.uid).then((doc) => {
       setUserDoc(doc)
@@ -50,6 +74,6 @@ export const Profile = ({route, navigation}) => {
     });
   }
 
-  return ProfileView({profilePicChange, user, signOut, userDoc});
+  return ProfileView({profilePicChange, user, signOut, userDoc, setAboutMe, getACSScore});
 };
 // make sure to put all your business logic in the controller. Your view may contain callback functions as props

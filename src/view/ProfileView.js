@@ -7,7 +7,8 @@ import {
   Text,
   StatusBar,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  RefreshControl
 } from 'react-native';
 import {Button} from 'react-native-paper';
 
@@ -21,8 +22,19 @@ const ProfileView = (props) => {
   const [profilePic, setProfilePic] = React.useState({
     uri: props.user.photoURL,
   });
+  const [ACS, setACS] = React.useState(0);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setACS(0);
+    setRefreshing(false);
+  }, []);
 
-  const goToACSQuestions = () => {};
+  const getACS = () => {
+    props.getACSScore().then(score => setACS(score));
+  };
+
+  if (ACS === 0) getACS();
 
   return (
     <>
@@ -30,8 +42,10 @@ const ProfileView = (props) => {
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View style={styles.introBody}>
             {promptingPictureChange ? (
               <View>
@@ -59,7 +73,7 @@ const ProfileView = (props) => {
               </Text>
               <Text style={styles.sectionDescription}>
                 <Text style={styles.highlight}>ACS: </Text>
-                500
+                { ACS }
               </Text>
             </View>
           </View>
@@ -67,6 +81,7 @@ const ProfileView = (props) => {
           <EditableText
             textTitle="About Me"
             presetText={props.userDoc.profile.about}
+            setText={props.setAboutMe}
           />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
