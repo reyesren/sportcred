@@ -20,7 +20,7 @@ const DailyCard = (props) => {
 
     const updateMatchData = (pick) => {
         props.matchData.userPick = pick;
-        props.updateMatchDataDatabase(props.matchData);
+        props.updateMatchDatabase(props.matchData);
     }
 
     const styles = StyleSheet.create({
@@ -34,11 +34,44 @@ const DailyCard = (props) => {
             justifyContent: 'center', 
             alignItems: 'center',    
             paddingVertical: 20,
-            paddingHorizontal: 10,
+            paddingHorizontal: 30,
             marginVertical: 10,
             backgroundColor: '#ddd',
-            borderRadius: 10,
             minHeight: 140,
+            borderRightWidth: 3,
+            borderLeftWidth: 3,
+            borderRightColor: '#ddd',
+            borderLeftColor: '#ddd'
+        },
+        leftSelectContainer: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center', 
+            alignItems: 'center',    
+            paddingVertical: 20,
+            paddingHorizontal: 30,
+            marginVertical: 10,
+            backgroundColor: '#ddd',
+            minHeight: 140,
+            borderRightWidth: 3,
+            borderLeftWidth: 7,
+            borderRightColor: '#ddd',
+            borderLeftColor: '#1F6521'
+        },
+        rightSelectContainer: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center', 
+            alignItems: 'center',    
+            paddingVertical: 20,
+            paddingHorizontal: 30,
+            marginVertical: 10,
+            backgroundColor: '#ddd',
+            minHeight: 140,
+            borderRightWidth: 7,
+            borderLeftWidth: 3,
+            borderRightColor: '#1F6521',
+            borderLeftColor: '#ddd'
         },
         textContainer: {
             flex: 2,
@@ -103,16 +136,41 @@ const DailyCard = (props) => {
 
     const renderBanner = (winner, text, styling) => {
         if (winner == 0) return;
-        if (winner == 1)
+        if (winner == 1) {
             return (
                 <View style={styling}>
                     <Text style={styles.bannerText}>{'<'} {text}</Text>
                 </View>
             );
+        }
         return (
             <View style={styling}>
                 <Text style={styles.bannerText}>{text} {'>'}</Text>
             </View>
+        );
+    }
+
+    const renderCard = () => {
+        var styleToUseForContainer;
+        if (props.matchData.userPick === 0) styleToUseForContainer = styles.container;
+        else if (props.matchData.userPick === 1) styleToUseForContainer = styles.leftSelectContainer;
+        else styleToUseForContainer = styles.rightSelectContainer;
+        return (
+            <TouchableOpacity style={styleToUseForContainer} onPress={openModal}>
+                <View>
+                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team1)} />
+                    
+                </View>
+                <View style={styles.textContainer}>
+                    { renderBanner(props.matchData.result, 'won', styles.winBanner) }
+                    <Text>{props.matchData.date.getHours()}:{("0" + props.matchData.date.getMinutes()).slice(-2)}:00</Text>
+                    <Text>00/00/00</Text>
+                    {/* { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) } */}
+                </View>
+                <View>
+                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team2)} />
+                </View>
+            </TouchableOpacity>
         );
     }
 
@@ -160,21 +218,7 @@ const DailyCard = (props) => {
                     </View>
                 </View>
             </Modal>
-            <TouchableOpacity style={styles.container} onPress={openModal}>
-                <View>
-                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team1)} />
-                    
-                </View>
-                <View style={styles.textContainer}>
-                    { renderBanner(props.matchData.result, 'won', styles.winBanner) }
-                    <Text>{props.matchData.date.getHours()}:{("0" + props.matchData.date.getMinutes()).slice(-2)}:00</Text>
-                    <Text>00/00/00</Text>
-                    { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) }
-                </View>
-                <View>
-                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team2)} />
-                </View>
-            </TouchableOpacity>
+            { renderCard() }
         </>
     );
 }
