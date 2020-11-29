@@ -10,11 +10,6 @@ import {
 } from 'react-native';
 import Text from 'react-native-paper/src/components/Typography/Text';
 import {Button, TextInput, Title} from 'react-native-paper';
-import {
-  getChallenges,
-  acceptChallenge,
-  declineChallenge,
-} from './../../controller/TriviaController';
 
 const ChallengeNotification = (props) => {
   const styles = StyleSheet.create({
@@ -56,14 +51,14 @@ const ChallengeNotification = (props) => {
           <Button
             mode="contained"
             onPress={() => {
-              acceptChallenge(props.challengeId);
+              props.acceptChallenge(props.challangerId, props.questions, props.challangerScore, props.challengeId);
             }}>
             Accept
           </Button>
           <Button
             mode="contained"
             onPress={() => {
-              declineChallenge(props.challengeId);
+              props.declineChallenge(props.challangerId, props.questions, props.challangerScore, props.challengeId);
             }}>
             Decline
           </Button>
@@ -94,7 +89,14 @@ const TriviaLandingView = (props) => {
     },
   });
 
-  const challenges = getChallenges();
+  //const [challenges, setChallenges] = React.useState([]);
+  // if (challenges.length === 0) {
+  //   props.getChallenges().then(c => {
+  //     //console.log(Object.values(c));
+  //     let keys = Object.keys(c);
+  //     setChallenges(Object.values(c));
+  //   });
+  // }
 
   function renderChallengeNotifications() {
     return challenges.map((challenge) => {
@@ -102,7 +104,11 @@ const TriviaLandingView = (props) => {
         <ChallengeNotification
           challengerId={challenge.challengerId}
           challengeId={challenge.challengeId}
+          questions={challenge.questions}
+          challangerScore={challenge.challangerScore}
           key={challenge.challengeId}
+          acceptChallenge={props.acceptChallenge}
+          declineChallenge={props.declineChallenge}
         />
       );
     });
@@ -133,7 +139,7 @@ const TriviaLandingView = (props) => {
               SOLO
             </Button>
             <View style={styles.pad} />
-            {renderChallengeNotifications()}
+            {/* {renderChallengeNotifications()} */}
           </View>
         </ScrollView>
       </SafeAreaView>
