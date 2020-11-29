@@ -30,16 +30,18 @@ const Tab = createBottomTabNavigator();
 
 function FullySignedUp() {
   return (
-    <Tab.Navigator initialRouteName={'The Zone'} tabBarOptions={{
-      style: {
-        activeTintColor: '#fff',
-        inactiveTintColor: 'lightgray',
-        activeBackgroundColor: '#c4461c',
-        inactiveBackgroundColor: '#b55031',
-        backgroundColor: '#1F6521'
-      },
-      showLabel: false
-    }}>
+    <Tab.Navigator
+      initialRouteName={'The Zone'}
+      tabBarOptions={{
+        style: {
+          activeTintColor: '#fff',
+          inactiveTintColor: 'lightgray',
+          activeBackgroundColor: '#c4461c',
+          inactiveBackgroundColor: '#b55031',
+          backgroundColor: '#1F6521',
+        },
+        showLabel: false,
+      }}>
       <Tab.Screen
         name="The Zone"
         component={TheZone}
@@ -74,7 +76,8 @@ function FullySignedUp() {
             <MaterialCommunityIcons
               name="cog"
               color="#FFFFFF"
-              size={focused ? 30 : 20} />
+              size={focused ? 30 : 20}
+            />
           ),
         }}
       />
@@ -86,7 +89,8 @@ function FullySignedUp() {
             <MaterialCommunityIcons
               name="youtube-tv"
               color="#FFFFFF"
-              size={focused ? 30 : 20} />
+              size={focused ? 30 : 20}
+            />
           ),
         }}
       />
@@ -134,10 +138,6 @@ export default function LoggedInStack() {
         />
         <Stack.Screen name="Trivia" component={TriviaLanding} />
         <Stack.Screen name="TriviaHeadToHead" component={HeadToHeadTabs} />
-        <Stack.Screen
-          name="PlayerChooser"
-          component={PlayerChooserController}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );
