@@ -16,18 +16,16 @@ import {PostSummary} from './../../components/index.js';
 
 import {getPostIds} from './../../controller/TheZoneController';
 
-
-
 export function TheZoneContentView({navigation}) {
   const [postIds, updatePostIds] = React.useState([]);
-  if(postIds.length === 0) {
-    getPostIds().then(post => {
-        updatePostIds(post);
-    })
+  if (postIds.length === 0) {
+    getPostIds().then((post) => {
+      updatePostIds(post);
+    });
   }
   function renderButtons(nav) {
     return postIds.map((id) => {
-      return <PostSummary postId={id} key={id} navigation={nav}/>;
+      return <PostSummary postId={id} key={id} navigation={nav} />;
     });
   }
   return (
@@ -49,21 +47,10 @@ export function TheZoneContentView({navigation}) {
             Create Post
           </Button>
 
-          { renderButtons(navigation) }
+          {renderButtons(navigation)}
         </ScrollView>
       </SafeAreaView>
     </>
-  );
-};
-
-function TriviaScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button
-        onPress={() => navigation.navigate('TriviaController')}
-        title="Trivia"
-      />
-    </View>
   );
 }
 
