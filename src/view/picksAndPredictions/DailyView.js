@@ -1,12 +1,23 @@
 import React from "react";
 import {StyleSheet, View, Text, Image} from 'react-native';
 import DailyCard from './DailyCard';
-import {getTodayMatchData, getPreviousMatchData} from './../../controller/picksAndPredictions/DailyController';
 
-export const DailyView = () => {
+export const DailyView = (props) => {
 
-    const todayMatches = getTodayMatchData();
-    const previousMatches = getPreviousMatchData();
+    
+    const [todayMatches, setTodayMatches] = React.useState([]);
+    const [todayMatchesFetched, setTodayMatchesFetched] = React.useState(false);
+    const [previousMatches, setPreviousMatches] = React.useState([]);
+    const [previousMatchesfetched, setPreviousMatchesFetched] = React.useState(false);
+
+    if (!todayMatchesFetched) {
+        setTodayMatches(props.getTodayMatchData());
+        setTodayMatchesFetched(true);
+    }
+    if (!previousMatchesfetched) {
+        setPreviousMatches(props.getPreviousMatchData());
+        setPreviousMatchesFetched(true);
+    }
 
     const renderTodayCards = () => {
         if (todayMatches.length == 0) {
@@ -17,7 +28,11 @@ export const DailyView = () => {
             );
         }
         return todayMatches.map((match) => {
-            return <DailyCard matchData={match} key={match.id}/>;
+            return <DailyCard 
+            matchData={match} 
+            key={match.id}
+            updateMatchDatabase={props.updateMatchDatabase}
+            teamLogos={props.teamLogos}/>;
           });
     }
 
@@ -30,7 +45,11 @@ export const DailyView = () => {
             );
         }
         return previousMatches.map((match) => {
-            return <DailyCard matchData={match} key={match.id}/>;
+            return <DailyCard 
+                        matchData={match} 
+                        key={match.id}
+                        updateMatchDatabase={props.updateMatchDatabase}
+                        teamLogos={props.teamLogos}/>;
           });
     }
 

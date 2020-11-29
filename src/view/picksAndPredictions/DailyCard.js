@@ -1,6 +1,5 @@
 import React from "react";
 import {StyleSheet, View, Text, Image, TouchableOpacity, Modal, TouchableHighlight} from 'react-native';
-import {updateMatchDataDatabase, teamLogos} from './../../controller/picksAndPredictions/DailyController';
 
 const DailyCard = (props) => {
 
@@ -15,13 +14,13 @@ const DailyCard = (props) => {
     }
 
     const getTeamLogo = (teamName) => {
-        if (teamLogos.hasOwnProperty(teamName)) return teamLogos[teamName];
-        return teamLogos['unknown'];
+        if (props.teamLogos.hasOwnProperty(teamName)) return props.teamLogos[teamName];
+        return props.teamLogos['unknown'];
     }
 
     const updateMatchData = (pick) => {
         props.matchData.userPick = pick;
-        updateMatchDataDatabase(props.matchData);
+        props.updateMatchDataDatabase(props.matchData);
     }
 
     const styles = StyleSheet.create({
