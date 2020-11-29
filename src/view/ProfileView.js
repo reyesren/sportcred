@@ -15,8 +15,6 @@ import {Button} from 'react-native-paper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {EditableText} from './../components/index.js';
 
-const defaultPicture = require('./../../assets/defaultProfilePic.jpg');
-
 const ProfileView = (props) => {
   const [promptingPictureChange, setPromptingPictureChange] = React.useState(
     true,
