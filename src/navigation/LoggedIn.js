@@ -136,7 +136,6 @@ export default function LoggedInStack() {
           name="TriviaResultsController"
           component={TriviaResultsController}
         />
-        <Stack.Screen name="Trivia" component={TriviaLanding} />
         <Stack.Screen name="TriviaHeadToHead" component={HeadToHeadTabs} />
       </Stack.Navigator>
     </NavigationContainer>
