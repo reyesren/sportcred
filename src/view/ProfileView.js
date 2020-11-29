@@ -15,6 +15,8 @@ import {Button} from 'react-native-paper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {EditableText} from './../components/index.js';
 
+const defaultPicture = require('./../../assets/defaultProfilePic.jpg');
+
 const ProfileView = (props) => {
   const [promptingPictureChange, setPromptingPictureChange] = React.useState(
     true,
@@ -53,7 +55,7 @@ const ProfileView = (props) => {
                   style={styles.btn}
                   onPress={() => setPromptingPictureChange(false)}>
                   <View style={styles.absoluteView} />
-                  <Image source={profilePic} style={styles.profilePic} />
+                  <Image source={profilePic.uri ? profilePic : require('./../../assets/defaultProfilePic.jpg')} style={styles.profilePic} />
                 </TouchableOpacity>
               </View>
             ) : (
