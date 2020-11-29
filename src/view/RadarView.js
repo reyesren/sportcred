@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, FlatList} from 'react-native';
+import {Button} from 'react-native-paper';
 
 export const RadarView = (props) => {
   const RadarElement = (props) => {
@@ -10,7 +11,7 @@ export const RadarView = (props) => {
       },
       elementContainer: {
         padding: 20,
-        margin: 10,
+        marginBottom: 10,
         backgroundColor: '#ccc',
         borderRadius: 10,
       },
@@ -29,7 +30,10 @@ export const RadarView = (props) => {
   };
 
   return (
-    <>
+    <View style={styles.container}>
+      <Button mode={'contained'} labelStyle={{fontSize: 20}}>
+        +
+      </Button>
       <View style={{margin: 10}} />
       <FlatList
         data={props.docList}
@@ -46,6 +50,12 @@ export const RadarView = (props) => {
           return item.profile.displayName;
         }}
       />
-    </>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+});
