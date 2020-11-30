@@ -37,20 +37,6 @@ export default class DailyPicksModel {
             })
     }
 
-    static setupUserDailyPicks(uid, date, picks,
-                           callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
-    {
-        this.picksCollection
-            .doc('userData')
-            .collection(uid)
-            .doc('dailyPicks')
-            .set({[date]: picks})
-            .then(callback)
-            .catch(reason => {
-                console.log(reason)
-            })
-    }
-
     static updateUserDailyPicks(uid, date, picks,
                            callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
     {

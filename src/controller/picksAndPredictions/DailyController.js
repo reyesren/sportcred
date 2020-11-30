@@ -32,12 +32,10 @@ export const Daily = () => {
         return DailyPicksModel.getUserDailyPicks(user.uid, today).then(async (gamesArr) => {
             if(gamesArr.length === 0) {
                 let gamesToday = await DailyPicksModel.getGamesToday(today);
-//                console.log(gamesToday);
-                await DailyPicksModel.setupUserDailyPicks(user.uid, today, gamesToday);
+                await DailyPicksModel.updateUserDailyPicks(user.uid, today, gamesToday);
                return(gamesToday);
             }
             else {
-               console.log(gamesArr);
                return gamesArr;
             }
         })
