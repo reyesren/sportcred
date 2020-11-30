@@ -13,10 +13,10 @@ export const Radar = ({route, navigation}) => {
     React.useCallback(() => {
       setDocList([]);
       UserModel.getUserDoc(user.uid).then((doc) => {
-        let tempDoc = [];
         doc.radar_list.map((id) => {
-          UserModel.getUserDoc(id).then((radarDoc) => {
-            setDocList((prevState) => prevState.concat(radarDoc));
+          UserModel.getUserDoc(id).then((result) => {
+            result.id = id;
+            setDocList((prevState) => prevState.concat(result));
           });
         });
       });

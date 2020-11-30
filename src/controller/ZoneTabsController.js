@@ -5,7 +5,6 @@ import {StyleSheet, Image} from 'react-native';
 import {TheZonePages} from '../controller/TheZoneContentController';
 import {Radar} from './RadarController';
 import {createStackNavigator} from '@react-navigation/stack';
-import RadarAddUser from '../view/Radar/RadarAddUser';
 import RadarAddToUserController from './RadarAddUserController';
 
 const Tab = createMaterialTopTabNavigator();

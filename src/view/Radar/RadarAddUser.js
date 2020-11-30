@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Roboto',
   },
+  flatlist: {
+    paddingVertical: 50,
+  },
 });
 
 export default RadarAddUser;

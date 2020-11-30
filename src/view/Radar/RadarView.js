@@ -50,8 +50,10 @@ export const RadarView = (props) => {
           );
         }}
         keyExtractor={(item) => {
-          return item.profile.displayName;
+          console.log('item id', item.id);
+          return item.id;
         }}
+        contentContainerStyle={{paddingBottom: 100}}
       />
     </View>
   );
