@@ -20,6 +20,7 @@ export function FullPostView(props) {
     const [title, updateTitle] = React.useState("");
     const [content, updateContent] = React.useState("");
     const [posterId, updatePosterId] = React.useState("");
+    const [posterUid, updatePosterUid] = React.useState("");
     const [upVotes, updateUpvotes] = React.useState([]);
     const [downVotes, updateDownvotes] = React.useState([]);
     const [refreshing, setRefreshing] = React.useState(false);
@@ -33,7 +34,7 @@ export function FullPostView(props) {
             if (pid === undefined) updatePid('');
             updateTitle(postData.title);
             updateContent(postData.content);
-            updatePosterId(postData.poster);
+            updatePosterUid(postData.poster);
             updatePosterId(postData.displayName);
             updateUpvotes(postData.upVotes);
             updateDownvotes(postData.downVotes);
@@ -50,7 +51,7 @@ export function FullPostView(props) {
             if (pid === undefined) updatePid('');
             updateTitle(postData.title);
             updateContent(postData.content);
-            updatePosterId(postData.poster);
+            updatePosterUid(postData.poster);
             updatePosterId(postData.displayName);
             updateUpvotes(postData.upVotes);
             updateDownvotes(postData.downVotes);
@@ -94,7 +95,7 @@ export function FullPostView(props) {
             if (pid === undefined) updatePid('');
             updateTitle(postData.title);
             updateContent(postData.content);
-            updatePosterId(postData.poster);
+            updatePosterUid(postData.poster);
             updatePosterId(postData.displayName);
             updateUpvotes(postData.upVotes);
             updateDownvotes(postData.downVotes);
@@ -120,7 +121,7 @@ export function FullPostView(props) {
                         style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            props.addUserToRadar(posterId);
+                            props.addUserToRadar(posterUid);
                         }}
                         >
                             <Text style={styles.modalTextStyle}>Add user to Radar</Text>

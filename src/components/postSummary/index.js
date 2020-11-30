@@ -13,7 +13,7 @@ import UserModel from '../../model/UserModel';
 import {AuthContext} from '../../navigation/AuthNavigator';
 
 const PostSummary = (props) => {
-  const [pid, updatePid] = React.useState("");
+    const [pid, updatePid] = React.useState("");
     const [title, updateTitle] = React.useState("");
     const [content, updateContent] = React.useState("");
     const [posterId, updatePosterId] = React.useState("");

@@ -34,7 +34,7 @@ export const FullPost = ({route, navigation}) => {
 
     const addUserToRadar = (posterId) => {
         // TODO: add user to the RADAR
-        console.log("REACHED CONTROLLER");
+        //console.log("REACHED CONTROLLER");
         UserModel.updateRadarList(user.uid, posterId);
     }
 
