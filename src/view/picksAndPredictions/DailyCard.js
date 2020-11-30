@@ -28,7 +28,6 @@ const DailyCard = (props) => {
             flex: 1,
             width: 150,
             height: 150,
-            padding: 10,
             resizeMode: 'contain',
             backgroundColor: '#ffd00050'
         },
@@ -90,7 +89,7 @@ const DailyCard = (props) => {
             flexDirection: 'row',
             justifyContent: 'center', 
             alignItems: 'center',    
-            paddingVertical: 20,
+            //paddingVertical: 20,
             //paddingHorizontal: 30,
             marginVertical: 10,
             backgroundColor: '#ddd',
@@ -159,6 +158,9 @@ const DailyCard = (props) => {
             marginBottom: 15,
             textAlign: "center"
           },
+          matchText: {
+              fontWeight: 'bold'
+          }
     });
 
     const renderBanner = (winner, text, styling) => {
@@ -210,7 +212,7 @@ const DailyCard = (props) => {
             }
         }
         else {
-            console.log('ERROR: invalid props.matchData.userPick found');
+            console.log('ERROR: invalid props.matchData.result found');
         }
 
         return (
@@ -221,7 +223,7 @@ const DailyCard = (props) => {
                 </View>
                 <View style={styles.textContainer}>
                     {/* { renderBanner(props.matchData.result, 'won', styles.winBanner) } */}
-                    <Text>{props.matchData.date.getHours()}:{("0" + props.matchData.date.getMinutes()).slice(-2)}:00</Text>
+                    <Text style={styles.matchText}>{props.matchData.date.getHours()}:{("0" + props.matchData.date.getMinutes()).slice(-2)}:00</Text>
                     <Text>00/00/00</Text>
                     {/* { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) } */}
                 </View>
