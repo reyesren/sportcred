@@ -6,7 +6,7 @@ import {
     Image
   } from 'react-native';
 import {TheZonePages} from '../controller/TheZoneContentController';
-import {Radar} from './RadarController';
+import {RadarContent} from './RadarContentController';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,7 +26,7 @@ export const ZoneTabs = ({route, navigation}) => {
             />
             <Tab.Navigator>
                 <Tab.Screen name={'The Zone'} component={TheZonePages}/>
-                <Tab.Screen name={'My Radar'} component={Radar}/>
+                <Tab.Screen name={'My Radar'} component={RadarContent}/>
             </Tab.Navigator>
         </>
     );
