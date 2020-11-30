@@ -1,12 +1,27 @@
 import React from "react";
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, StatusBar, SafeAreaView, ScrollView} from 'react-native';
 import DailyCard from './DailyCard';
-import {getTodayMatchData, getPreviousMatchData} from './../../controller/picksAndPredictions/DailyController';
 
-export const DailyView = () => {
+export const DailyView = (props) => {
 
-    const todayMatches = getTodayMatchData();
-    const previousMatches = getPreviousMatchData();
+    
+    const [todayMatches, setTodayMatches] = React.useState([]);
+    const [todayMatchesFetched, setTodayMatchesFetched] = React.useState(false);
+    const [previousMatches, setPreviousMatches] = React.useState([]);
+    const [previousMatchesfetched, setPreviousMatchesFetched] = React.useState(false);
+
+    if (!todayMatchesFetched) {
+        props.getTodayMatchData().then(async (arr) => {
+            setTodayMatches(arr);
+            setTodayMatchesFetched(true);
+        });
+    }
+    if (!previousMatchesfetched) {
+        props.getPreviousMatchData().then(async (arr) => {
+            setPreviousMatches(arr);
+            setPreviousMatchesFetched(true);
+        });
+    }
 
     const renderTodayCards = () => {
         if (todayMatches.length == 0) {
@@ -17,7 +32,11 @@ export const DailyView = () => {
             );
         }
         return todayMatches.map((match) => {
-            return <DailyCard matchData={match} key={match.id}/>;
+            return <DailyCard 
+            matchData={match} 
+            key={match.id}
+            updateMatchDatabase={props.updateMatchDataDatabase}
+            teamLogos={props.teamLogos}/>;
           });
     }
 
@@ -30,37 +49,50 @@ export const DailyView = () => {
             );
         }
         return previousMatches.map((match) => {
-            return <DailyCard matchData={match} key={match.id}/>;
+            return <DailyCard 
+                        matchData={match} 
+                        key={match.id}
+                        updateMatchDatabase={props.updateMatchDatabase}
+                        teamLogos={props.teamLogos}/>;
           });
     }
 
     return (
         <>
-            <View style={styles.container}>
-                <Text style={styles.sectionHeader}>Today's Picks</Text>
-                { renderTodayCards() }
-                <Text style={styles.sectionHeader}>Previous Picks</Text>
-                { renderPreviousCards() }
-            </View>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+            <ScrollView
+            contentInsetAdjustmentBehavior="automatic">
+                <View style={styles.container}>
+                    <Text style={styles.sectionHeader}>Today's Picks</Text>
+                    { renderTodayCards() }
+                    <Text style={styles.sectionHeader}>Previous Picks</Text>
+                    { renderPreviousCards() }
+                </View>
+            </ScrollView>
+      </SafeAreaView>
         </>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
+        marginHorizontal: 0,
         marginVertical: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 0,
     },
     sectionHeader: {
         fontFamily: 'arial',
         fontSize: 25,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingTop: 20
     },
     noMatchesText: {
         fontSize: 20,
         color: '#999',
         padding: 40,
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        textAlign: 'center'
     }
 });

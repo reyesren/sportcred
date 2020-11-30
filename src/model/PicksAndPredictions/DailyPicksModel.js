@@ -1,68 +1,55 @@
 import {firestore} from '../../firebase.js';
 import React from 'react';
 
-export default class DailyPicks {
-    static userDataDocument = firestore()
-        .collection('picks_predictions')
-        .doc('userData')
+export default class DailyPicksModel {
+    static picksCollection = firestore()
+        .collection('picks_predictions');
 
-    /**
-     *
-     * @param uid
-     * @param date
-     * @returns {Promise<Object>}
-     */
-    static getUserDailyPicks(uid: string, date: string) {
-        return this.userDataDocument
-            .collection(uid)
-            .doc('dailyPicks')
-            .collection('dates')
-            .doc([date])
-            .collection('games')
+    static getGamesToday(today) {
+         return this.picksCollection
+            .doc('daily')
             .get()
-            .then(gamesSs => {
-                return gamesSs.docs;
+            .then(gamesTodaySs => {
+                let gamesArr = gamesTodaySs.get(today);
+                let id = 0;
+                for(let i = 0; i < gamesArr.length; i++) {
+                    gamesArr[i]['id'] = id.toString();
+                    gamesArr[i]['date'] = today;
+                    gamesArr[i]['time'] = '7:00 PM'
+                    gamesArr[i]['result'] = 0;
+                    gamesArr[i]['userPick'] = 0;
+                    id++;
+                }
+                return gamesArr;
             })
     }
 
-    /**
-     * Submit user's daily pick predictions for a given date
-     * structure of picks object to pass looks like:
-     * examplePicks = {
-     *  gameId1: {
-     *      loserSelected: String
-     *      winnerSelected: String
-     *  }
-     *  gameId2: {
-     *      loserSelected: String
-     *      winnerSelected: String
-     *  }
-     * }
-     * where gameId1/gameId2 are ids of game docs
-     * use findGamesForDay to find game ids
-     *
-     * @param uid
-     * @param date
-     * @param picks
-     * @param callback
-     */
-    static submitUserDailyPicks(uid: string, date: string, picks: Object,
+    static getUserDailyPicks(uid, date) {
+        return this.picksCollection
+            .doc('userData')
+            .collection(uid)
+            .doc('dailyPicks')
+            .get()
+            .then(submittedPicksSs => {
+                if(submittedPicksSs.get(date) == null) {
+                    return [];
+                }
+                return submittedPicksSs.get(date);
+            })
+    }
+
+    static updateUserDailyPicks(uid, date, picks,
                            callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
     {
-        for (const game in picks) {
-            this.userDataDocument
-                .collection(uid)
-                .doc('dailyPicks')
-                .collection('dates')
-                .doc([date])
-                .collection('games')
-                .doc([`${game}`])
-                .set({loserSelected: picks["loserSelected"], winnerSelected: picks["winnerSelected"]})
-                .then(callback)
-                .catch(error => {
-                    console.log(error)
-                })
-        }
+        this.picksCollection
+            .doc('userData')
+            .collection(uid)
+            .doc('dailyPicks')
+            .update({[date]: picks})
+            .then(callback)
+            .catch(reason => {
+                console.log(reason)
+            })
     }
 
     /**
