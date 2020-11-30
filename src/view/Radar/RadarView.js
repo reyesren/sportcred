@@ -31,7 +31,10 @@ export const RadarView = (props) => {
 
   return (
     <View style={styles.container}>
-      <Button mode={'contained'} labelStyle={{fontSize: 20}}>
+      <Button
+        mode={'contained'}
+        labelStyle={{fontSize: 20}}
+        onPress={() => props.goToAddUser()}>
         +
       </Button>
       <View style={{margin: 10}} />

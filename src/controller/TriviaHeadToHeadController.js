@@ -63,7 +63,7 @@ function ChallengeUsers({navigation, route}) {
         });
       });
       setUserList(list);
-      console.log(list);
+      console.log('list', list);
       navigation.navigate('Challenge Users', {
         params: {routeUserList: userList, routePage: page},
       });

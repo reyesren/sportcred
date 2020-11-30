@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {RadarView} from './../view/RadarView';
+import {RadarView} from '../view/Radar/RadarView';
 import UserModel from './../model/UserModel';
 import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
 import {useFocusEffect} from '@react-navigation/core';
 
-export const Radar = () => {
+export const Radar = ({route, navigation}) => {
   const user = useContext(AuthContext);
   const [docList, setDocList] = useState([]);
 
@@ -23,7 +23,9 @@ export const Radar = () => {
     }, []),
   );
 
-  console.log('doc list', docList);
+  const goToAddUser = () => {
+    navigation.navigate('Radar Add User');
+  };
 
-  return RadarView({docList});
+  return RadarView({docList, goToAddUser});
 };
