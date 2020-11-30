@@ -14,7 +14,8 @@ export default class DailyPicksModel {
                 let id = 0;
                 for(let i = 0; i < gamesArr.length; i++) {
                     gamesArr[i]['id'] = id.toString();
-                    gamesArr[i]['date'] = new Date();
+                    gamesArr[i]['date'] = today;
+                    gamesArr[i]['time'] = '7:00 PM'
                     gamesArr[i]['result'] = 0;
                     gamesArr[i]['userPick'] = 0;
                     id++;
