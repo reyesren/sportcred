@@ -18,7 +18,7 @@ export default class UserModel {
     profile_completed: false,
     questionnaire_completed: false,
     questionnaire_responses: {},
-    radar_list: []
+    radar_list: [],
   };
   static userCollection = firestore().collection('users');
 
@@ -201,13 +201,14 @@ export default class UserModel {
       .get();
   }
 
-  static updateRadarList(uid: string, radarUid: string) {
+  static updateRadarList(uid: string, radarUid: string, callback: function) {
     if (uid === radarUid) {
       console.log('Stop adding yourself');
       return;
     }
     this.userCollection
       .doc(uid)
-      .update({radar_list: firestore.FieldValue.arrayUnion(radarUid)});
+      .update({radar_list: firestore.FieldValue.arrayUnion(radarUid)})
+      .then(() => callback());
   }
 }
