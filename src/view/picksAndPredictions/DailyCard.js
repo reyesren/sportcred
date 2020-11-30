@@ -24,9 +24,36 @@ const DailyCard = (props) => {
     }
 
     const styles = StyleSheet.create({
-        teamImage: {
-            width: 100,
-            height: 100
+        teamImageSelect: {
+            flex: 1,
+            width: 150,
+            height: 150,
+            padding: 10,
+            resizeMode: 'contain',
+            backgroundColor: '#ffd00050'
+        },
+        teamImageNormal: {
+            flex: 1,
+            width: 150,
+            height: 150,
+            padding: 10,
+            resizeMode: 'contain',
+        },
+        teamImageCorrect: {
+            flex: 1,
+            width: 150,
+            height: 150,
+            padding: 10,
+            resizeMode: 'contain',
+            backgroundColor: '#00ff1550'
+        },
+        teamImageIncorrect: {
+            flex: 1,
+            width: 150,
+            height: 150,
+            padding: 10,
+            resizeMode: 'contain',
+            backgroundColor: '#ed100050'
         },
         container: {
             flex: 1,
@@ -48,8 +75,8 @@ const DailyCard = (props) => {
             flexDirection: 'row',
             justifyContent: 'center', 
             alignItems: 'center',    
-            paddingVertical: 20,
-            paddingHorizontal: 30,
+            //paddingVertical: 20,
+            //paddingHorizontal: 30,
             marginVertical: 10,
             backgroundColor: '#ddd',
             minHeight: 140,
@@ -64,7 +91,7 @@ const DailyCard = (props) => {
             justifyContent: 'center', 
             alignItems: 'center',    
             paddingVertical: 20,
-            paddingHorizontal: 30,
+            //paddingHorizontal: 30,
             marginVertical: 10,
             backgroundColor: '#ddd',
             minHeight: 140,
@@ -155,20 +182,51 @@ const DailyCard = (props) => {
         if (props.matchData.userPick === 0) styleToUseForContainer = styles.container;
         else if (props.matchData.userPick === 1) styleToUseForContainer = styles.leftSelectContainer;
         else styleToUseForContainer = styles.rightSelectContainer;
+
+        var styleToUseForTeam1 = styles.teamImageNormal;
+        var styleToUseForTeam2 = styles.teamImageNormal;
+        if (props.matchData.result === 0) {
+            if (props.matchData.userPick === 1) {
+                styleToUseForTeam1 = styles.teamImageSelect;
+            }
+            else if (props.matchData.userPick === 2) {
+                styleToUseForTeam2 = styles.teamImageSelect;
+            }
+        }
+        else if (props.matchData.result === 1) {
+            if (props.matchData.userPick === 1) {
+                styleToUseForTeam1 = styles.teamImageCorrect;
+            }
+            else if (props.matchData.userPick === 2) {
+                styleToUseForTeam2 = styles.teamImageCorrect;
+            }
+        }
+        else if (props.matchData.result === 2) {
+            if (props.matchData.userPick === 2) {
+                styleToUseForTeam2 = styles.teamImageIncorrect;
+            }
+            else if (props.matchData.userPick === 1) {
+                styleToUseForTeam1 = styles.teamImageIncorrect;
+            }
+        }
+        else {
+            console.log('ERROR: invalid props.matchData.userPick found');
+        }
+
         return (
             <TouchableOpacity style={styleToUseForContainer} onPress={openModal}>
                 <View>
-                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team1)} />
+                    <Image style={styleToUseForTeam1} source={getTeamLogo(props.matchData.team1)} />
                     
                 </View>
                 <View style={styles.textContainer}>
-                    { renderBanner(props.matchData.result, 'won', styles.winBanner) }
+                    {/* { renderBanner(props.matchData.result, 'won', styles.winBanner) } */}
                     <Text>{props.matchData.date.getHours()}:{("0" + props.matchData.date.getMinutes()).slice(-2)}:00</Text>
                     <Text>00/00/00</Text>
                     {/* { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) } */}
                 </View>
                 <View>
-                    <Image style={styles.teamImage} source={getTeamLogo(props.matchData.team2)} />
+                    <Image style={styleToUseForTeam2} source={getTeamLogo(props.matchData.team2)} />
                 </View>
             </TouchableOpacity>
         );
