@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {RadarView} from './../view/RadarView';
+import {RadarView} from './../view/Radar/RadarView';
 import UserModel from './../model/UserModel';
 import PostModel from './../model/PostModel';
 import {useContext} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
 import {useFocusEffect} from '@react-navigation/core';
-import {RadarPostsView} from './../view/radar/RadarPostsView'
+import {RadarPostsView} from './../view/Radar/RadarPostsView'
 
 export const RadarPosts = ({route, navigation}) => {
     const user = useContext(AuthContext);
