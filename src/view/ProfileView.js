@@ -73,11 +73,7 @@ const ProfileView = (props) => {
               </Text>
               <Text style={styles.sectionDescription}>
                 <Text style={styles.highlight}>ACS: </Text>
-<<<<<<< HEAD
-                {props.getACS()}
-=======
                 { ACS }
->>>>>>> 016182c874f308af5a37ce103c92dfe9ac81776f
               </Text>
             </View>
           </View>
@@ -85,11 +81,7 @@ const ProfileView = (props) => {
           <EditableText
             textTitle="About Me"
             presetText={props.userDoc.profile.about}
-<<<<<<< HEAD
-            sendData={props.sendAboutMeData}
-=======
             setText={props.setAboutMe}
->>>>>>> 016182c874f308af5a37ce103c92dfe9ac81776f
           />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
