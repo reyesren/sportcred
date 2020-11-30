@@ -28,6 +28,7 @@ const DailyCard = (props) => {
             flex: 1,
             width: 150,
             height: 150,
+            padding: 10,
             resizeMode: 'contain',
             backgroundColor: '#ffd00050'
         },
@@ -59,8 +60,8 @@ const DailyCard = (props) => {
             flexDirection: 'row',
             justifyContent: 'center', 
             alignItems: 'center',    
-            paddingVertical: 20,
-            paddingHorizontal: 30,
+            //paddingVertical: 20,
+            //paddingHorizontal: 30,
             marginVertical: 10,
             backgroundColor: '#ddd',
             minHeight: 140,
@@ -160,6 +161,9 @@ const DailyCard = (props) => {
           },
           matchText: {
               fontWeight: 'bold'
+          },
+          logoContainer: {
+              padding: 0
           }
     });
 
@@ -217,9 +221,8 @@ const DailyCard = (props) => {
 
         return (
             <TouchableOpacity style={styleToUseForContainer} onPress={openModal}>
-                <View>
+                <View style={styles.logoContainer}>
                     <Image style={styleToUseForTeam1} source={getTeamLogo(props.matchData.team1)} />
-                    
                 </View>
                 <View style={styles.textContainer}>
                     {/* { renderBanner(props.matchData.result, 'won', styles.winBanner) } */}
@@ -227,7 +230,7 @@ const DailyCard = (props) => {
                     <Text>00/00/00</Text>
                     {/* { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) } */}
                 </View>
-                <View>
+                <View style={styles.logoContainer}>
                     <Image style={styleToUseForTeam2} source={getTeamLogo(props.matchData.team2)} />
                 </View>
             </TouchableOpacity>
