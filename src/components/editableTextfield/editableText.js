@@ -17,7 +17,11 @@ const EditableText = (props) => {
 
   const buttonHandler = () => {
     if (!editing) {
+      // code for clicking 'DONE'
       setPreviousText(text);
+    }
+    else {
+      props.setText(text);
     }
     setEditing(!editing);
   };

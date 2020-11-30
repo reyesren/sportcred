@@ -30,17 +30,27 @@ const Tab = createBottomTabNavigator();
 
 function FullySignedUp() {
   return (
-    <Tab.Navigator initialRouteName={'The Zone'}>
+    <Tab.Navigator
+      initialRouteName={'The Zone'}
+      tabBarOptions={{
+        style: {
+          activeTintColor: '#fff',
+          inactiveTintColor: 'lightgray',
+          activeBackgroundColor: '#c4461c',
+          inactiveBackgroundColor: '#b55031',
+          backgroundColor: '#1F6521',
+        },
+        showLabel: false,
+      }}>
       <Tab.Screen
         name="The Zone"
         component={TheZone}
         options={{
-          tabBarLabel: 'The Zone',
-          tabBarIcon: () => (
+          tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="stadium-variant"
-              color="#900"
-              size={30}
+              color="#FFFFFF"
+              size={focused ? 30 : 20}
             />
           ),
         }}
@@ -49,12 +59,11 @@ function FullySignedUp() {
         name="Profile"
         component={ProfileTabs}
         options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: () => (
+          tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="face-profile"
-              color="#900"
-              size={30}
+              color="#FFFFFF"
+              size={focused ? 30 : 20}
             />
           ),
         }}
@@ -63,9 +72,12 @@ function FullySignedUp() {
         name="Settings"
         component={Settings}
         options={{
-          tabBarLabel: 'Settings',
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="cog" color="#900" size={30} />
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="cog"
+              color="#FFFFFF"
+              size={focused ? 30 : 20}
+            />
           ),
         }}
       />
@@ -73,9 +85,12 @@ function FullySignedUp() {
         name="Live"
         component={Live}
         options={{
-          tabBarLabel: 'Live',
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="youtube-tv" color="#900" size={30} />
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="youtube-tv"
+              color="#FFFFFF"
+              size={focused ? 30 : 20}
+            />
           ),
         }}
       />
@@ -121,12 +136,7 @@ export default function LoggedInStack() {
           name="TriviaResultsController"
           component={TriviaResultsController}
         />
-        <Stack.Screen name="Trivia" component={TriviaLanding} />
         <Stack.Screen name="TriviaHeadToHead" component={HeadToHeadTabs} />
-        <Stack.Screen
-          name="PlayerChooser"
-          component={PlayerChooserController}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );

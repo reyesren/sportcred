@@ -1,45 +1,43 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {AuthContext} from '../navigation/AuthNavigator';
 import TriviaResultView from '../view/trivia/TriviaResultsView';
-import TriviaChallengeModel from '../model/TriviaChallengeModel';
-import UserModel from '../model/UserModel';
+import ACSModel from '../model/ACSModel';
+import {useFocusEffect} from '@react-navigation/core';
 
 const TriviaResultsController = ({route, navigation}) => {
+  const [acs, setAcs] = useState();
+
   const user = useContext(AuthContext);
   const {msg} = route.params === undefined ? {} : route.params;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      ACSModel.getACS(user.uid).then((acsDoc) => {
+        const m = acsDoc.acsHistory;
+        let array = Object.keys(m).map((k) => m[k]);
+        let sum = array.reduce((a, b) => a + b, 100);
+        setAcs(sum);
+        console.log(sum);
+      });
+    }, []),
+  );
+
+  const addToAcs = (score) => {
+    if (score > 0) {
+      console.log('Adding to ACS...', score);
+      ACSModel.addToACS(user.uid, score, () => {});
+    }
+  };
 
   const goToTriviaLanding = () => {
     navigation.navigate('TriviaLandingController');
   };
 
-  {
-    /*
-  const processResults = () => {
-    if (route.params.mode === 'solo') {
-      // todo
-    }
-    if (route.params.mode === 'head') {
-      TriviaChallengeModel.sendChallenge(
-        user.uid,
-        {
-          opAnswers: {},
-          // opDisplayName: UserModel.getUserDoc(user.uid).profile.displayName,
-          opDisplayName: 'test display name',
-          opUid: 'test uid',
-          questions: route.params.questionIds,
-          score: route.params.score,
-        },
-        Date.now().toString(),
-        () => {},
-      );
-    }
-  };
-  */
-  }
-
   return TriviaResultView({
     score: route.params.score,
     goToTriviaLanding,
+    acs: acs,
+    addToAcs,
   });
 };
 
