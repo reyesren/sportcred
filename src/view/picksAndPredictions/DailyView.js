@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, StatusBar, SafeAreaView, ScrollView} from 'react-native';
 import DailyCard from './DailyCard';
 
 export const DailyView = (props) => {
@@ -11,12 +11,16 @@ export const DailyView = (props) => {
     const [previousMatchesfetched, setPreviousMatchesFetched] = React.useState(false);
 
     if (!todayMatchesFetched) {
-        setTodayMatches(props.getTodayMatchData());
-        setTodayMatchesFetched(true);
+        props.getTodayMatchData().then(async (arr) => {
+            setTodayMatches(arr);
+            setTodayMatchesFetched(true);
+        });
     }
     if (!previousMatchesfetched) {
-        setPreviousMatches(props.getPreviousMatchData());
-        setPreviousMatchesFetched(true);
+        props.getPreviousMatchData().then(async (arr) => {
+            setPreviousMatches(arr);
+            setPreviousMatchesFetched(true);
+        });
     }
 
     const renderTodayCards = () => {
@@ -55,12 +59,18 @@ export const DailyView = (props) => {
 
     return (
         <>
-            <View style={styles.container}>
-                <Text style={styles.sectionHeader}>Today's Picks</Text>
-                { renderTodayCards() }
-                <Text style={styles.sectionHeader}>Previous Picks</Text>
-                { renderPreviousCards() }
-            </View>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+            <ScrollView
+            contentInsetAdjustmentBehavior="automatic">
+                <View style={styles.container}>
+                    <Text style={styles.sectionHeader}>Today's Picks</Text>
+                    { renderTodayCards() }
+                    <Text style={styles.sectionHeader}>Previous Picks</Text>
+                    { renderPreviousCards() }
+                </View>
+            </ScrollView>
+      </SafeAreaView>
         </>
     );
 }
@@ -75,12 +85,14 @@ const styles = StyleSheet.create({
         fontFamily: 'arial',
         fontSize: 25,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingTop: 20
     },
     noMatchesText: {
         fontSize: 20,
         color: '#999',
         padding: 40,
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        textAlign: 'center'
     }
 });

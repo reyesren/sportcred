@@ -29,27 +29,27 @@ export const Daily = () => {
 
         today = `${year}-${month}-${day}`;
 
-        DailyPicksModel.getUserDailyPicks(user.uid, today).then(async (gamesArr) => {
+        return DailyPicksModel.getUserDailyPicks(user.uid, today).then(async (gamesArr) => {
             if(gamesArr.length === 0) {
                 let gamesToday = await DailyPicksModel.getGamesToday(today);
 //                console.log(gamesToday);
                 await DailyPicksModel.setupUserDailyPicks(user.uid, today, gamesToday);
-//                return(gamesToday);
+               return(gamesToday);
             }
             else {
-//                console.log(gamesArr);
-//                return gamesArr;
+               console.log(gamesArr);
+               return gamesArr;
             }
         })
         // TODO: comment out this return statement for the real one
-        return [{
-            id: '0',
-            team1: 'Los Angeles Lakers',
-            team2: 'Miami Heat',
-            date: new Date(2020, 10, 18, 12, 0, 0, 0),
-            result: 0,
-            userPick: 0
-        }];
+        // return [{
+        //     id: '0',
+        //     team1: 'Los Angeles Lakers',
+        //     team2: 'Miami Heat',
+        //     date: new Date(2020, 10, 18, 12, 0, 0, 0),
+        //     result: 0,
+        //     userPick: 0
+        // }];
     };
 
     const getPreviousMatchData = () => {
@@ -63,27 +63,27 @@ export const Daily = () => {
 
         dateToPass = `${year}-${month}-${day}`;
 
-        DailyPicksModel.getUserDailyPicks(user.uid, dateToPass).then(gamesArr => {
+        return DailyPicksModel.getUserDailyPicks(user.uid, dateToPass).then(gamesArr => {
             console.log(gamesArr);
-//            return gamesArr;
+           return gamesArr;
         })
         // TODO: comment out this return statement for the real one
-        return [{
-            id: '0',
-            team1: 'Los Angeles Lakers',                         
-            team2: 'Miami Heat',
-            date: new Date(2020, 10, 18, 12, 0, 0, 0),
-            result: 1,    
-            userPick: 1
-        },
-        {
-            id: '1',
-            team1: 'Los Angeles Lakers',                         
-            team2: 'Miami Heat',
-            date: new Date(2020, 10, 18, 12, 0, 0, 0),
-            result: 2,    
-            userPick: 1
-        }];
+        // return [{
+        //     id: '0',
+        //     team1: 'Los Angeles Lakers',                         
+        //     team2: 'Miami Heat',
+        //     date: new Date(2020, 10, 18, 12, 0, 0, 0),
+        //     result: 1,    
+        //     userPick: 1
+        // },
+        // {
+        //     id: '1',
+        //     team1: 'Los Angeles Lakers',                         
+        //     team2: 'Miami Heat',
+        //     date: new Date(2020, 10, 18, 12, 0, 0, 0),
+        //     result: 2,    
+        //     userPick: 1
+        // }];
     }
 
     const updateMatchDataDatabase = (matchData) => {
