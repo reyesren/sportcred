@@ -8,24 +8,50 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  RefreshControl
 } from 'react-native';
 import {Button} from 'react-native-paper';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PostSummary} from './../../components/index.js';
 
-import {getPostIds} from './../../controller/TheZoneController';
-
-export function TheZoneContentView({navigation}) {
+export function TheZoneContentView(props) {
   const [postIds, updatePostIds] = React.useState([]);
-  if (postIds.length === 0) {
-    getPostIds().then((post) => {
-      updatePostIds(post);
-    });
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  if (props.shouldRefresh()) {
+    setRefreshing(true);
   }
+
+  if(postIds.length === 0) {
+    //console.log('Fetching posts in THE ZONE');
+    props.getPostIds().then(post => {
+        updatePostIds(post);
+    })
+  }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    //console.log('Fetching posts in THE ZONE (Refresh)');
+    props.getPostIds().then(post => {
+        updatePostIds(post);
+        setRefreshing(false);
+    })
+  }, []);
+
   function renderButtons(nav) {
     return postIds.map((id) => {
-      return <PostSummary postId={id} key={id} navigation={nav} />;
+      return <PostSummary 
+                postId={id} 
+                key={id} 
+                navigation={nav} 
+                goToFullPost={props.goToFullPost} 
+                getPostData={props.getPostData}
+                castUpvote={props.castUpvote}
+                castDownvote={props.castDownvote}
+                checkIfUserVoted={props.checkIfUserVoted}
+                refresh={props.shouldRefresh()}
+                />;
     });
   }
   return (
@@ -34,7 +60,10 @@ export function TheZoneContentView({navigation}) {
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View>
             <Text style={styles.titleText}>THE ZONE</Text>
           </View>
@@ -42,17 +71,16 @@ export function TheZoneContentView({navigation}) {
           <Button
             mode="contained"
             onPress={() => {
-              navigation.navigate('Create Post');
+              props.navigation.navigate('Create Post');
             }}>
             Create Post
           </Button>
-
-          {renderButtons(navigation)}
+          { renderButtons(props.navigation) }
         </ScrollView>
       </SafeAreaView>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   titleText: {

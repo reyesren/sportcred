@@ -13,48 +13,91 @@ import UserModel from '../../model/UserModel';
 import {AuthContext} from '../../navigation/AuthNavigator';
 
 const PostSummary = (props) => {
-  const [pid, updatePid] = React.useState("");
-  const [title, updateTitle] = React.useState("");
-  const [content, updateContent] = React.useState("");
-  const [posterId, updatePosterId] = React.useState("");
-  const [upVotes, updateUpvotes] = React.useState([]);
-  const [downVotes, updateDownvotes] = React.useState([]);
+    const [pid, updatePid] = React.useState("");
+    const [title, updateTitle] = React.useState("");
+    const [content, updateContent] = React.useState("");
+    const [posterId, updatePosterId] = React.useState("");
+    const [upVotes, updateUpvotes] = React.useState([]);
+    const [downVotes, updateDownvotes] = React.useState([]);
+    const [refresh, setRefresh] = React.useState(false);
 
-  if(pid === '') {
-    PostModel.getPostDoc(props.postId).then(post => {
-        console.log(post);
-        updatePid(post.pid);
-        updateTitle(post.title);
-        updateContent(post.content);
-        updatePosterId(post.poster);
-        UserModel.getUserDoc(post.poster).then(doc => {
-            console.log(doc.profile);
-            updatePosterId(doc.profile.displayName);
-        })
-        updateUpvotes(post.upVotes);
-        updateDownvotes(post.downVotes);
-    })
+    if (props.refresh) {
+      setRefresh(true);
+      console.log('Post Summary should refresh');
+    }
+
+    if(pid === '') {
+      props.getPostData(props.postId).then(postData => {
+          console.log('IN PostSummary')
+          console.log(postData);
+          updatePid(postData.pid);
+          if (pid === undefined) updatePid('');
+          updateTitle(postData.title);
+          updateContent(postData.content);
+          updatePosterId(postData.poster);
+          updatePosterId(postData.displayName);
+          updateUpvotes(postData.upVotes);
+          updateDownvotes(postData.downVotes);
+          if (!(upVotes)) setUpvotes([]);
+          if (!(downVotes)) setDownvotes([]);
+      });
   }
-  const getPostData = (postId) => {
-    // TODO: should get the post with corresponding postId
-    return PostModel.getPostDoc(postId);
-  };
+
+  if(refresh) {
+    props.getPostData(props.postId).then(postData => {
+        console.log('IN PostSummary')
+        console.log(postData);
+        updatePid(postData.pid);
+        if (pid === undefined) updatePid('');
+        updateTitle(postData.title);
+        updateContent(postData.content);
+        updatePosterId(postData.poster);
+        updatePosterId(postData.displayName);
+        updateUpvotes(postData.upVotes);
+        updateDownvotes(postData.downVotes);
+        if (!(upVotes)) setUpvotes([]);
+        if (!(downVotes)) setDownvotes([]);
+        setRefresh(false);
+    });
+  }
 
   const seeFullPost = () => {
-      props.navigation.navigate('Full Post', {postId: props.postId});
+      props.goToFullPost(props.postId);
+  }
+
+  const getContentSummary =() => {
+    if (content === undefined) return "";
+    if (content.length > 60) return content.substring(0, 60);
+    return content;
+  }
+
+  const getPostScore = () => {
+    if (upVotes === undefined || downVotes === undefined) return 0;
+    return upVotes.length - downVotes.length;
   }
 
   const castUpvote = () => {
-    // TODO: mark the post as upvoted by user
-//    const user = useContext(AuthContext);
-//    PostModel.updateUpVotes(pid, user.uid);
+    if (!(pid === undefined)) {
+      setRefresh(true);
+      props.castUpvote(pid);
+    }
   };
 
   const castDownvote = () => {
-    // TODO: mark the post as downvoted by user
-//    const user = useContext(AuthContext);
-//    PostModel.updateDownVotes(pid, user.uid);
+    if (!(pid === undefined)) {
+      setRefresh(true);
+      props.castDownvote(pid);
+    }
   };
+
+  const checkIfUserUpvoted = () => {
+    props.checkIfUserVoted(pid, upVotes);
+  }
+
+  const checkIfUserDownvoted = () => {
+    props.checkIfUserVoted(pid, downVotes);
+  }
+
   const styles = StyleSheet.create({
     postContainer: {
       marginVertical: 10,
@@ -106,7 +149,7 @@ const PostSummary = (props) => {
           <Text style={styles.posterText}>by {posterId}</Text>
         </Text>
         <Text style={styles.postContentText}>
-          {content.substring(0, 60)}...
+          {getContentSummary()}...
         </Text>
         <View style={styles.utilsContainer}>
           <View>
@@ -118,7 +161,7 @@ const PostSummary = (props) => {
             </TouchableOpacity>
           </View>
           <Text style={styles.voteText}>
-            {upVotes.length - downVotes.length}
+            {getPostScore()}
           </Text>
           <View style={{transform: [{rotate: '180deg'}]}}>
             <TouchableOpacity onPress={castDownvote}>
@@ -136,3 +179,4 @@ const PostSummary = (props) => {
 };
 
 export default PostSummary;
+

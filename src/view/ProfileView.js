@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
+    marginTop: 50
   },
   profileDescription: {
     paddingHorizontal: 24,
@@ -191,6 +192,13 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+  displayNameText: {
+    marginTop: 8,
+    fontSize: 24,
+    fontWeight: '400',
+    color: Colors.dark,
+  }
 });
 
 export default ProfileView;
+

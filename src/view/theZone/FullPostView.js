@@ -9,39 +9,101 @@ import { SafeAreaView,
     KeyboardAvoidingView,
     TouchableOpacity,
     TouchableHighlight,
-    Image} from 'react-native';
+    Image,
+    RefreshControl
+} from 'react-native';
 import { Button, Title } from 'react-native-paper';
-import { getPostData, getUserFromPosterId, castDownvote, castUpvote, backtoZone, addUserToRadar } from './../../controller/FullPostController';
-import PostModel from '../../model/PostModel'
-import UserModel from '../../model/UserModel'
 
 
-export function FullPostView({route, navigation}) {
+export function FullPostView(props) {
     const [pid, updatePid] = React.useState("");
-      const [title, updateTitle] = React.useState("");
-      const [content, updateContent] = React.useState("");
-      const [posterId, updatePosterId] = React.useState("");
-      const [upVotes, updateUpvotes] = React.useState([]);
-      const [downVotes, updateDownvotes] = React.useState([]);
+    const [title, updateTitle] = React.useState("");
+    const [content, updateContent] = React.useState("");
+    const [posterId, updatePosterId] = React.useState("");
+    const [posterUid, updatePosterUid] = React.useState("");
+    const [upVotes, updateUpvotes] = React.useState([]);
+    const [downVotes, updateDownvotes] = React.useState([]);
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [refresh, setRefresh] = React.useState(false);
 
-      if(pid === '') {
-        PostModel.getPostDoc(route.params.postId).then(post => {
-            console.log(post);
-            updatePid(post.pid);
-            updateTitle(post.title);
-            updateContent(post.content);
-            updatePosterId(post.poster);
-            UserModel.getUserDoc(post.poster).then(doc => {
-                updatePosterId(doc.profile.displayName);
-            })
-            updateUpvotes(post.upVotes);
-            updateDownvotes(post.downVotes);
-        })
-      }
+    if(pid === '') {
+        props.getPostData().then(postData => {
+            console.log('IN FullPost')
+            //console.log(postData);
+            updatePid(postData.pid);
+            if (pid === undefined) updatePid('');
+            updateTitle(postData.title);
+            updateContent(postData.content);
+            updatePosterUid(postData.poster);
+            updatePosterId(postData.displayName);
+            updateUpvotes(postData.upVotes);
+            updateDownvotes(postData.downVotes);
+            //if (!(upVotes)) setUpvotes([]);
+            //if (!(downVotes)) setDownvotes([]);
+        });
+    }
+
+    if (refresh) {
+        props.getPostData().then(postData => {
+            console.log('IN FullPost')
+            //console.log(postData);
+            updatePid(postData.pid);
+            if (pid === undefined) updatePid('');
+            updateTitle(postData.title);
+            updateContent(postData.content);
+            updatePosterUid(postData.poster);
+            updatePosterId(postData.displayName);
+            updateUpvotes(postData.upVotes);
+            updateDownvotes(postData.downVotes);
+            setRefresh(false);
+            //if (!(upVotes)) setUpvotes([]);
+            //if (!(downVotes)) setDownvotes([]);
+        });
+    }
+
     const [modalVisible, setModalVisible] = React.useState(false);
     const openModal = () => {
         setModalVisible(true);
     }
+
+    const castUpvote = () => {
+        if (!(pid === undefined)) {
+            setRefresh(true);
+            props.castUpvote(pid);
+        }
+      };
+    
+      const castDownvote = () => {
+        if (!(pid === undefined)) {
+            setRefresh(true);
+            props.castDownvote(pid);
+        }
+      };
+
+    const getPostScore = () => {
+        if (upVotes === undefined || downVotes === undefined) return 0;
+        return upVotes.length - downVotes.length;
+    }
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        //console.log('Fetching posts in THE ZONE (Refresh)');
+        props.getPostData().then(postData => {
+            //console.log('IN FullPost')
+            //console.log(postData);
+            updatePid(postData.pid);
+            if (pid === undefined) updatePid('');
+            updateTitle(postData.title);
+            updateContent(postData.content);
+            updatePosterUid(postData.poster);
+            updatePosterId(postData.displayName);
+            updateUpvotes(postData.upVotes);
+            updateDownvotes(postData.downVotes);
+            if (!(upVotes)) setUpvotes([]);
+            if (!(downVotes)) setDownvotes([]);
+            setRefreshing(false);
+        });
+      }, []);
 
     return (
         <>
@@ -59,7 +121,7 @@ export function FullPostView({route, navigation}) {
                         style={{ ...styles.openButton, backgroundColor: "#1F6521" }}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            addUserToRadar(userData);
+                            props.addUserToRadar(posterUid);
                         }}
                         >
                             <Text style={styles.modalTextStyle}>Add user to Radar</Text>
@@ -80,7 +142,11 @@ export function FullPostView({route, navigation}) {
             <SafeAreaView>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
+                    style={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    >
                 <KeyboardAvoidingView>
                     <View style={styles.postContainer}>
                         <View style={styles.titleContainer}>
@@ -94,18 +160,18 @@ export function FullPostView({route, navigation}) {
                         </View>
                         <View style={styles.utilsContainer}>
                             <View>
-                                <TouchableOpacity onPress={castUpvote}>
+                                <TouchableOpacity onPress={() => {castUpvote()}}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.upVoteImage}/>
                                 </TouchableOpacity>
                             </View>
-                            <Text style={styles.voteText}>{upVotes.length - downVotes.length}</Text>
+                            <Text style={styles.voteText}>{getPostScore()}</Text>
                             <View style={{transform: [{ rotate: "180deg" }]}}>
-                                <TouchableOpacity onPress={castDownvote}>
+                                <TouchableOpacity onPress={() => {castDownvote()}}>
                                     <Image source={require('./../../../assets/redditUpvote.png')} style={styles.downVoteImage}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <Button mode='contained' onPress={() => {backtoZone(navigation)}}>Back</Button>
+                        <Button mode='contained' onPress={() => {props.backtoZone()}}>Back</Button>
                     </View>
                 </KeyboardAvoidingView>            
                 </ScrollView>
