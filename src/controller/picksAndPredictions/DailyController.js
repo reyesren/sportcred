@@ -70,16 +70,16 @@ export const Daily = () => {
         // TODO: comment out this return statement for the real one
         return [{
             id: '0',
-            team1: 'los angeles lakers',                         
-            team2: 'miami heat',
+            team1: 'Los Angeles Lakers',                         
+            team2: 'Miami Heat',
             date: new Date(2020, 10, 18, 12, 0, 0, 0),
             result: 1,    
             userPick: 1
         },
         {
             id: '1',
-            team1: 'los angeles lakers',                         
-            team2: 'miami heat',
+            team1: 'Los Angeles Lakers',                         
+            team2: 'Miami Heat',
             date: new Date(2020, 10, 18, 12, 0, 0, 0),
             result: 2,    
             userPick: 1
@@ -107,6 +107,20 @@ export const Daily = () => {
     const teamLogos = {
         'Los Angeles Lakers': require('./../../../assets/teamLogos/los_angeles_lakers.png'),
         'Miami Heat': require('./../../../assets/teamLogos/miami_heat.png'),
+        /*
+        'Atlanta Hawks': require('./../../../assets/teamLogos/atlanta_hawks.png'),
+        'Boston Celtics': require('./../../../assets/teamLogos/boston_celtics.png'),
+        'Brooklyn Nets': require('./../../../assets/teamLogos/brooklyn_nets.png'),
+        'Charlotte Hornets': require('./../../../assets/teamLogos/charlotte_hornets.png'),
+        'Chicago Bulls': require('./../../../assets/teamLogos/chicago_bulls.png'),
+        'Cleveland Cavaliers': require('./../../../assets/teamLogos/cleveland_cavaliers.png'),
+        'Dallas Mavericks': require('./../../../assets/teamLogos/dallas_mavericks.png'),
+        'Denver Nuggets': require('./../../../assets/teamLogos/denver_nuggets.png'),
+        'Detroit Pistons': require('./../../../assets/teamLogos/detroit_pistons.png'),
+        'Golden State Warriors': require('./../../../assets/teamLogos/golden_state_warriors.png'),
+        'Houston Rockets': require('./../../../assets/teamLogos/houston_rockets.png'),
+        'Indiana Pacers': require('./../../../assets/teamLogos/indiana_pacers.png'),
+        */
         'unknown': require ('./../../../assets/teamLogos/unknown.png')
     }
 

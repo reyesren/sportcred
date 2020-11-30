@@ -31,7 +31,7 @@ export const DailyView = (props) => {
             return <DailyCard 
             matchData={match} 
             key={match.id}
-            updateMatchDatabase={props.updateMatchDatabase}
+            updateMatchDatabase={props.updateMatchDataDatabase}
             teamLogos={props.teamLogos}/>;
           });
     }
@@ -67,14 +67,15 @@ export const DailyView = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
+        marginHorizontal: 0,
         marginVertical: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 0,
     },
     sectionHeader: {
         fontFamily: 'arial',
         fontSize: 25,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
     noMatchesText: {
         fontSize: 20,
