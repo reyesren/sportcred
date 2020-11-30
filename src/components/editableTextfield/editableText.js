@@ -75,7 +75,7 @@ const EditableText = (props) => {
           </HelperText> */}
           </View>
           <View style={styles.buttonContainer}>
-            <Button mode='contained' onPress={buttonHandler}>Done</Button>
+            <Button mode='contained' onPress={() => {buttonHandler(); props.sendData(text)}}>Done</Button>
             <Button mode='contained' onPress={cancelButtonHandler}>Cancel</Button>
           </View>
         </View>
