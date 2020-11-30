@@ -61,10 +61,27 @@ export const Profile = ({route, navigation}) => {
           const m = acsDoc['acsHistory']
           let array = Object.keys(m).map(k => m[k])
           let sum = array.reduce((a,b) => a+b, 100)
-          //console.log(sum);
+          console.log(sum);
           return sum;
       }
     );
+  }
+
+  const getACSHistory = () => {
+    return ACSModel.getACS(user.uid).then(
+        async acsDoc => {
+          const m = acsDoc['acsHistory']
+          let dataObj = {};
+          let acsArray = Object.values(m);
+          let timeArray = Object.keys(m);
+          for(let i = 1; i < acsArray.length; i++) {
+            acsArray[i] = acsArray[i - 1] + acsArray[i];
+          }
+          dataObj['datasets'] = [{'data': acsArray}];
+          dataObj['labels'] = timeArray;
+          return dataObj;
+        }
+    )
   }
 
   if (!fetched) {
@@ -74,6 +91,6 @@ export const Profile = ({route, navigation}) => {
     });
   }
 
-  return ProfileView({profilePicChange, user, signOut, userDoc, setAboutMe, getACSScore});
+  return ProfileView({profilePicChange, user, signOut, userDoc, setAboutMe, getACSScore, getACSHistory});
 };
 // make sure to put all your business logic in the controller. Your view may contain callback functions as props

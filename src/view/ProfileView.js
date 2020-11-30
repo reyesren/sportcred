@@ -8,8 +8,17 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
+  Dimensions
 } from 'react-native';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from 'react-native-chart-kit'
 import {Button} from 'react-native-paper';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -23,18 +32,46 @@ const ProfileView = (props) => {
     uri: props.user.photoURL,
   });
   const [ACS, setACS] = React.useState(0);
+  const [ACSHistory, setACSHistory] = React.useState({}); // object with 2 arrays (labels, data)
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setACS(0);
     setRefreshing(false);
+    setACSHistory({});
   }, []);
 
   const getACS = () => {
     props.getACSScore().then(score => setACS(score));
   };
 
+  const getACSHistory = () => {
+      props.getACSHistory().then(acsHistory => {
+        console.log(acsHistory);
+        setACSHistory(acsHistory);
+        console.log("IN PROFILE VIEW");
+        console.log(ACSHistory);
+      });
+  };
+//  const getACSHistory = () => {
+//    props.getACSHistory().then(acsHistoryObj => {
+//        data = {};
+//        data['labels'] = acsHistoryObj['time'];
+//        data['data'] = acsHistoryObj['acs'];
+//        setACSHistory(data);
+//    }
+//  };
+
+//  const data = {
+//    labels: ACSHistory['time'],
+//    datasets: [
+//        {
+//            data: ACSHistory['acs'],
+//        }
+//    ]
+//  }
   if (ACS === 0) getACS();
+  if (Object.keys(ACSHistory).length === 0) getACSHistory();
 
   return (
     <>
@@ -86,9 +123,36 @@ const ProfileView = (props) => {
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>ACS History</Text>
-              <Text style={styles.sectionDescription}>
-                Someone should replace me with a graph at some point.
-              </Text>
+              { console.log(ACSHistory) }
+              <LineChart
+                  data={ACSHistory}
+                  width={Dimensions.get("window").width} // from react-native
+                  height={220}
+                  yAxisLabel="$"
+                  yAxisSuffix="k"
+                  yAxisInterval={1} // optional, defaults to 1
+                  chartConfig={{
+                    backgroundColor: "#e26a00",
+                    backgroundGradientFrom: "#fb8c00",
+                    backgroundGradientTo: "#ffa726",
+                    decimalPlaces: 2, // optional, defaults to 2dp
+                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    style: {
+                      borderRadius: 16
+                    },
+                    propsForDots: {
+                      r: "6",
+                      strokeWidth: "2",
+                      stroke: "#ffa726"
+                    }
+                  }}
+                  bezier
+                  style={{
+                    marginVertical: 8,
+                    borderRadius: 16
+                  }}
+                />
             </View>
           </View>
           <View style={styles.body}>
