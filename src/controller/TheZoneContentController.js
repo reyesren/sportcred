@@ -42,7 +42,8 @@ const TheZoneContent = ({route, navigation}) => {
     const checkIfUserVoted = (postId, which) => {
         // TODO: returns true if user upvoted post with postId
         // false, otherwise
-        return PostModel.checkIfVoted(postId, user.uid, which);
+        //console.log('reached 2');
+        return PostModel.checkIfVoted(postId, user.uid, which).then(async (val) => {return await val});
     }
 
     const getPostIds = () => {

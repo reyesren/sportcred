@@ -20,7 +20,6 @@ const PostSummary = (props) => {
     const [upVotes, updateUpvotes] = React.useState([]);
     const [downVotes, updateDownvotes] = React.useState([]);
     const [refresh, setRefresh] = React.useState(false);
-    const [voteOffset, setVoteOffset] = React.useState(0);
 
     if (props.refresh) {
       setRefresh(true);
@@ -41,7 +40,6 @@ const PostSummary = (props) => {
           updateDownvotes(postData.downVotes);
           if (!(upVotes)) setUpvotes([]);
           if (!(downVotes)) setDownvotes([]);
-          setVoteOffset(0);
       });
   }
 
@@ -60,7 +58,6 @@ const PostSummary = (props) => {
         if (!(upVotes)) setUpvotes([]);
         if (!(downVotes)) setDownvotes([]);
         setRefresh(false);
-        setVoteOffset(0);
     });
   }
 
@@ -76,23 +73,19 @@ const PostSummary = (props) => {
 
   const getPostScore = () => {
     if (upVotes === undefined || downVotes === undefined) return 0;
-    return upVotes.length - downVotes.length + voteOffset;
+    return upVotes.length - downVotes.length;
   }
 
   const castUpvote = () => {
     if (!(pid === undefined)) {
-      // if (checkIfUserUpvoted()) setVoteOffset(0);
-      // else if (checkIfUserDownvoted()) setVoteOffset(1);
-      // else setVoteOffset(1);
+      setRefresh(true);
       props.castUpvote(pid);
     }
   };
 
   const castDownvote = () => {
     if (!(pid === undefined)) {
-      // if (checkIfUserDownvoted()) setVoteOffset(0);
-      // else if (checkIfUserUpvoted()) setVoteOffset(-1);
-      // else setVoteOffset(-1);
+      setRefresh(true);
       props.castDownvote(pid);
     }
   };

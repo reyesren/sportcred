@@ -9,7 +9,9 @@ import { SafeAreaView,
     KeyboardAvoidingView,
     TouchableOpacity,
     TouchableHighlight,
-    Image} from 'react-native';
+    Image,
+    RefreshControl
+} from 'react-native';
 import { Button, Title } from 'react-native-paper';
 
 
@@ -20,12 +22,74 @@ export function FullPostView(props) {
     const [posterId, updatePosterId] = React.useState("");
     const [upVotes, updateUpvotes] = React.useState([]);
     const [downVotes, updateDownvotes] = React.useState([]);
-    const [voteOffset, setVoteOffset] = React.useState(0);
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [refresh, setRefresh] = React.useState(false);
 
     if(pid === '') {
         props.getPostData().then(postData => {
             console.log('IN FullPost')
-            console.log(postData);
+            //console.log(postData);
+            updatePid(postData.pid);
+            if (pid === undefined) updatePid('');
+            updateTitle(postData.title);
+            updateContent(postData.content);
+            updatePosterId(postData.poster);
+            updatePosterId(postData.displayName);
+            updateUpvotes(postData.upVotes);
+            updateDownvotes(postData.downVotes);
+            //if (!(upVotes)) setUpvotes([]);
+            //if (!(downVotes)) setDownvotes([]);
+        });
+    }
+
+    if (refresh) {
+        props.getPostData().then(postData => {
+            console.log('IN FullPost')
+            //console.log(postData);
+            updatePid(postData.pid);
+            if (pid === undefined) updatePid('');
+            updateTitle(postData.title);
+            updateContent(postData.content);
+            updatePosterId(postData.poster);
+            updatePosterId(postData.displayName);
+            updateUpvotes(postData.upVotes);
+            updateDownvotes(postData.downVotes);
+            setRefresh(false);
+            //if (!(upVotes)) setUpvotes([]);
+            //if (!(downVotes)) setDownvotes([]);
+        });
+    }
+
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const openModal = () => {
+        setModalVisible(true);
+    }
+
+    const castUpvote = () => {
+        if (!(pid === undefined)) {
+            setRefresh(true);
+            props.castUpvote(pid);
+        }
+      };
+    
+      const castDownvote = () => {
+        if (!(pid === undefined)) {
+            setRefresh(true);
+            props.castDownvote(pid);
+        }
+      };
+
+    const getPostScore = () => {
+        if (upVotes === undefined || downVotes === undefined) return 0;
+        return upVotes.length - downVotes.length;
+    }
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        //console.log('Fetching posts in THE ZONE (Refresh)');
+        props.getPostData().then(postData => {
+            //console.log('IN FullPost')
+            //console.log(postData);
             updatePid(postData.pid);
             if (pid === undefined) updatePid('');
             updateTitle(postData.title);
@@ -36,45 +100,9 @@ export function FullPostView(props) {
             updateDownvotes(postData.downVotes);
             if (!(upVotes)) setUpvotes([]);
             if (!(downVotes)) setDownvotes([]);
-            setVoteOffset(0);
+            setRefreshing(false);
         });
-    }
-
-    const [modalVisible, setModalVisible] = React.useState(false);
-    const openModal = () => {
-        setModalVisible(true);
-    }
-
-    const checkIfUserUpvoted = () => {
-        props.checkIfUserVoted(pid, upVotes);
-      }
-    
-    const checkIfUserDownvoted = () => {
-    props.checkIfUserVoted(pid, downVotes);
-    }
-
-    const castUpvote = () => {
-        if (!(pid === undefined)) {
-          if (checkIfUserUpvoted()) setVoteOffset(0);
-          else if (checkIfUserDownvoted()) setVoteOffset(1);
-          else setVoteOffset(1);
-          props.castUpvote(pid);
-        }
-      };
-    
-      const castDownvote = () => {
-        if (!(pid === undefined)) {
-          if (checkIfUserDownvoted()) setVoteOffset(0);
-          else if (checkIfUserUpvoted()) setVoteOffset(-1);
-          else setVoteOffset(-1);
-          props.castDownvote(pid);
-        }
-      };
-
-    const getPostScore = () => {
-        if (upVotes === undefined || downVotes === undefined) return 0;
-        return upVotes.length - downVotes.length;
-    }
+      }, []);
 
     return (
         <>
@@ -113,7 +141,11 @@ export function FullPostView(props) {
             <SafeAreaView>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
+                    style={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    >
                 <KeyboardAvoidingView>
                     <View style={styles.postContainer}>
                         <View style={styles.titleContainer}>
