@@ -29,29 +29,18 @@ export const Daily = () => {
 
         today = `${year}-${month}-${day}`;
 
-//        DailyPicksModel.isDailyPicksEmpty(user.uid, today).then(isEmpty => {
-//            if(isEmpty) {
-//                return DailyPicksModel.getGamesToday(today).then(gamesToday => {
-//                    return DailyPicksModel.setupUserDailyPicks(user.uid, today, gamesToday).then(success => {
-//                        console.log("THIS WORKED SUCCESSFULLY");
-//                        console.log(gamesToday);
-////                        return games;
-//                    });
-//                });
-//            }
-
-        DailyPicksModel.isDailyPicksEmpty(user.uid, today).then(async (isEmpty) => {
-            if(isEmpty) {
+        DailyPicksModel.getUserDailyPicks(user.uid, today).then(async (gamesArr) => {
+            if(gamesArr.length === 0) {
                 let gamesToday = await DailyPicksModel.getGamesToday(today);
-                console.log(gamesToday);
+//                console.log(gamesToday);
+                console.log("THIS WORKED SUCCESSFULLY");
                 await DailyPicksModel.setupUserDailyPicks(user.uid, today, gamesToday);
+//                return(gamesToday);
             }
             else {
-                DailyPicksModel.getPicksForToday(user.uid, today).then(games => {
-                    console.log("THIS ALSO WORKED SUCCESSFULLY");
-                    console.log(games);
-//                    return games;
-                })
+//                console.log(gamesArr);
+                console.log("THIS ALSO WORKED SUCCESSFULLY");
+//                return gamesArr;
             }
         })
 
@@ -68,6 +57,18 @@ export const Daily = () => {
     const getPreviousMatchData = () => {
         // TODO: return a list of previous days matches
         // structure similar to getTodayMatchData
+
+        let dateToPass = new Date();
+        const day = dateToPass.getDate() - 1;
+        const month = dateToPass.getMonth() + 1;
+        const year = dateToPass.getFullYear();
+
+        dateToPass = `${year}-${month}-${day}`;
+
+        DailyPicksModel.getUserDailyPicks(user.uid, dateToPass).then(gamesArr => {
+            console.log(gamesArr);
+//            return gamesArr;
+        })
         return [{
             id: '0',
             team1: 'los angeles lakers',                         
@@ -88,6 +89,17 @@ export const Daily = () => {
 
     const updateMatchDataDatabase = (matchData) => {
         // TODO: takes input matchData (see above for structure) and updates firestore
+        let dateToPass = new Date();
+        const day = dateToPass.getDate();
+        const month = dateToPass.getMonth() + 1;
+        const year = dateToPass.getFullYear();
+
+        dateToPass = `${year}-${month}-${day}`;
+
+        const gameID = matchData.id;
+        DailyPicksModel.updateUserDailyPicks(user.uid, dateToPass, matchData, gameID).then(() => {
+            console.log("UPDATE SUCCESSFUL");
+        });
     }
     
     
