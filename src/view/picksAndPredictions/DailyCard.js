@@ -226,8 +226,8 @@ const DailyCard = (props) => {
                 </View>
                 <View style={styles.textContainer}>
                     {/* { renderBanner(props.matchData.result, 'won', styles.winBanner) } */}
-                    <Text style={styles.matchText}>00</Text>
-                    <Text>00/00/00</Text>
+                    <Text style={styles.matchText}>{props.matchData.time}</Text>
+                    <Text>{props.matchData.date}</Text>
                     {/* { renderBanner(props.matchData.userPick, 'picked', styles.choiceBanner) } */}
                 </View>
                 <View style={styles.logoContainer}>
