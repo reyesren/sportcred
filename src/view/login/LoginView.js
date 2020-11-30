@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image, Text, View, StyleSheet} from 'react-native';
 import {TextInput, Title, Button} from 'react-native-paper';
 
 const LoginTextComponent = (props) => {
@@ -25,20 +25,41 @@ const LoginView = (props) => {
       style={{
         height: 100,
         padding: 40,
-      }}>
-      <Title style={{padding: 50, alignSelf: 'center'}}>SPORTCRED</Title>
+      }}
+      >
+      <Image
+        style={styles.logo}
+        source={require('./../../../assets/logo.png')}
+      />
       <TextInput onChangeText={(text) => setEmail(text)} label="Email" />
-      <TextInput secureTextEntry={true} onChangeText={(text) => setPassword(text)} label="Password" />
+      <TextInput secureTextEntry={true} style={styles.textfield} onChangeText={(text) => setPassword(text)} label="Password" />
       <Button
         mode="contained"
         disabled = {(email && password) ? false : true}
-        onPress={() => props.onUserLogin({email, password})}>
+        onPress={() => props.onUserLogin({email, password})}
+        style={styles.button}>
         Login
       </Button>
-      <Button mode="contained" onPress={() => props.register()}>
+      <Button mode="contained" onPress={() => props.register()} style={styles.button}>
         Sign Up
       </Button>
     </View>
   );
 };
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 15,
+    padding: 0
+  },
+  logo: {
+    marginTop: 40,
+    marginBottom: 40,
+    width: '100%',
+    height: 100,
+    resizeMode: 'contain',
+  },
+  textfield: {
+    marginTop: 15
+  }
+});
 export default LoginView;
