@@ -102,7 +102,7 @@ const PostSummary = (props) => {
     postContainer: {
       marginVertical: 10,
       padding: 20,
-      backgroundColor: '#ddd',
+      backgroundColor: '#ffffff',
       borderRadius: 10,
     },
     postTitleText: {
@@ -126,7 +126,14 @@ const PostSummary = (props) => {
       fontSize: 17,
       paddingHorizontal: 10,
     },
-    voteImage: {
+    upVoteImage: {
+      tintColor: "#1F6521",
+      height: 30,
+      width: 30,
+      resizeMode: 'contain',
+    },
+    downVoteImage: {
+      tintColor: "#FF652F",
       height: 30,
       width: 30,
       resizeMode: 'contain',
@@ -149,7 +156,7 @@ const PostSummary = (props) => {
             <TouchableOpacity onPress={castUpvote}>
               <Image
                 source={require('./../../../assets/redditUpvote.png')}
-                style={styles.voteImage}
+                style={styles.upVoteImage}
               />
             </TouchableOpacity>
           </View>
@@ -160,7 +167,7 @@ const PostSummary = (props) => {
             <TouchableOpacity onPress={castDownvote}>
               <Image
                 source={require('./../../../assets/redditUpvote.png')}
-                style={styles.voteImage}
+                style={styles.downVoteImage}
               />
             </TouchableOpacity>
           </View>

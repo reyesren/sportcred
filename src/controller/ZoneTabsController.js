@@ -1,14 +1,15 @@
-import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {Button} from "react-native-paper";
-import React from "react";
-import {
-    StyleSheet,
-    Image
-  } from 'react-native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {Button} from 'react-native-paper';
+import React from 'react';
+import {StyleSheet, Image} from 'react-native';
 import {TheZonePages} from '../controller/TheZoneContentController';
 import {RadarContent} from './RadarContentController';
+import {Radar} from './RadarController';
+import {createStackNavigator} from '@react-navigation/stack';
+import RadarAddToUserController from './RadarAddUserController';
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
 export const ZoneTabs = ({route, navigation}) => {
     const styles = StyleSheet.create({

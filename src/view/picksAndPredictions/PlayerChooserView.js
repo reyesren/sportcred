@@ -24,7 +24,6 @@ const playerChooserView = (props) => {
       <Item
         item={item}
         onPress={() => {
-          //setSelectedId(item.id);
           setSelectedId(item.playerId);
           console.log('player selected', item.playerId);
           props.submitPicks(props.whichAward, item.playerId, props.whichTeam);
@@ -39,9 +38,6 @@ const playerChooserView = (props) => {
     const regex = new RegExp(search, 'i');
     const newData = [];
     for (const player of DATA) {
-      /*if (search === '') {
-        setFilteredData([]);
-      }*/
       if (regex.test(player.firstName + ' ' + player.lastName)) {
         newData.push(player);
       }
@@ -66,10 +62,7 @@ const playerChooserView = (props) => {
           data={filteredData}
           initialNumToRender="5"
           renderItem={renderItem}
-          keyExtractor={(item) => {
-            //item.id;
-            return item.playerId.toString();
-          }}
+          keyExtractor={(item) => item.playerId.toString()}
           extraData={selectedId}
         />
       </View>

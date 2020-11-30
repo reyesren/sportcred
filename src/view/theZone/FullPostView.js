@@ -161,13 +161,13 @@ export function FullPostView(props) {
                         <View style={styles.utilsContainer}>
                             <View>
                                 <TouchableOpacity onPress={() => {castUpvote()}}>
-                                    <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
+                                    <Image source={require('./../../../assets/redditUpvote.png')} style={styles.upVoteImage}/>
                                 </TouchableOpacity>
                             </View>
                             <Text style={styles.voteText}>{getPostScore()}</Text>
                             <View style={{transform: [{ rotate: "180deg" }]}}>
                                 <TouchableOpacity onPress={() => {castDownvote()}}>
-                                    <Image source={require('./../../../assets/redditUpvote.png')} style={styles.voteImage}/>
+                                    <Image source={require('./../../../assets/redditUpvote.png')} style={styles.downVoteImage}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -219,10 +219,17 @@ const styles = StyleSheet.create({
         fontSize: 17,
         paddingHorizontal:10
     },
-    voteImage: {
+    upVoteImage: {
+        tintColor: "#1F6521",
         height: 30,
         width: 30,
         resizeMode: 'contain',
+    },
+    downVoteImage: {
+    tintColor: "#FF652F",
+    height: 30,
+    width: 30,
+    resizeMode: 'contain',
     },
     centeredView: {
         flex: 1,
@@ -254,6 +261,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
       },
       modalTextStyle: {
+        width: 150,
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
