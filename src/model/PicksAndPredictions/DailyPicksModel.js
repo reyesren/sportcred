@@ -1,27 +1,56 @@
 import {firestore} from '../../firebase.js';
 import React from 'react';
 
-export default class DailyPicks {
-    static userDataDocument = firestore()
-        .collection('picks_predictions')
-        .doc('userData')
+export default class DailyPicksModel {
+    static picksCollection = firestore()
+        .collection('picks_predictions');
 
-    /**
-     *
-     * @param uid
-     * @param date
-     * @returns {Promise<Object>}
-     */
-    static getUserDailyPicks(uid: string, date: string) {
-        return this.userDataDocument
+    static getGamesToday(today) {
+         return this.picksCollection
+            .doc('daily')
+            .get()
+            .then(gamesTodaySs => {
+                let gamesArr = gamesTodaySs.get(today);
+                let id = 0;
+                for(let i = 0; i < gamesArr.length; i++) {
+                    gamesArr[i]['id'] = id.toString();
+                    gamesArr[i]['date'] = new Date();
+                    gamesArr[i]['result'] = 0;
+                    gamesArr[i]['userPick'] = 0;
+                    id++;
+                }
+                return gamesArr;
+            })
+    }
+
+    static isDailyPicksEmpty(uid, date) {
+        return this.picksCollection
+            .doc('userData')
             .collection(uid)
             .doc('dailyPicks')
-            .collection('dates')
-            .doc([date])
-            .collection('games')
+            .get()
+            .then(submittedPicksSs => {
+                if(submittedPicksSs.get(date) == null) {
+                    return true;
+                }
+                return false;
+            })
+    }
+
+//    /**
+//     *
+//     * @param uid
+//     * @param date
+//     * @returns {Promise<Object>}
+//     */
+    static getPicksForToday(uid: string, date: string) {
+        return this.picksCollection
+            .doc('userData')
+            .collection(uid)
+            .doc('dailyPicks')
             .get()
             .then(gamesSs => {
-                return gamesSs.docs;
+                return gamesSs.get(date);
             })
     }
 
@@ -46,23 +75,18 @@ export default class DailyPicks {
      * @param picks
      * @param callback
      */
-    static submitUserDailyPicks(uid: string, date: string, picks: Object,
+    static setupUserDailyPicks(uid, date, picks,
                            callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
     {
-        for (const game in picks) {
-            this.userDataDocument
-                .collection(uid)
-                .doc('dailyPicks')
-                .collection('dates')
-                .doc([date])
-                .collection('games')
-                .doc([`${game}`])
-                .set({loserSelected: picks["loserSelected"], winnerSelected: picks["winnerSelected"]})
-                .then(callback)
-                .catch(error => {
-                    console.log(error)
-                })
-        }
+        this.picksCollection
+            .doc('userData')
+            .collection(uid)
+            .doc('dailyPicks')
+            .set({[date]: picks})
+            .then(callback)
+            .catch(reason => {
+                console.log(reason)
+            })
     }
 
     /**

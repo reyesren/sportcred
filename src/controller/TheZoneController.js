@@ -37,7 +37,6 @@ export const TheZone = ({route, navigation}) => {
 
 export function getPostIds() {
     return PostModel.getAllPostIds(false).then(async (allIds) => {
-        console.log("allIds[0] is: " + allIds[0]);
         return allIds;
     })
 };
