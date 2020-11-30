@@ -30,7 +30,7 @@ const TriviaResultsController = ({route, navigation}) => {
   };
 
   const goToTriviaLanding = () => {
-    navigation.navigate('TriviaLandingController');
+    navigation.navigate('Trivia');
   };
 
   return TriviaResultView({

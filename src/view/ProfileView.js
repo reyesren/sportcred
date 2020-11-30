@@ -63,7 +63,8 @@ const ProfileView = (props) => {
                       setProfilePic,
                       setPromptingPictureChange,
                     )
-                  }>Change Profile Picture</Button>
+                  }
+                  style={styles.changeButton}>Change Profile Picture</Button>
                   <Button mode='contained' onPress={() => setPromptingPictureChange(true)}>Cancel</Button>
               </View>
             )}
@@ -82,6 +83,7 @@ const ProfileView = (props) => {
             textTitle="About Me"
             presetText={props.userDoc.profile.about}
             setText={props.setAboutMe}
+            style = {styles.aboutMe}
           />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
@@ -110,6 +112,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     zIndex: 10,
+  },
+  aboutMe: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: Colors.dark,
+  },
+  changeButton: {
+    marginBottom: 20
   },
   introBody: {
     backgroundColor: Colors.white,

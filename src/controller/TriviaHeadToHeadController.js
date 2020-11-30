@@ -17,12 +17,20 @@ import TriviaModel from '../model/TriviaModel';
 const Tab = createMaterialTopTabNavigator();
 
 export const HeadToHeadTabs = ({navigation}) => {
-  const user = useContext(AuthContext);
+const user = useContext(AuthContext);
 
   return (
     <>
       <Button onPress={() => navigation.navigate('Trivia')}>Back</Button>
-      <Tab.Navigator>
+      <Tab.Navigator
+        tabBarOptions={{
+          labelStyle: {
+            fontSize: 12,
+            margin: 0,
+            padding: 0,
+          },
+        }}
+      >
         <Tab.Screen name={'Challenge Users'} component={ChallengeUsers} />
         <Tab.Screen name={'Pending'} component={PendingChallenges} />
         <Tab.Screen name={'Incoming'} component={IncomingChallenges} />
