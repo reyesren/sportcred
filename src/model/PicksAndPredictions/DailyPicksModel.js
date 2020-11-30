@@ -51,7 +51,7 @@ export default class DailyPicksModel {
             })
     }
 
-    static updateUserDailyPicks(uid, date, matchData, gid,
+    static updateUserDailyPicks(uid, date, picks,
                            callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
     {
         this.picksCollection

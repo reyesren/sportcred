@@ -33,17 +33,15 @@ export const Daily = () => {
             if(gamesArr.length === 0) {
                 let gamesToday = await DailyPicksModel.getGamesToday(today);
 //                console.log(gamesToday);
-                console.log("THIS WORKED SUCCESSFULLY");
                 await DailyPicksModel.setupUserDailyPicks(user.uid, today, gamesToday);
 //                return(gamesToday);
             }
             else {
 //                console.log(gamesArr);
-                console.log("THIS ALSO WORKED SUCCESSFULLY");
 //                return gamesArr;
             }
         })
-
+        // TODO: comment out this return statement for the real one
         return [{
             id: '0',
             team1: 'Los Angeles Lakers',
@@ -69,6 +67,7 @@ export const Daily = () => {
             console.log(gamesArr);
 //            return gamesArr;
         })
+        // TODO: comment out this return statement for the real one
         return [{
             id: '0',
             team1: 'los angeles lakers',                         
@@ -97,8 +96,9 @@ export const Daily = () => {
         dateToPass = `${year}-${month}-${day}`;
 
         const gameID = matchData.id;
-        DailyPicksModel.updateUserDailyPicks(user.uid, dateToPass, matchData, gameID).then(() => {
-            console.log("UPDATE SUCCESSFUL");
+        DailyPicksModel.getUserDailyPicks(user.uid, dateToPass).then(async (gamesArr) => {
+            gamesArr[gameID] = matchData;
+            await DailyPicksModel.updateUserDailyPicks(user.uid, dateToPass, gamesArr);
         });
     }
     
