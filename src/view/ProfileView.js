@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,12 +12,7 @@ import {
   Dimensions
 } from 'react-native';
 import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
+  LineChart
 } from 'react-native-chart-kit'
 import {Button} from 'react-native-paper';
 
@@ -33,7 +28,11 @@ const ProfileView = (props) => {
   });
   const [ACS, setACS] = React.useState(0);
   const [ACSHistory, setACSHistory] = React.useState({}); // object with 2 arrays (labels, data)
+  const [ACSHistoryFetched, setACSHistoryFetched] = React.useState(false);
+  const [ACSTime, setACSTime] = React.useState([]);
+  const [ACSScores, setACSScores] = React.useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
+  
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setACS(0);
@@ -46,11 +45,12 @@ const ProfileView = (props) => {
   };
 
   const getACSHistory = () => {
-      props.getACSHistory().then(acsHistory => {
-        console.log(acsHistory);
+      props.getACSHistory().then(async acsHistory => {
         setACSHistory(acsHistory);
         console.log("IN PROFILE VIEW");
+        console.log(acsHistory);
         console.log(ACSHistory);
+        setACSHistoryFetched(true);
       });
   };
 //  const getACSHistory = () => {
@@ -71,7 +71,46 @@ const ProfileView = (props) => {
 //    ]
 //  }
   if (ACS === 0) getACS();
-  if (Object.keys(ACSHistory).length === 0) getACSHistory();
+  if (!ACSHistoryFetched) getACSHistory();
+
+  const renderChart = () => {
+    console.log('Reached renderChart');
+    if (Object.keys(ACSHistory).length === 0) {
+      console.log('ACSHistory is undefined');
+      return (<></>);
+    }
+    console.log('before line chart');
+    console.log(ACSHistory);
+    return (
+      <LineChart
+                  data={ACSHistory}
+                  width={Dimensions.get("window").width} // from react-native
+                  height={220}
+                  yAxisInterval={1} // optional, defaults to 1
+                  chartConfig={{
+                    backgroundColor: "#e26a00",
+                    backgroundGradientFrom: "#fb8c00",
+                    backgroundGradientTo: "#ffa726",
+                    decimalPlaces: 2, // optional, defaults to 2dp
+                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    style: {
+                      borderRadius: 16
+                    },
+                    propsForDots: {
+                      r: "6",
+                      strokeWidth: "2",
+                      stroke: "#ffa726"
+                    }
+                  }}
+                  bezier
+                  style={{
+                    marginVertical: 8,
+                    borderRadius: 16
+                  }}
+                /> 
+    );
+  }
 
   return (
     <>
@@ -123,36 +162,7 @@ const ProfileView = (props) => {
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>ACS History</Text>
-              { console.log(ACSHistory) }
-              <LineChart
-                  data={ACSHistory}
-                  width={Dimensions.get("window").width} // from react-native
-                  height={220}
-                  yAxisLabel="$"
-                  yAxisSuffix="k"
-                  yAxisInterval={1} // optional, defaults to 1
-                  chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#fb8c00",
-                    backgroundGradientTo: "#ffa726",
-                    decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    style: {
-                      borderRadius: 16
-                    },
-                    propsForDots: {
-                      r: "6",
-                      strokeWidth: "2",
-                      stroke: "#ffa726"
-                    }
-                  }}
-                  bezier
-                  style={{
-                    marginVertical: 8,
-                    borderRadius: 16
-                  }}
-                />
+              { renderChart() }
             </View>
           </View>
           <View style={styles.body}>
