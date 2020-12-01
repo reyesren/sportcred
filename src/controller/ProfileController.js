@@ -70,13 +70,17 @@ export const Profile = ({route, navigation}) => {
   const getACSHistory = () => {
     return ACSModel.getACS(user.uid).then(
         async acsDoc => {
-          const m = await acsDoc['acsHistory']
+          const m = await acsDoc['acsHistory'];
           let dataObj = {};
-          let acsArray = Object.values(m);
-          let timeArray = Object.keys(m);
-          for(let i = 1; i < acsArray.length; i++) {
-            acsArray[i] = acsArray[i - 1] + acsArray[i];
+          let acsArray = [];
+          let timeArray = Object.keys(m).sort();
+
+          acsArray.push(m[timeArray[0]]);
+          for(let i = 1; i < timeArray.length; i++) {
+            acsArray[i] = acsArray[i - 1] + m[timeArray[i]];
+            console.log(acsArray);
           }
+
           let acsFinal = acsArray.map(i => i + 100);
 
           for(let j = 0; j < timeArray.length; j++) {

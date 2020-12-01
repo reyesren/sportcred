@@ -244,12 +244,6 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
-  displayNameText: {
-    marginTop: 8,
-    fontSize: 24,
-    fontWeight: '400',
-    color: Colors.dark,
-  }
 });
 
 export default ProfileView;
