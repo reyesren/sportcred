@@ -137,6 +137,7 @@ const ProfileView = (props) => {
             textTitle="About Me"
             presetText={props.userDoc.profile.about}
             setText={props.setAboutMe}
+            sendData={() => {}}
             style = {styles.aboutMe}
           />
           <View style={styles.body}>

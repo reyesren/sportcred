@@ -41,7 +41,7 @@ export const DailyView = (props) => {
     }
 
     const renderPreviousCards = () => {
-        if (previousMatches.length == 0) {
+        if (previousMatches && previousMatches.length === 0) {
             return (
                 <View>
                     <Text style={styles.noMatchesText}>No Matches Found</Text>
