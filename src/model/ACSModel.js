@@ -52,7 +52,7 @@ export default class ACSModel {
     static _createAcsModel(uid: string) {
         return this.acsCollection
             .doc(uid)
-            .set({acsHistory: {}}, {merge: true})
+            .set({acsHistory: {[Date.now()]: 0}}, {merge: true})
     }
 
     /**
