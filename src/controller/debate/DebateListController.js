@@ -41,5 +41,5 @@ export const DebateList = ({navigation}) => {
         DebateModel.addRating(opUid, raterUid, rating, questionId, callback)
     }
 
-    return DebateListView({list, addRating, user, personal});
+    return DebateListView({list, addRating, user, personal, setFetched, fetched});
 }

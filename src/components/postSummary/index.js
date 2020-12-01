@@ -38,8 +38,8 @@ const PostSummary = (props) => {
           updatePosterId(postData.displayName);
           updateUpvotes(postData.upVotes);
           updateDownvotes(postData.downVotes);
-          if (!(upVotes)) setUpvotes([]);
-          if (!(downVotes)) setDownvotes([]);
+          if (!(upVotes)) updateUpvotes([]);
+          if (!(downVotes)) updateDownvotes([]);
       });
   }
 
@@ -55,8 +55,8 @@ const PostSummary = (props) => {
         updatePosterId(postData.displayName);
         updateUpvotes(postData.upVotes);
         updateDownvotes(postData.downVotes);
-        if (!(upVotes)) setUpvotes([]);
-        if (!(downVotes)) setDownvotes([]);
+        if (!(upVotes)) updateUpvotes([]);
+        if (!(downVotes)) updateDownvotes([]);
         setRefresh(false);
     });
   }

@@ -104,6 +104,8 @@ export const DebateListView = (props) => {
             </Portal>
 
             <FlatList
+                onRefresh={() => props.setFetched(false)}
+                refreshing={!props.fetched}
                 data={props.list}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.uid}
