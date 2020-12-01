@@ -29,8 +29,6 @@ const ProfileView = (props) => {
   const [ACS, setACS] = React.useState(0);
   const [ACSHistory, setACSHistory] = React.useState({}); // object with 2 arrays (labels, data)
   const [ACSHistoryFetched, setACSHistoryFetched] = React.useState(false);
-  const [ACSTime, setACSTime] = React.useState([]);
-  const [ACSScores, setACSScores] = React.useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
   
   const onRefresh = React.useCallback(() => {
@@ -47,29 +45,10 @@ const ProfileView = (props) => {
   const getACSHistory = () => {
       props.getACSHistory().then(async acsHistory => {
         setACSHistory(acsHistory);
-        console.log("IN PROFILE VIEW");
-        console.log(acsHistory);
-        console.log(ACSHistory);
         setACSHistoryFetched(true);
       });
   };
-//  const getACSHistory = () => {
-//    props.getACSHistory().then(acsHistoryObj => {
-//        data = {};
-//        data['labels'] = acsHistoryObj['time'];
-//        data['data'] = acsHistoryObj['acs'];
-//        setACSHistory(data);
-//    }
-//  };
 
-//  const data = {
-//    labels: ACSHistory['time'],
-//    datasets: [
-//        {
-//            data: ACSHistory['acs'],
-//        }
-//    ]
-//  }
   if (ACS === 0) getACS();
   if (!ACSHistoryFetched) getACSHistory();
 
@@ -79,36 +58,35 @@ const ProfileView = (props) => {
       console.log('ACSHistory is undefined');
       return (<></>);
     }
-    console.log('before line chart');
-    console.log(ACSHistory);
     return (
       <LineChart
-                  data={ACSHistory}
-                  width={Dimensions.get("window").width} // from react-native
-                  height={220}
-                  yAxisInterval={1} // optional, defaults to 1
-                  chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#fb8c00",
-                    backgroundGradientTo: "#ffa726",
-                    decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    style: {
-                      borderRadius: 16
-                    },
-                    propsForDots: {
-                      r: "6",
-                      strokeWidth: "2",
-                      stroke: "#ffa726"
-                    }
-                  }}
-                  bezier
-                  style={{
-                    marginVertical: 8,
-                    borderRadius: 16
-                  }}
-                /> 
+          data={ACSHistory}
+          width={350} // from react-native
+          height={220}
+          yAxisInterval={5}
+          chartConfig={{
+            backgroundColor: "#FF652F",
+            backgroundGradientFrom: "#FF652F",
+            backgroundGradientTo: "#FF652F",
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+            }
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+            paddingTop: 20,
+            paddingLeft: 8,
+          }}
+        />
     );
   }
 
