@@ -1,8 +1,49 @@
 import {StyleSheet, View} from 'react-native';
 import {Button, Text, Title} from 'react-native-paper';
 import React from 'react';
+import {
+  LineChart
+} from 'react-native-chart-kit'
 
 const TriviaResultView = (props) => {
+
+    const renderChart = () => {
+        console.log('Reached renderChart');
+        if (Object.keys(props.ACSHistory).length === 0) {
+          console.log('ACSHistory is undefined');
+          return (<></>);
+        }
+        return (
+          <LineChart
+              data={props.ACSHistory}
+              width={350} // from react-native
+              height={220}
+              yAxisInterval={5}
+              chartConfig={{
+                backgroundColor: "#FF652F",
+                backgroundGradientFrom: "#FF652F",
+                backgroundGradientTo: "#FF652F",
+                decimalPlaces: 0,
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                },
+                propsForDots: {
+                  r: "6",
+                  strokeWidth: "2",
+                }
+              }}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+                paddingBottom: 5,
+              }}
+            />
+        );
+      }
+
   return (
     <View style={styles.container}>
       <Title style={styles.header}>TRIVIA</Title>
@@ -13,6 +54,10 @@ const TriviaResultView = (props) => {
       <Text style={styles.ACS}>
         ACS: {props.acs} + {props.score}
       </Text>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>ACS History</Text>
+        { renderChart() }
+      </View>
       <Button
         mode="contained"
         onPress={() => {
