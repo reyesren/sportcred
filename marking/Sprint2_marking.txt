@@ -109,7 +109,7 @@ Total: 19/20
 Sprint Completion: (Max 20 marks) 
 - With A Minimum Of 5 Stories
   [x = Percentage of story points completed * 20]
-Marks: 15/20 (unfortunately, I don't see the minimum 5 stories :( but your team does have only 5 people)
+Marks: 17/20 (unfortunately, I don't see the minimum 5 stories :( but your team does have only 5 people)
 
 
 System Design - (PDF or MD file or another suitable format) (Max 10 marks) 
@@ -140,4 +140,4 @@ Total: 10/10
 
 Demo: 10/10
 
-Overall: 79/85
+Overall: 81/85
