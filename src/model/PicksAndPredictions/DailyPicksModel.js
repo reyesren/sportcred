@@ -31,15 +31,17 @@ export default class DailyPicksModel {
             .doc('dailyPicks')
             .get()
             .then(submittedPicksSs => {
-                if(submittedPicksSs.get(date) == null) {
-                    return [];
+                if(submittedPicksSs.get(date) == undefined) {
+                    return this.createDocuments(uid).then(() => {
+                        return [];
+                    });
                 }
                 return submittedPicksSs.get(date);
             })
     }
 
     static updateUserDailyPicks(uid, date, picks,
-                           callback: Function = () => {console.log('Daily picks submitted for user: ', uid)})
+                           callback = () => {console.log('Daily picks submitted for user: ', uid)})
     {
         this.picksCollection
             .doc('userData')
@@ -58,17 +60,19 @@ export default class DailyPicksModel {
      * @returns {Promise<void>}
      */
     static createDocuments(uid) {
-        return this.userDataDocument
+        return this.picksCollection
+            .doc('userData')
             .collection(uid)
             .get()
             .then(snapshot => {
                 if (snapshot.empty) {
-                    return this.userDataDocument
+                    console.log("I AM CREATING DOCS");
+                    return this.picksCollection
+                        .doc('userData')
                         .collection(uid)
                         .doc('dailyPicks')
                         .set({})
                 }
             })
     }
-
 }
