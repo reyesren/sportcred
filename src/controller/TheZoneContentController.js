@@ -47,7 +47,10 @@ const TheZoneContent = ({route, navigation}) => {
     }
 
     const getPostIds = () => {
-        return PostModel.getAllPostIds(false).then(async (allIds) => {
+        // const userRadarList = UserModel.getUserDoc(user.uid).radar_list;
+        // console.log("in getPostIds");
+        // console.log(userRadarList);
+        return PostModel.getAllPostIds().then(async (allIds) => {
             console.log("allIds[0] is: " + allIds[0]);
             return allIds;
         })

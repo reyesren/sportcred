@@ -31,23 +31,32 @@ const TriviaResultsController = ({route, navigation}) => {
               let dataObj = {};
               let acsArray = [];
               let timeArray = Object.keys(m).sort();
+              let acsFinal;
 
-              acsArray.push(m[timeArray[0]]);
-              for(let i = 1; i < timeArray.length; i++) {
-                acsArray[i] = acsArray[i - 1] + m[timeArray[i]];
-                console.log(acsArray);
+              if(timeArray.length === 0) {
+                  acsFinal = [100];
+                  let date = new Date();
+                  let day = date.getDate();
+                  let month = date.getMonth() + 1;
+                  date = `${month}/${day}`;
+                  timeArray = [date];
               }
+              else {
+                  acsArray.push(m[timeArray[0]]);
+                  for(let i = 1; i < timeArray.length; i++) {
+                      acsArray[i] = acsArray[i - 1] + m[timeArray[i]];
+                  }
 
-              let acsFinal = acsArray.map(i => i + 100);
+                  acsFinal = acsArray.map(i => i + 100);
 
-              for(let j = 0; j < timeArray.length; j++) {
-                let date = new Date(parseInt(timeArray[j]));
-                let day = date.getDate();
-                let month = date.getMonth() + 1;
-                date = `${month}/${day}`;
-                timeArray[j] = date;
+                  for(let j = 0; j < timeArray.length; j++) {
+                      let date = new Date(parseInt(timeArray[j]));
+                      let day = date.getDate();
+                      let month = date.getMonth() + 1;
+                      date = `${month}/${day}`;
+                      timeArray[j] = date;
+                  }
               }
-
               dataObj['datasets'] = [{'data': acsFinal}];
               dataObj['labels'] = timeArray;
               setACSHistory(dataObj);

@@ -26,10 +26,9 @@ export default class PostModel {
    *
    */
   static createNewPostDoc(postData) {
-    const newPostPid = _createPostId();
-    postData.pid = newPostPid;
-    setPostDocObj(postData);
-    this.postCollection.doc(pid).set(this.postDocObj).then((doc) => {
+    postData.pid = (Date.now()).toString();
+    this.setPostDocObj(postData);
+    this.postCollection.doc(postData.pid).set(this.postDocObj).then((doc) => {
         console.log(this.postDocObj);
         console.log("Created new post!");
     })
@@ -42,10 +41,31 @@ export default class PostModel {
    */
   static async getAllPosts(callback = () => { }) {
     return await this.postCollection
-      .orderBy('pid')
-      .get()
-      .then();
+        .orderBy('pid')
+        .get()
+        .then();
   }
+
+  static async getUserRadarPosts(user) {
+    return await this.postCollection
+        .where('poster', '==', user)
+        .get()
+        .then();
+  }
+
+  static async getIdsHelper(radarList) {
+    let radarPosts = [];
+    for (let i = 0; i < radarList.length; i++) {
+      let snapshot = await this.getUserRadarPosts(radarList[i]);
+      snapshot.forEach((doc) => {
+        radarPosts.push(doc.data()['pid']);
+      })
+    }
+    console.log("getRPosts");
+    console.log(radarPosts);
+    return radarPosts;
+  }
+
 
     /**
      * @params isRadar      [boolean] true if retrieving radar posts, false if retrieving
@@ -53,12 +73,7 @@ export default class PostModel {
      *
      * @returns array of postDocObj
      */
-  static async getAllPostIds(isRadar) {
-    if(isRadar) {
-        const allPosts = await this.getRadarPosts();
-    } else {
-        const allPosts = await this.getAllPosts();
-    }
+  static async getAllPostIds() {
     const allPosts = await this.getAllPosts();
     const allPostIds = [];
     allPosts.forEach(post => {
@@ -67,21 +82,9 @@ export default class PostModel {
     return allPostIds;
   }
 
-  /**
-  * @param radarUsers: list of uids from radar list
-  *
-  * Returns Array<QueryDocumentSnapshot<T>>
-  */
-
-  static async getRadarPosts(radarUsers) {
-    const radarPosts = [];
-    for(user in radarUsers) {
-        const radarPostsSS = await this.postCollection.where('poster', '==', user).get();
-        radarPostsSS.forEach(doc => {
-            radarPosts.push(doc);
-        })
-    }
-    return radarPosts;
+  static async getRadarPostIds(radarList) {
+    const allPostIds = await this.getIdsHelper(radarList);
+    return allPostIds;
   }
 
   static setPostDocObj(postData) {
@@ -91,23 +94,13 @@ export default class PostModel {
     this.postDocObj.poster = postData.poster;
   }
 
-   /**
-    *  Creates a post id using the current Date in milliseconds
-    *
-    *
-    */
-  static _createPostId() {
-    const dateAsId = Date.now();
-    return dateAsId;
-  }
-
   /**
    *  Returns post object. Refer to firebase for schema
    *
    * @param pid
    * @returns {{}} userobject
    */
-  static getPostDoc(pid: string) {
+  static getPostDoc(pid) {
     return this.postCollection
         .doc(pid)
         .get()
@@ -148,7 +141,7 @@ export default class PostModel {
    * @param {string} content
    * @param {} callback
    */
-  static updateContent(pid: string, content) {
+  static updateContent(pid, content) {
     this.postCollection.doc(pid).update({content: content})
         .then(() => console.log("UPDATED CONTENT"))
         .catch();
@@ -162,7 +155,7 @@ export default class PostModel {
    * @param pid       {string}       post uid
    * @param uid       {string}       user uid
    */
-  static async updateUpVotes(pid: string, uid) {
+  static async updateUpVotes(pid, uid) {
     const hasUpVoted = await this.checkIfVoted(pid, uid, 0);
     const hasDownVoted = await this.checkIfVoted(pid, uid, 1);
     if (!hasUpVoted && !hasDownVoted) {
@@ -181,7 +174,7 @@ export default class PostModel {
    * @param pid       {string}       post uid
    * @param uid       {string}       post uid
    */
-  static async updateDownVotes(pid: string, uid: string) {
+  static async updateDownVotes(pid, uid) {
     const hasUpVoted = await this.checkIfVoted(pid, uid, 0);
     const hasDownVoted = await this.checkIfVoted(pid, uid, 1);
     if (!hasDownVoted && !hasUpVoted) {
@@ -231,7 +224,7 @@ export default class PostModel {
    * @return {bool} check: true if user is found, false if user not found
    */
 
-  static async checkIfVoted(pid: string, uid: string, which) {
+  static async checkIfVoted(pid, uid, which) {
     let check = false;
     const post = await this.getPostDoc(pid);
     let votesArr;

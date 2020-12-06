@@ -41,7 +41,7 @@ export default class PreseasonPicksModel {
         this.userDataDocument
             .collection(uid)
             .doc('preseasonPicks')
-            .update({[year]: picks})
+            .set({[year]: picks})
             .then(callback)
             .catch(reason => {
                 console.log(reason)

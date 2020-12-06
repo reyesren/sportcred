@@ -41,7 +41,7 @@ export default class PlayoffPicks {
         this.userDataDocument
             .collection(uid)
             .doc('playoffPicks')
-            .update({[year]: picks})
+            .set({[year]: picks})
             .then(callback)
             .catch(reason => {
                 console.log(reason)
