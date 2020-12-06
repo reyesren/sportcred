@@ -21,7 +21,7 @@ export const Daily = () => {
                     userPick: 0    // ditto
                 }
         */
-        //return [];
+
         let today = new Date();
         const day = today.getDate();
         const month = today.getMonth() + 1;
@@ -32,6 +32,7 @@ export const Daily = () => {
         return DailyPicksModel.getUserDailyPicks(user.uid, today).then(async (gamesArr) => {
             if(gamesArr.length === 0) {
                 let gamesToday = await DailyPicksModel.getGamesToday(today);
+                console.log(gamesToday);
                 await DailyPicksModel.updateUserDailyPicks(user.uid, today, gamesToday);
                return(gamesToday);
             }
