@@ -34,9 +34,9 @@ export const TheZone = ({route, navigation}) => {
     </>
   );
 };
-
-export function getPostIds() {
-    return PostModel.getAllPostIds(false).then(async (allIds) => {
-        return allIds;
-    })
-};
+//
+// export function getPostIds() {
+//     return PostModel.getAllPostIds(false).then(async (allIds) => {
+//         return allIds;
+//     })
+// };

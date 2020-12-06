@@ -42,10 +42,31 @@ export default class PostModel {
    */
   static async getAllPosts(callback = () => { }) {
     return await this.postCollection
-      .orderBy('pid')
-      .get()
-      .then();
+        .orderBy('pid')
+        .get()
+        .then();
   }
+
+  static async getUserRadarPosts(user) {
+    return await this.postCollection
+        .where('poster', '==', user)
+        .get()
+        .then();
+  }
+
+  static async getIdsHelper(radarList) {
+    let radarPosts = [];
+    for (let i = 0; i < radarList.length; i++) {
+      let snapshot = await this.getUserRadarPosts(radarList[i]);
+      snapshot.forEach((doc) => {
+        radarPosts.push(doc.data()['pid']);
+      })
+    }
+    console.log("getRPosts");
+    console.log(radarPosts);
+    return radarPosts;
+  }
+
 
     /**
      * @params isRadar      [boolean] true if retrieving radar posts, false if retrieving
@@ -53,12 +74,7 @@ export default class PostModel {
      *
      * @returns array of postDocObj
      */
-  static async getAllPostIds(isRadar) {
-    if(isRadar) {
-        const allPosts = await this.getRadarPosts();
-    } else {
-        const allPosts = await this.getAllPosts();
-    }
+  static async getAllPostIds() {
     const allPosts = await this.getAllPosts();
     const allPostIds = [];
     allPosts.forEach(post => {
@@ -67,21 +83,9 @@ export default class PostModel {
     return allPostIds;
   }
 
-  /**
-  * @param radarUsers: list of uids from radar list
-  *
-  * Returns Array<QueryDocumentSnapshot<T>>
-  */
-
-  static async getRadarPosts(radarUsers) {
-    const radarPosts = [];
-    for(user in radarUsers) {
-        const radarPostsSS = await this.postCollection.where('poster', '==', user).get();
-        radarPostsSS.forEach(doc => {
-            radarPosts.push(doc);
-        })
-    }
-    return radarPosts;
+  static async getRadarPostIds(radarList) {
+    const allPostIds = await this.getIdsHelper(radarList);
+    return allPostIds;
   }
 
   static setPostDocObj(postData) {
