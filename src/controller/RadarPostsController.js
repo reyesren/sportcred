@@ -27,16 +27,17 @@ export const RadarPosts = ({route, navigation}) => {
 
     // get radar post ids
     const getPostIds = () => {
-        return PostModel.getAllPostIds(true).then(async (allIds) => {
-            console.log("allIds[0] is: " + allIds[0]);
-            return allIds;
+        return UserModel.getUserDoc(user.uid).then((userObj) => {
+            let userRadarList = userObj.radar_list;
+            return PostModel.getRadarPostIds(userRadarList).then(async (allIds) => {
+                console.log("allIds[0] is: " + allIds[0]);
+                return allIds;
+            })
         })
     };
 
     const getPostData = (postId) => {
-        var postData = {};
         return PostModel.getPostDoc(postId).then(async (post) => {
-            //console.log(post);
             return await UserModel.getUserDoc(post.poster).then(async (doc) => {
                 return {pid: post.pid,
                     title: post.title,
@@ -47,7 +48,6 @@ export const RadarPosts = ({route, navigation}) => {
                     displayName: doc.profile.displayName};
             });
         });
-        //console.log(postData);
     }
 
     /**
