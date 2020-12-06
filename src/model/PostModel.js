@@ -100,7 +100,7 @@ export default class PostModel {
    * @param pid
    * @returns {{}} userobject
    */
-  static getPostDoc(pid: string) {
+  static getPostDoc(pid) {
     return this.postCollection
         .doc(pid)
         .get()
@@ -141,7 +141,7 @@ export default class PostModel {
    * @param {string} content
    * @param {} callback
    */
-  static updateContent(pid: string, content) {
+  static updateContent(pid, content) {
     this.postCollection.doc(pid).update({content: content})
         .then(() => console.log("UPDATED CONTENT"))
         .catch();
@@ -155,7 +155,7 @@ export default class PostModel {
    * @param pid       {string}       post uid
    * @param uid       {string}       user uid
    */
-  static async updateUpVotes(pid: string, uid) {
+  static async updateUpVotes(pid, uid) {
     const hasUpVoted = await this.checkIfVoted(pid, uid, 0);
     const hasDownVoted = await this.checkIfVoted(pid, uid, 1);
     if (!hasUpVoted && !hasDownVoted) {
@@ -174,7 +174,7 @@ export default class PostModel {
    * @param pid       {string}       post uid
    * @param uid       {string}       post uid
    */
-  static async updateDownVotes(pid: string, uid: string) {
+  static async updateDownVotes(pid, uid) {
     const hasUpVoted = await this.checkIfVoted(pid, uid, 0);
     const hasDownVoted = await this.checkIfVoted(pid, uid, 1);
     if (!hasDownVoted && !hasUpVoted) {
@@ -224,7 +224,7 @@ export default class PostModel {
    * @return {bool} check: true if user is found, false if user not found
    */
 
-  static async checkIfVoted(pid: string, uid: string, which) {
+  static async checkIfVoted(pid, uid, which) {
     let check = false;
     const post = await this.getPostDoc(pid);
     let votesArr;
