@@ -57,7 +57,7 @@ export default class DailyPicksModel {
      * @param uid
      * @returns {Promise<void>}
      */
-    static createDocuments(uid: string) {
+    static createDocuments(uid) {
         return this.userDataDocument
             .collection(uid)
             .get()
