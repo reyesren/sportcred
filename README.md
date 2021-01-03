@@ -8,7 +8,7 @@ The app allows any registered user to do trivia, predict brackets, debate, and p
 
 # Demo
 Checkout our demo (at 0:34)
-[![Demo thumbnail](demo-thumbnail.png)](https://www.youtube.com/watch?v=XCNs67wb-lQ)
+https://www.youtube.com/watch?v=XCNs67wb-lQ
 
 ---
 # SETUP
